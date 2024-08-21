@@ -1,4 +1,4 @@
-import { defineConfig } from 'vitest/config';
+import { defineConfig, coverageConfigDefaults } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
@@ -7,13 +7,17 @@ export default defineConfig({
   test: {
     coverage: {
       all: true,
-      exclude: ['**/types.ts', '**/types/*', '**/*.d.ts', 'src/**/*/enums.ts', 'src/test/**/*'],
+      exclude: [
+        '**/types.ts',
+        '**/types/*',
+        '**/enums.ts',
+        'src/test/**/*',
+        ...coverageConfigDefaults.exclude,
+      ],
       extension: ['.ts', '.tsx'],
       include: ['src/**/*'],
-      provider: 'v8',
-      reporter: ['text'],
+      reporter: ['text', 'text-summary'],
     },
-    css: false,
     environment: 'jsdom',
     globals: true,
     maxConcurrency: 8,
