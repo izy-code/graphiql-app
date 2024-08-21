@@ -36,7 +36,6 @@ module.exports = {
     'simple-import-sort/imports': 'error',
     'simple-import-sort/exports': 'error',
     'prettier/prettier': 'error',
-    'no-console': ['error', { allow: ['warn', 'error'] }],
     'no-void': ['error', { allowAsStatement: true }],
     'react-refresh/only-export-components': ['off'],
     'no-param-reassign': ['error', { props: false }],
