@@ -44,9 +44,11 @@
     "node": ">=20.0.0"
   },
   "dependencies": {
+    "@emotion/cache": "^11.13.1",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@mui/material": "^5.16.7",
+    "@mui/material-nextjs": "^5.16.6",
     "@reduxjs/toolkit": "^2.2.6",
     "clsx": "^2.1.1",
     "firebase": "^10.13.0",

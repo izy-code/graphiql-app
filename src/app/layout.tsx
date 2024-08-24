@@ -1,10 +1,13 @@
 import './global.scss';
 
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 
 import { ErrorBoundary } from '@/components/error-boundary/ErrorBoundary';
-import StoreProvider from '@/store/store-provider';
+import { Footer } from '@/components/footer/Footer';
+import { Header } from '@/components/header/Header';
+import { StoreProvider } from '@/store/store-provider';
 
 export const metadata: Metadata = {
   title: 'REST/GraphiQL client',
@@ -16,7 +19,13 @@ export default function RootLayout({ children }: { children: ReactNode }): React
     <html lang="en">
       <body>
         <ErrorBoundary>
-          <StoreProvider>{children}</StoreProvider>
+          <StoreProvider>
+            <AppRouterCacheProvider>
+              <Header />
+              {children}
+              <Footer />
+            </AppRouterCacheProvider>
+          </StoreProvider>
         </ErrorBoundary>
       </body>
     </html>
