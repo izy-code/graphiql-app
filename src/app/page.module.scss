@@ -2,8 +2,10 @@
   display: flex;
   flex: 1;
   flex-flow: column nowrap;
-  justify-content: start;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
+  max-width: 1200px;
+  min-height: 100dvh;
 }
 

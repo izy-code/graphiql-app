@@ -21,14 +21,23 @@ $color-major-blue: #5746bb;
 $color-dark-slate-blue: #383069;
 $color-black-transparent: #00000050;
 
+$background-color: #1d2225;
+$border-color: #454849;
+$text-color: #8e9192;
+$bright-text-color: #ffffff;
+$accent-color: #9158ac;
 
 :root {
+  --color-bg-page: #{$background-color};
+  --color-text-dark: #{$text-color};
+  --color-border: #{$border-color};
+  --color-accent: #{$accent-color};
+
+
   --color-star-filled: #{$color-yellow};
   --color-star-empty: #{$color-anti-flash-white};
   --color-text-primary: #{$color-black-olive};
-  --color-text-dark: #{$color-black};
   --color-bd: #{$color-black-olive};
-  --color-bg-page: #{$color-iguana-green};
   --color-bg-container: #{$color-anti-flash-white};
   --color-primary: #{$color-sandy-brown};
   --color-primary-accent: #{$color-pastel-yellow};
@@ -71,7 +80,7 @@ body {
   font-size: 18px;
   line-height: 1.5;
   font-weight: 400;
-  color: var(--color-text-primary);
+  color: var(--color-text-dark);
   background-color: var(--color-bg-page);
   transition: background-color 0.6s ease;
   text-rendering: optimizelegibility;
