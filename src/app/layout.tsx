@@ -4,7 +4,6 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 
-import { ErrorBoundary } from '@/components/error-boundary/ErrorBoundary';
 import { Footer } from '@/components/footer/Footer';
 import { Header } from '@/components/header/Header';
 import { StoreProvider } from '@/store/store-provider';
@@ -18,15 +17,13 @@ export default function RootLayout({ children }: { children: ReactNode }): React
   return (
     <html lang="en">
       <body>
-        <ErrorBoundary>
-          <StoreProvider>
-            <AppRouterCacheProvider>
-              <Header />
-              {children}
-              <Footer />
-            </AppRouterCacheProvider>
-          </StoreProvider>
-        </ErrorBoundary>
+        <StoreProvider>
+          <AppRouterCacheProvider>
+            <Header />
+            {children}
+            <Footer />
+          </AppRouterCacheProvider>
+        </StoreProvider>
       </body>
     </html>
   );
