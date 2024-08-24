@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 
-import { FlagButtons } from '../flag-buttons/FlagButtons';
+import FlagButtons from '../flag-buttons/FlagButtons';
 import styles from './Header.module.scss';
 
 export function Header(): ReactNode {

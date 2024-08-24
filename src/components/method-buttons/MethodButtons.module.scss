@@ -1,0 +1,35 @@
+
+.header_image {
+  width: 40px;
+  height: 25px;
+}
+
+.selectLabel {
+  color: var(--color-accent);
+  transition: color 0.3s ease;
+
+  &.selected {
+    color: var(--color-text-light);
+  }
+}
+
+.select {
+  color: var(--color-text-light);
+  background-color: var(--color-bg-page);
+}
+
+.option {
+  color: var(--color-text-light);
+  background-color: var(--color-border);
+  transition: color 0.3s ease;
+
+
+  &:hover {
+    background-color: var(--color-accent);
+  }
+
+  &:checked {
+    background-color: var(--color-accent);
+  }
+}
+
