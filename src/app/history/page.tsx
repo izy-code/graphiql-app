@@ -1,11 +1,7 @@
 import { type ReactNode } from 'react';
 
-import styles from './styles.module.scss';
+import History from '@/page/history/History';
 
 export default function Page(): ReactNode {
-  return (
-    <div className={styles.page}>
-      <h2>History page</h2>
-    </div>
-  );
+  return <History />;
 }

@@ -5,12 +5,14 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { type ReactNode, useState } from 'react';
 
-import { isAuthenticated } from '@/utils/utils';
+import { NonProtectedPaths } from '@/common/enums';
+import { useAuth } from '@/store/authSlice';
 
 import styles from './styles.module.scss';
 
 export function Header(): ReactNode {
   const [lang, setLang] = useState(true);
+  const isAuthenticated = useAuth();
 
   return (
     <header className={styles.header}>
@@ -23,7 +25,7 @@ export function Header(): ReactNode {
           className={clsx(lang ? styles.usa : styles.russia)}
           size="large"
         />
-        {isAuthenticated ? <Button>Sign out</Button> : <Link href="/login">Sign in</Link>}
+        {isAuthenticated ? <Button>Sign out</Button> : <Link href={NonProtectedPaths.LOGIN}>Sign in</Link>}
       </div>
     </header>
   );
