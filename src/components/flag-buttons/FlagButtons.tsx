@@ -1,7 +1,6 @@
 'use client';
 
 import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import type { SelectChangeEvent } from '@mui/material/Select';
 import Select from '@mui/material/Select';
@@ -23,9 +22,6 @@ export default function FlagButtons(): ReactNode {
   return (
     <div>
       <FormControl variant="standard" sx={{ m: 1, minWidth: 0 }}>
-        <InputLabel id="demo-simple-select-label" className={styles.selectLabel}>
-          Lang
-        </InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"

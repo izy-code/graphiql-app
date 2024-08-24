@@ -1,6 +1,8 @@
 import type { ReactNode } from 'react';
 
+import CustomInput from '../custom-input/CustomInput';
 import MethodButtons from '../method-buttons/MethodButtons';
+import TableHeaders from '../table-headers/TableHeaders';
 import styles from './RestClient.module.scss';
 
 export function RestClient(): ReactNode {
@@ -9,12 +11,11 @@ export function RestClient(): ReactNode {
       <h1 className={styles.title}>REST Client</h1>
       <div className={styles.items}>
         <MethodButtons />
-        <input type="text" />
+        <CustomInput label="Endpoint URL" />
       </div>
       <div className={styles.item}>
         <h4 className={styles.subtitle}>Headers:</h4>
-        <span className={styles.setting}> Header Key -</span>
-        <span className={styles.answer}> Header Value </span>
+        <TableHeaders />
       </div>
       <div className={styles.item}>Body: [JSON/Text Editor]</div>
     </div>

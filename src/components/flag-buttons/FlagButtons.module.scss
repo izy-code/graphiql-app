@@ -3,12 +3,3 @@
   width: 40px;
   height: 25px;
 }
-
-.selectLabel {
-  color: var(--color-accent);
-  transition: color 0.3s ease;
-
-  &.selected {
-    color: var(--color-text-light);
-  }
-}
