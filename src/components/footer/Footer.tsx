@@ -13,7 +13,9 @@ export function Footer(): ReactNode {
         </a>
         <p>2024</p>
         <div className={styles.footer_items}>
-          <Image className={styles.footer_image} src={logo} alt="logo" />
+          <a href="https://rs.school/courses/">
+            <Image className={styles.footer_image} src={logo} alt="logo" />
+          </a>
         </div>
       </div>
     </footer>

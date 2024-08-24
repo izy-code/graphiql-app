@@ -1,0 +1,33 @@
+.container {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 20px;
+  align-items: start;
+  box-sizing: border-box;
+  width: 80%;
+  max-width: 700px;
+  padding: 10px 30px 50px;
+  font-size: 20px;
+  background: var(--half-half-background-color);
+  border-radius: 50px;
+}
+
+.subtitle {
+  text-align: left;
+}
+
+.items {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 40px;
+  justify-content: start;
+  align-items: center;
+  width: 100%;
+
+  & input {
+    width: 65%;
+    height: 20px;
+    border: 1px solid var(--background-color);
+    border-radius: 5px;
+  }
+}

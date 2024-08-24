@@ -1,0 +1,21 @@
+.container {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 20px;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 700px;
+  min-height: 200px;
+  padding: 30px;
+  font-size: 20px;
+  text-align: start;
+  background: var(--half-background-color);
+  border-radius: 50px;
+
+  & div {
+    box-sizing: border-box;
+    padding: 5px 10px;
+    background-color: var(--half-half-background-color);
+    border-radius: 5px;
+  }
+}

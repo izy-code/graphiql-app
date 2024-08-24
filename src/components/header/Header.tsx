@@ -1,7 +1,6 @@
-import Image from 'next/image';
 import type { ReactNode } from 'react';
 
-import flag from '../../assets/images/flag.jpg';
+import { FlagButtons } from '../flag-buttons/FlagButtons';
 import styles from './Header.module.scss';
 
 export function Header(): ReactNode {
@@ -14,8 +13,13 @@ export function Header(): ReactNode {
           UEST
         </h2>
         <div className={styles.right}>
-          <Image className={styles.header_image} src={flag} alt="flag" />
-          <p>Sing out</p>
+          <FlagButtons />
+          <a className={styles.footer_items} href="/">
+            Sign In
+          </a>
+          <a className={styles.footer_items} href="/">
+            Sign up
+          </a>
         </div>
       </nav>
     </header>

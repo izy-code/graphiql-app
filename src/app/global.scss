@@ -30,6 +30,7 @@ $accent-color: #9158ac;
 :root {
   --color-bg-page: #{$background-color};
   --color-text-dark: #{$text-color};
+  --color-text-light: #{$bright-text-color};
   --color-border: #{$border-color};
   --color-accent: #{$accent-color};
 
@@ -99,4 +100,15 @@ body {
   padding: 0;
   white-space: nowrap;
   border: 0;
+}
+
+a {
+  font-weight: 400;
+  text-decoration: none;
+  color: var(--color-text-light);
+  transition: all 500ms;
+
+  &:hover {
+    color: var(--color-accent);
+  }
 }
