@@ -1,0 +1,54 @@
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.input {
+  margin: 0;
+  padding: 5px;
+  font-style: var(--primary-font);
+  font-size: 16px;
+  border-radius: 4px;
+
+  &[type="checkbox"],
+  &[type="radio"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+  }
+
+  &[type="file"] {
+    width: fit-content;
+    cursor: pointer;
+  }
+}
+
+.invalid {
+  border-style: solid;
+  border-color: var(--color-error);
+  outline-color: var(--color-error-accent);
+
+  &[type="file"] {
+    border: none;
+    outline: solid 2px var(--color-error);
+  }
+}
+
+.label {
+  width: fit-content;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.errorMessage {
+  min-height: 21px;
+  margin: 0;
+  font-size: 14px;
+  color: var(--color-error-accent);
+}
