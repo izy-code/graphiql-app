@@ -54,6 +54,12 @@ module.exports = {
     'react/jsx-props-no-spreading': 'off',
     '@typescript-eslint/no-unsafe-return': 'off',
     '@typescript-eslint/no-inferrable-types': 'error',
+    "@typescript-eslint/no-misused-promises": [
+      'error',
+      {
+        'checksVoidReturn': false
+      }
+    ],
     '@typescript-eslint/explicit-member-accessibility': [
       'error',
       {
@@ -77,15 +83,7 @@ module.exports = {
     ],
     '@typescript-eslint/consistent-type-exports': 'error',
     '@typescript-eslint/consistent-type-imports': 'error',
-    '@typescript-eslint/no-misused-promises': [
-      'error',
-      {
-        checksVoidReturn: {
-          arguments: false,
-          returns: false,
-        },
-      },
-    ],
+
   },
   overrides: [
     {
