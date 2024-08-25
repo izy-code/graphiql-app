@@ -1,5 +1,5 @@
 {
-  "name": "rest-graphiql_client",
+  "name": "rest-graphiql-client",
   "private": true,
   "version": "1.0.0",
   "description": "REST/GraphiQL client as final team project at Rolling Scopes school React course",
