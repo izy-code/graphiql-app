@@ -28,11 +28,18 @@ export default function FlagButtons(): ReactNode {
           value={lang}
           onChange={handleChange}
           label="Lang"
+          MenuProps={{
+            sx: {
+              '&& .MuiPaper-root': {
+                backgroundColor: 'inherit',
+              },
+            },
+          }}
         >
-          <MenuItem value="En">
+          <MenuItem className={styles.select} value="En">
             <Image className={styles.header_image} src={en_flag} alt="English flag" />
           </MenuItem>
-          <MenuItem value="Ru">
+          <MenuItem className={styles.select} value="Ru">
             <Image className={styles.header_image} src={ru_flag} alt="Russian flag" />
           </MenuItem>
         </Select>

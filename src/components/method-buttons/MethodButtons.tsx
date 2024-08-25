@@ -19,7 +19,7 @@ export default function MethodButtons(): ReactNode {
 
   return (
     <div>
-      <FormControl variant="standard" sx={{ m: 1, minWidth: 0 }}>
+      <FormControl variant="standard" sx={{ m: 1, minWidth: 0 }} className={styles.selectContainer}>
         <InputLabel id="demo-simple-select-label" className={styles.selectLabel}>
           Method
         </InputLabel>
@@ -30,6 +30,13 @@ export default function MethodButtons(): ReactNode {
           onChange={handleChange}
           label="Method"
           className={styles.select}
+          MenuProps={{
+            sx: {
+              '&& .MuiPaper-root': {
+                backgroundColor: '#1d2225',
+              },
+            },
+          }}
         >
           <MenuItem className={styles.option} value="get">
             GET

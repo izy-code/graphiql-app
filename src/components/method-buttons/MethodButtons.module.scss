@@ -1,7 +1,7 @@
 
-.header_image {
-  width: 40px;
-  height: 25px;
+.selectContainer *,
+.select * {
+  background-color: var(--color-bg-page);
 }
 
 .selectLabel {
@@ -15,7 +15,6 @@
 
 .select {
   color: var(--color-text-light);
-  background-color: var(--color-bg-page);
 }
 
 .option {
@@ -28,7 +27,7 @@
     background-color: var(--color-accent);
   }
 
-  &:checked {
+  &.Mui-selected {
     background-color: var(--color-accent);
   }
 }
