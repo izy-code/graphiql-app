@@ -10,14 +10,15 @@ export function RestClient(): ReactNode {
     <div className={styles.container}>
       <h1 className={styles.title}>REST Client</h1>
       <div className={styles.items}>
+        <h2 className={styles.sectionTitle}>URL</h2>
         <MethodButtons />
-        <CustomInput label="Endpoint URL" />
+        <CustomInput label="Endpoint URL" variant="standard" width="420px" />
       </div>
-      <div className={styles.item}>
-        <h4 className={styles.subtitle}>Headers:</h4>
+      <div className={styles.section}>
+        <h2 className={styles.sectionTitle}>Params</h2>
         <TableHeaders />
+        <div className={styles.item}>Body: [JSON/Text Editor]</div>
       </div>
-      <div className={styles.item}>Body: [JSON/Text Editor]</div>
     </div>
   );
 }

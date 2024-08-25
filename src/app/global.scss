@@ -25,7 +25,7 @@ $background-color: #1d2225;
 $border-color: #454849;
 $text-color: #8e9192;
 $bright-text-color: #ffffff;
-$accent-color: #9158ac;
+$accent-color: #6554c2;
 
 :root {
   --color-bg-page: #{$background-color};
@@ -33,7 +33,7 @@ $accent-color: #9158ac;
   --color-text-light: #{$bright-text-color};
   --color-border: #{$border-color};
   --color-accent: #{$accent-color};
-
+  --color-accent-hover: #{$color-major-blue};
 
   --color-star-filled: #{$color-yellow};
   --color-star-empty: #{$color-anti-flash-white};

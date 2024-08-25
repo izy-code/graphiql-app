@@ -8,20 +8,28 @@ import styles from './CustomInput.module.scss';
 
 interface ICustomInput {
   label: string;
+  variant: 'standard' | 'filled' | 'outlined';
+  width?: string;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export default function CustomInput({ label }: ICustomInput): ReactNode {
+export default function CustomInput({
+  label,
+  variant = 'standard',
+  width = '420px',
+  onChange,
+}: ICustomInput): ReactNode {
   return (
     <Box
       component="form"
       sx={{
-        '& > :not(style)': { m: 1, width: '420px' },
+        '& > :not(style)': { m: 1, width },
       }}
       noValidate
       autoComplete="off"
       className={styles.inputContainer}
     >
-      <TextField id="standard-basic" label={label} variant="standard" className={styles.input} />
+      <TextField label={label} variant={variant} className={styles.input} onChange={onChange} />
     </Box>
   );
 }

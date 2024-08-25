@@ -1,15 +1,36 @@
 .container {
   display: flex;
   flex-flow: column nowrap;
-  gap: 20px;
+  gap: 30px;
   align-items: start;
   box-sizing: border-box;
   width: 80%;
   max-width: 700px;
-  padding: 10px 30px 50px;
   font-size: 20px;
   border-radius: 50px;
 }
+
+.section,
+.items {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 700px;
+  min-height: 200px;
+  padding: 30px;
+  border: 1px solid var(--color-border);
+  border-radius: 50px;
+}
+
+.sectionTitle {
+  position: absolute;
+  top: -52px;
+  left: 35%;
+  width: 200px;
+  text-align: center;
+  background-color: var(--color-bg-page);
+}
+
 
 .subtitle {
   text-align: left;
