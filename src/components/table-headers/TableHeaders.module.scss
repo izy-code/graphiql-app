@@ -1,7 +1,16 @@
 
+
 .table * {
   color: var(--color-text-light);
+}
+
+.table {
   background-color: var(--color-bg-page);
+  border: 1px solid var(--color-text-light);
+}
+
+.input {
+  color: var(--color-text-light);
 }
 
 .inputContainer {

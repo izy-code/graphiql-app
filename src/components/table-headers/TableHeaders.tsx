@@ -8,6 +8,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import TextField from '@mui/material/TextField';
 import type { ReactNode } from 'react';
 import * as React from 'react';
 
@@ -19,46 +20,46 @@ interface Data {
   value: string;
 }
 
-function createData(key: string, value: string): Data {
-  return { key, value };
-}
-
-const initialRows = [
-  createData('Cache-control', 'no-cache'),
-  createData('Host', 'calculated when request is sent'),
-  createData('User-Agent', 'PostmanRuntime/7.41.1'),
-  createData('Accept', '*/*'),
-  createData('Accept-Encoding', 'gzip, deflate, br'),
-];
-
 export default function TableHeaders(): ReactNode {
-  const [rows, setRows] = React.useState<Data[]>(initialRows);
+  const [headers, setHeaders] = React.useState<Data[]>([
+    { key: 'Cache-control', value: 'no-cache' },
+    { key: 'Host', value: 'calculated when request is sent' },
+    { key: 'User-Agent', value: 'PostmanRuntime/7.41.1' },
+    { key: 'Accept', value: '*/*' },
+    { key: 'Accept-Encoding', value: 'gzip, deflate, br' },
+  ]);
   const [newKey, setNewKey] = React.useState<string>('');
   const [newValue, setNewValue] = React.useState<string>('');
 
-  const handleAddRow = (): void => {
-    if (newKey.trim() && newValue.trim()) {
-      const newRow = createData(newKey, newValue);
-      setRows([...rows, newRow]);
-      setNewKey('');
-      setNewValue('');
+  const handleAddHeader = (): void => {
+    setHeaders([...headers, { key: newKey, value: newValue }]);
+  };
+
+  const handleHeaderChange = (index: number, field: 'key' | 'value', value: string): void => {
+    const newHeaders = [...headers];
+    if (newHeaders[index]) {
+      newHeaders[index] = {
+        ...newHeaders[index],
+        [field]: value,
+      };
+      setHeaders(newHeaders);
     }
   };
 
   return (
     <div className={styles.container}>
-      <div>
+      <div className={styles.headerContainer}>
         <h4 className={styles.subtitle}>Headers:</h4>
         <div className={styles.inputContainer}>
           <CustomInput label="Key" variant="outlined" width="200px" onChange={(e) => setNewKey(e.target.value)} />
           <CustomInput label="Value" variant="outlined" width="200px" onChange={(e) => setNewValue(e.target.value)} />
-          <Button className={styles.inputContainer} variant="contained" color="primary" onClick={handleAddRow}>
+          <Button className={styles.button} variant="contained" color="primary" onClick={handleAddHeader}>
             + row
           </Button>
         </div>
       </div>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 550 }} aria-label="simple table" className={styles.table}>
+      <TableContainer component={Paper} sx={{ mt: 2 }} className={styles.table}>
+        <Table sx={{ minWidth: 550 }} aria-label="headers table">
           <TableHead>
             <TableRow>
               <TableCell>Key</TableCell>
@@ -66,12 +67,26 @@ export default function TableHeaders(): ReactNode {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <TableRow key={row.key} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+            {headers.map((header, index) => (
+              <TableRow key={header.key}>
                 <TableCell component="th" scope="row">
-                  {row.key}
+                  <TextField
+                    className={styles.input}
+                    placeholder="Header Key"
+                    value={header.key}
+                    onChange={(e) => handleHeaderChange(index, 'key', e.target.value)}
+                    fullWidth
+                  />
                 </TableCell>
-                <TableCell align="right">{row.value}</TableCell>
+                <TableCell align="right">
+                  <TextField
+                    className={styles.input}
+                    placeholder="Header Value"
+                    value={header.value}
+                    onChange={(e) => handleHeaderChange(index, 'value', e.target.value)}
+                    fullWidth
+                  />
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

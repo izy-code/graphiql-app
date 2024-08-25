@@ -13,9 +13,12 @@ export function Response(): ReactNode {
   return (
     <div className={styles.container}>
       <h2 className={styles.sectionTitle}>Response</h2>
-      <div>Status: {status}</div>
+      <div className={styles.oneLine}>
+        <h4>Status:</h4>
+        {status}
+      </div>
       <div>
-        Body:
+        <h4>Body:</h4>
         <Box component="pre" sx={{ backgroundColor: 'inherit', p: 2, mt: 1, maxHeight: '200px', overflow: 'auto' }}>
           {responseBody}
         </Box>
