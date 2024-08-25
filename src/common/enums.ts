@@ -1,10 +1,8 @@
-export enum SearchParams {
-  NAME = 'name',
-  PAGE = 'page',
-  DETAILS = 'details',
-}
-
-export enum LocalStorageKeys {
-  SEARCH = 'search-term',
-  THEME = 'is-dark-theme',
+export const enum RoutePath {
+  MAIN = '/',
+  SIGN_UP = '/sign-up',
+  SIGN_IN = '/sign-in',
+  REST = '/rest',
+  GRAPHIQL = '/graphiql',
+  HISTORY = '/history',
 }
