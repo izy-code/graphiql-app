@@ -1,7 +1,7 @@
 import { type ReactNode } from 'react';
 
-import { Home } from '@/page/home/Home';
+import Graphiql from '@/page/graphiql/Graphiql';
 
 export default function Page(): ReactNode {
-  return <Home />;
+  return <Graphiql />;
 }

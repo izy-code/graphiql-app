@@ -1,7 +1,7 @@
 import { type ReactNode } from 'react';
 
-import { Home } from '@/page/home/Home';
+import Register from '@/page/register/Register';
 
 export default function Page(): ReactNode {
-  return <Home />;
+  return <Register />;
 }

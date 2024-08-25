@@ -79,6 +79,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+a {
+  text-decoration: none;
+}
+
 .visually-hidden {
   position: absolute;
   overflow: hidden;

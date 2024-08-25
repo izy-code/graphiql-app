@@ -1,7 +1,7 @@
 import { type ReactNode } from 'react';
 
-import { Home } from '@/page/home/Home';
+import Rest from '@/page/rest/Rest';
 
 export default function Page(): ReactNode {
-  return <Home />;
+  return <Rest />;
 }
