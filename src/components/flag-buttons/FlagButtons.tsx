@@ -13,7 +13,7 @@ import ru_flag from '../../assets/images/ru_flag.jpg';
 import styles from './FlagButtons.module.scss';
 
 export default function FlagButtons(): ReactNode {
-  const [lang, setLang] = React.useState('En');
+  const [lang, setLang] = React.useState('en');
 
   const handleChange = (event: SelectChangeEvent): void => {
     setLang(event.target.value);
@@ -36,10 +36,10 @@ export default function FlagButtons(): ReactNode {
             },
           }}
         >
-          <MenuItem className={styles.select} value="En">
+          <MenuItem className={styles.select} value="en">
             <Image className={styles.header_image} src={en_flag} alt="English flag" />
           </MenuItem>
-          <MenuItem className={styles.select} value="Ru">
+          <MenuItem className={styles.select} value="ru">
             <Image className={styles.header_image} src={ru_flag} alt="Russian flag" />
           </MenuItem>
         </Select>

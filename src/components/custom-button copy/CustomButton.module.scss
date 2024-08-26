@@ -1,0 +1,91 @@
+.button {
+  display: inline-block;
+  padding: 0.5em 1.2em;
+  font-family: var(--primary-font);
+  font-size: 1em;
+  line-height: 1.2;
+  font-weight: 500;
+  text-align: center;
+  color: var(--color-text);
+  background-color: var(--color-primary);
+  border: none;
+  border-radius: 6px;
+  box-shadow:
+    0 8px 16px 0 var(--color-shadow),
+    0 6px 20px 0 var(--color-shadow);
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background-color 0.6s ease,
+    color 0.6s ease,
+    box-shadow 0.6s ease;
+
+  &:disabled {
+    color: var(--color-text-primary);
+    background-color: var(--color-disabled);
+    box-shadow: none;
+    opacity: 0.7;
+    cursor: default;
+  }
+
+  &:hover:not(:disabled),
+  &:focus-visible:not(:disabled) {
+    @media (hover: hover) {
+      background-color: var(--color-primary-accent);
+      box-shadow:
+        0 8px 8px 0 var(--color-shadow),
+        0 6px 10px 0 var(--color-shadow);
+    }
+  }
+
+  &:active:not(:disabled) {
+    color: var(--color-text-dark);
+    background-color: var(--color-primary-active);
+    box-shadow: none;
+  }
+
+  &--cancel {
+    background-color: var(--color-error);
+
+    &:hover:not(:disabled),
+    &:focus-visible:not(:disabled) {
+      @media (hover: hover) {
+        background-color: var(--color-error-accent);
+      }
+    }
+
+    &:active:not(:disabled) {
+      background-color: var(--color-error-active);
+    }
+  }
+
+  &--secondary {
+    background-color: var(--color-second);
+
+    &:hover:not(:disabled),
+    &:focus-visible:not(:disabled) {
+      @media (hover: hover) {
+        background-color: var(--color-second-accent);
+      }
+    }
+
+    &:active:not(:disabled) {
+      background-color: var(--color-second-active);
+    }
+  }
+
+  &--tertiary {
+    background-color: var(--color-third);
+
+    &:hover:not(:disabled),
+    &:focus-visible:not(:disabled) {
+      @media (hover: hover) {
+        background-color: var(--color-third-accent);
+      }
+    }
+
+    &:active:not(:disabled) {
+      background-color: var(--color-third-active);
+    }
+  }
+}
