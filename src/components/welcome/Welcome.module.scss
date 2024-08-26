@@ -12,8 +12,25 @@
   border-radius: 10px;
 }
 
-.title {
+.welcome {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 10px;
+  justify-content: center;
+  width: 100%;
+  min-width: 300px;
+  max-width: 100%;
+  height: 75vh;
+  margin: auto;
+  font-family: var(--primary-font);
+  text-align: center;
+  border-radius: 10px;
+}
+
+.welcomeTitle {
   margin-block: 0;
+  font-size: 50px;
+  color: var(--color-text-light);
 }
 
 .sectionTitle {
@@ -33,11 +50,6 @@
   max-width: 1200px;
   margin: auto;
   padding: 20px 40px 25px;
-  color: var(--primary-color);
-  background:
-    linear-gradient(var(--background-color) 0 0) padding-box,
-    linear-gradient(45deg, var(--primary-color), var(--secondary-color)) border-box;
-  border: 5px solid transparent;
   border-radius: 10px;
 
   & .introTitle {
@@ -60,3 +72,11 @@
   }
 }
 
+.additionalInfo {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+  padding-top: 20px;
+}
