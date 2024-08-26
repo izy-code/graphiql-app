@@ -2,7 +2,7 @@
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/navigation';
-import { type ReactNode } from 'react';
+import { type ReactNode, useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
@@ -18,6 +18,7 @@ import styles from './page.module.scss';
 
 export default function SignUp(): ReactNode {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const {
     formState: { errors, isDirty, isSubmitting, isValid },
@@ -33,6 +34,8 @@ export default function SignUp(): ReactNode {
       return;
     }
 
+    setIsLoading(true);
+
     const isSuccess = await signUp(data.name, data.email, data.password);
 
     if (isSuccess) {
@@ -41,6 +44,10 @@ export default function SignUp(): ReactNode {
     }
   };
 
+  if (isLoading) {
+    return <h1>Signing up...</h1>;
+  }
+
   return (
     <div className={styles.page}>
       <h1>Registration page</h1>
@@ -48,7 +55,7 @@ export default function SignUp(): ReactNode {
         <FormInputField label="Name" inputProps={{ ...register('name') }} error={errors.name?.message} />
         <FormInputField
           label="E-mail"
-          inputProps={{ ...register('email'), type: 'email' }}
+          inputProps={{ ...register('email'), type: 'email', autoComplete: 'e-mail' }}
           error={errors.email?.message}
         />
 
@@ -72,6 +79,7 @@ export default function SignUp(): ReactNode {
         <CustomButton
           className={styles.submitButton}
           variant="secondary"
+          disabled={isSubmitting}
           onClick={async () => {
             const userName = await signInWithGoogle();
 

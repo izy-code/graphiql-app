@@ -17,7 +17,7 @@ import styles from './page.module.scss';
 
 export default function SignIn(): ReactNode {
   const router = useRouter();
-  const [loading, setLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const {
     formState: { errors, isDirty, isSubmitting, isValid },
@@ -33,11 +33,9 @@ export default function SignIn(): ReactNode {
       return;
     }
 
-    setLoading(true);
+    setIsLoading(true);
 
     const isSuccess = await signInWithEmail(data.email, data.password);
-
-    setLoading(false);
 
     if (isSuccess) {
       toast.success(`Successfully signed in with ${data.email}!`);
@@ -45,8 +43,8 @@ export default function SignIn(): ReactNode {
     }
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
+  if (isLoading) {
+    return <h1>Signing in...</h1>;
   }
 
   return (
@@ -70,6 +68,7 @@ export default function SignIn(): ReactNode {
         <CustomButton
           className={styles.submitButton}
           variant="secondary"
+          disabled={isSubmitting}
           onClick={async () => {
             const userName = await signInWithGoogle();
 
