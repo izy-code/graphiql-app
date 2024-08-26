@@ -1,12 +1,5 @@
 import { FirebaseError, getApp, getApps, initializeApp } from 'firebase/app';
-import {
-  createUserWithEmailAndPassword,
-  getAuth,
-  GoogleAuthProvider,
-  signInWithEmailAndPassword,
-  signInWithPopup,
-  updateProfile,
-} from 'firebase/auth';
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { toast } from 'react-toastify';
 
 const firebaseConfig = {
@@ -20,8 +13,6 @@ const firebaseConfig = {
 
 const firebaseApp = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 export const auth = getAuth(firebaseApp);
-auth.languageCode = 'en';
-const googleProvider = new GoogleAuthProvider();
 
 const showErrorToast = (error: unknown): void => {
   if (error instanceof FirebaseError) {
@@ -50,20 +41,7 @@ const showErrorToast = (error: unknown): void => {
   }
 };
 
-export const signInWithGoogle = async (): Promise<string | null> => {
-  try {
-    const userCredential = await signInWithPopup(auth, googleProvider);
-    const { user } = userCredential;
-
-    return user.displayName;
-  } catch (error) {
-    showErrorToast(error);
-
-    return null;
-  }
-};
-
-export const signInWithEmail = async (email: string, password: string): Promise<boolean> => {
+export const signIn = async (email: string, password: string): Promise<boolean> => {
   try {
     await signInWithEmailAndPassword(auth, email, password);
 

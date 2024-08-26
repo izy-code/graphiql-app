@@ -12,7 +12,7 @@ import { registrationSchema, type RegistrationSchemaType } from '@/common/valida
 import { CustomButton } from '@/components/custom-button/CustomButton';
 import { FormInputField } from '@/components/form-input-field/FormInputField';
 import { FormPasswordField } from '@/components/form-password-field/FormPasswordField';
-import { signInWithGoogle, signUp } from '@/firebase/firebase';
+import { signUp } from '@/firebase/firebase';
 
 import styles from './page.module.scss';
 
@@ -77,21 +77,6 @@ export default function SignUp(): ReactNode {
 
         <CustomButton className={styles.submitButton} type="submit" disabled={isSubmitting || !isDirty || !isValid}>
           Sign up
-        </CustomButton>
-        <CustomButton
-          className={styles.submitButton}
-          variant="secondary"
-          disabled={isSubmitting}
-          onClick={async () => {
-            const userName = await signInWithGoogle();
-
-            if (userName) {
-              toast.success(`Successfully signed ${userName} with Google account!`);
-              router.push(RoutePath.MAIN);
-            }
-          }}
-        >
-          Sign up with Google
         </CustomButton>
       </form>
     </div>

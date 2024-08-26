@@ -11,7 +11,7 @@ import { RoutePath } from '@/common/enums';
 import { loginSchema, type LoginSchemaType } from '@/common/validation-schema';
 import { CustomButton } from '@/components/custom-button/CustomButton';
 import { FormInputField } from '@/components/form-input-field/FormInputField';
-import { signInWithEmail, signInWithGoogle } from '@/firebase/firebase';
+import { signIn } from '@/firebase/firebase';
 
 import styles from './page.module.scss';
 
@@ -35,7 +35,7 @@ export default function SignIn(): ReactNode {
 
     setIsLoading(true);
 
-    const isSuccess = await signInWithEmail(data.email, data.password);
+    const isSuccess = await signIn(data.email, data.password);
 
     if (isSuccess) {
       toast.success(`Successfully signed in with ${data.email}!`);
@@ -66,21 +66,6 @@ export default function SignIn(): ReactNode {
 
         <CustomButton className={styles.submitButton} type="submit" disabled={isSubmitting || !isDirty || !isValid}>
           Sign in
-        </CustomButton>
-        <CustomButton
-          className={styles.submitButton}
-          variant="secondary"
-          disabled={isSubmitting}
-          onClick={async () => {
-            const userName = await signInWithGoogle();
-
-            if (userName) {
-              toast.success(`Successfully signed ${userName} with Google account!`);
-              router.push(RoutePath.MAIN);
-            }
-          }}
-        >
-          Sign in with Google
         </CustomButton>
       </form>
     </div>
