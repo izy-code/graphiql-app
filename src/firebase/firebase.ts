@@ -23,6 +23,33 @@ export const auth = getAuth(firebaseApp);
 auth.languageCode = 'en';
 const googleProvider = new GoogleAuthProvider();
 
+const showErrorToast = (error: unknown): void => {
+  if (error instanceof FirebaseError) {
+    switch (error.code) {
+      case 'auth/user-not-found':
+        toast.error('User not found');
+        break;
+      case 'auth/invalid-password':
+        toast.error('Wrong password');
+        break;
+      case 'auth/invalid-credential':
+        toast.error('Invalid credential');
+        break;
+      case 'auth/email-already-exists':
+        toast.error('E-mail already exists');
+        break;
+      case 'auth/email-already-in-use':
+        toast.error('E-mail already in use');
+        break;
+      case 'auth/too-many-requests':
+        toast.error('Too many requests');
+        break;
+      default:
+        toast.error(error.code);
+    }
+  }
+};
+
 export const signInWithGoogle = async (): Promise<string | null> => {
   try {
     const userCredential = await signInWithPopup(auth, googleProvider);
@@ -30,9 +57,7 @@ export const signInWithGoogle = async (): Promise<string | null> => {
 
     return user.displayName;
   } catch (error) {
-    if (error instanceof FirebaseError) {
-      toast.error(error.code);
-    }
+    showErrorToast(error);
 
     return null;
   }
@@ -44,21 +69,7 @@ export const signInWithEmail = async (email: string, password: string): Promise<
 
     return true;
   } catch (error) {
-    if (error instanceof FirebaseError) {
-      switch (error.code) {
-        case 'auth/user-not-found':
-          toast.error('User not found');
-          break;
-        case 'auth/invalid-password':
-          toast.error('Wrong password');
-          break;
-        case 'auth/invalid-credential':
-          toast.error('Invalid credential');
-          break;
-        default:
-          toast.error(error.code);
-      }
-    }
+    showErrorToast(error);
 
     return false;
   }
@@ -68,24 +79,14 @@ export const signUp = async (name: string, email: string, password: string): Pro
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const { user } = userCredential;
+
     await updateProfile(user, {
       displayName: name,
     });
 
     return true;
   } catch (error) {
-    if (error instanceof FirebaseError) {
-      switch (error.code) {
-        case 'auth/email-already-exists':
-          toast.error('E-mail already exists');
-          break;
-        case 'auth/email-already-in-use':
-          toast.error('E-mail already in use');
-          break;
-        default:
-          toast.error(error.code);
-      }
-    }
+    showErrorToast(error);
 
     return false;
   }
@@ -95,8 +96,6 @@ export const logOut = async (): Promise<void> => {
   try {
     await auth.signOut();
   } catch (error: unknown) {
-    if (error instanceof FirebaseError) {
-      toast.error(error.code);
-    }
+    showErrorToast(error);
   }
 };
