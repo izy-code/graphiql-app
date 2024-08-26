@@ -41,6 +41,8 @@ export default function SignUp(): ReactNode {
     if (isSuccess) {
       toast.success(`Successfully registered ${data.name}!`);
       router.push(RoutePath.MAIN);
+    } else {
+      setIsLoading(false);
     }
   };
 

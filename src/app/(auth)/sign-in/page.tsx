@@ -40,6 +40,8 @@ export default function SignIn(): ReactNode {
     if (isSuccess) {
       toast.success(`Successfully signed in with ${data.email}!`);
       router.push(RoutePath.MAIN);
+    } else {
+      setIsLoading(false);
     }
   };
 
