@@ -22,7 +22,14 @@ module.exports = {
     'next/core-web-vitals',
     'prettier',
   ],
-  ignorePatterns: ['dist', '.eslintrc.cjs', 'postcss.config.cjs', 'vitest.config.ts', 'lint-staged.config.js', 'next.config.mjs'],
+  ignorePatterns: [
+    'dist',
+    '.eslintrc.cjs',
+    'postcss.config.cjs',
+    'vitest.config.ts',
+    'lint-staged.config.js',
+    'next.config.mjs',
+  ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',
@@ -54,11 +61,11 @@ module.exports = {
     'react/jsx-props-no-spreading': 'off',
     '@typescript-eslint/no-unsafe-return': 'off',
     '@typescript-eslint/no-inferrable-types': 'error',
-    "@typescript-eslint/no-misused-promises": [
+    '@typescript-eslint/no-misused-promises': [
       'error',
       {
-        'checksVoidReturn': false
-      }
+        checksVoidReturn: false,
+      },
     ],
     '@typescript-eslint/explicit-member-accessibility': [
       'error',
@@ -83,7 +90,6 @@ module.exports = {
     ],
     '@typescript-eslint/consistent-type-exports': 'error',
     '@typescript-eslint/consistent-type-imports': 'error',
-
   },
   overrides: [
     {
