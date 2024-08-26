@@ -22,7 +22,7 @@ module.exports = {
     'next/core-web-vitals',
     'prettier',
   ],
-  ignorePatterns: ['dist', '.eslintrc.cjs', 'postcss.config.cjs', 'vitest.config.ts', 'lint-staged.config.js'],
+  ignorePatterns: ['dist', '.eslintrc.cjs', 'postcss.config.cjs', 'vitest.config.ts', 'lint-staged.config.js', 'next.config.mjs'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',
