@@ -2,22 +2,28 @@
 
 import Link from 'next/link';
 import type { ReactNode } from 'react';
-import { useAuthState } from 'react-firebase-hooks/auth';
+import { toast } from 'react-toastify';
 
 import { RoutePath } from '@/common/enums';
-import { auth, logOut } from '@/firebase/firebase';
+import { logOut } from '@/firebase/firebase';
+import { useAuth } from '@/hooks/useAuth';
 
 import { CustomButton } from '../custom-button/CustomButton';
 import styles from './Header.module.scss';
 
 export function Header(): ReactNode {
-  const [user] = useAuthState(auth);
+  const { user } = useAuth();
+
+  const handleLogoutClick = (): void => {
+    void logOut();
+    toast.success('You have been signed out');
+  };
 
   return (
     <header className={styles.header}>
       <Link href={RoutePath.MAIN}>Logo</Link>
       {user ? (
-        <CustomButton onClick={logOut}>Sign Out</CustomButton>
+        <CustomButton onClick={handleLogoutClick}>Sign Out</CustomButton>
       ) : (
         <div className={styles.links}>
           <Link href={RoutePath.SIGN_IN}>Sign In</Link>
