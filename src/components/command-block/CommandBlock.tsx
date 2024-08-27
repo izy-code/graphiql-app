@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import styles from './styles.module.scss';
 import type { BlockInfoProps, BlockParagraph } from './types.ts';
 
@@ -25,15 +27,15 @@ export function CommandBlock({
     <div className={`${styles.blockInfo} ${isEvenBlock ? styles.rotate : ''}`}>
       <div className={`${styles.imageCommand} ${styles[classPhoto]}`} />
       <div className={styles.textInfo}>
-        <a href={link} className={styles.titleBlock} target="_blank">
+        <Link href={link} className={styles.titleBlock} target="_blank">
           <h2>{title} </h2>
-        </a>
+        </Link>
         {github && (
           <div>
             <span className={styles.infoTitle}>Github: </span>
-            <a href={link} className={styles.link} target="_blank">
+            <Link href={link} className={styles.link} target="_blank">
               {github}
-            </a>
+            </Link>
           </div>
         )}
         {textInfo.role && <InfoItem title="Role" content={textInfo.role} />}
