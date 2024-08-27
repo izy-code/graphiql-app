@@ -6,7 +6,6 @@ import type { ReactNode } from 'react';
 import { createContext, useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 
-import { RoutePath } from '@/common/enums';
 import { auth, logOut } from '@/firebase/firebase';
 
 const FIREBASE_ID_TOKEN_EXPIRATION_TIME_MS = 60 * 60 * 1000;
@@ -40,7 +39,7 @@ export function AuthProvider({ children }: { children: ReactNode }): ReactNode {
 
         if (currentTime >= expirationTime) {
           await logOut();
-          router.push(RoutePath.MAIN);
+          router.push('/');
           toast.info('Your token has expired, please sign in again.');
         }
       }

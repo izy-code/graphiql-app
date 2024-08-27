@@ -1,35 +1,41 @@
 'use client';
 
+import { Button, IconButton } from '@mui/material';
+import clsx from 'clsx';
 import Link from 'next/link';
-import type { ReactNode } from 'react';
-import { toast } from 'react-toastify';
+import { type ReactNode, useState } from 'react';
 
-import { RoutePath } from '@/common/enums';
+import { NonProtectedPaths } from '@/common/enums';
 import { logOut } from '@/firebase/firebase';
 import { useAuth } from '@/hooks/useAuth';
 
-import { CustomButton } from '../custom-button/CustomButton';
 import styles from './Header.module.scss';
 
 export function Header(): ReactNode {
   const { user } = useAuth();
-
-  const handleLogoutClick = (): void => {
-    void logOut();
-    toast.success('You have been signed out');
-  };
+  const [lang, setLang] = useState(true);
 
   return (
     <header className={styles.header}>
-      <Link href={RoutePath.MAIN}>Logo</Link>
-      {user ? (
-        <CustomButton onClick={handleLogoutClick}>Sign Out</CustomButton>
-      ) : (
-        <div className={styles.links}>
-          <Link href={RoutePath.SIGN_IN}>Sign In</Link>
-          <Link href={RoutePath.SIGN_UP}>Sign Up</Link>
-        </div>
-      )}
+      <Link href="/" className={styles.logo}>
+        Logo
+      </Link>
+
+      <div className={styles.rightContainer}>
+        <IconButton
+          onClick={() => setLang((p) => !p)}
+          className={clsx(lang ? styles.usa : styles.russia)}
+          size="large"
+        />
+        {user ? (
+          <Button onClick={logOut}>Sign out</Button>
+        ) : (
+          <div className={styles.signLinks}>
+            <Link href={NonProtectedPaths.SIGN_IN}>Sign in</Link>
+            <Link href={NonProtectedPaths.SIGN_UP}>Sign up</Link>
+          </div>
+        )}
+      </div>
     </header>
   );
 }

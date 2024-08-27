@@ -1,0 +1,24 @@
+.footer {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  height: 10rem;
+  padding: 0 20px;
+}
+
+.developers {
+  display: flex;
+  gap: 1rem;
+}
+
+.year {
+  font-size: 2rem;
+}
+
+.rss {
+  width: 5rem;
+  height: 5rem;
+  background-image: url("/rss.svg");
+  background-size: cover;
+}

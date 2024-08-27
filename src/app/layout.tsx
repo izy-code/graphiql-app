@@ -1,15 +1,15 @@
 import './global.scss';
 import 'react-toastify/dist/ReactToastify.css';
 
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 
-import { ErrorBoundary } from '@/components/error-boundary/ErrorBoundary';
 import { Footer } from '@/components/footer/Footer';
 import { Header } from '@/components/header/Header';
 import { Toast } from '@/components/toast/Toast';
 import { AuthProvider } from '@/contexts/auth-context';
-import StoreProvider from '@/store/store-provider';
+import { StoreProvider } from '@/store/store-provider';
 
 export const metadata: Metadata = {
   title: 'REST/GraphiQL client',
@@ -20,16 +20,16 @@ export default function RootLayout({ children }: { children: ReactNode }): React
   return (
     <html lang="en">
       <body>
-        <ErrorBoundary>
-          <StoreProvider>
+        <StoreProvider>
+          <AppRouterCacheProvider>
             <AuthProvider>
               <Header />
               <main>{children}</main>
               <Footer />
               <Toast />
             </AuthProvider>
-          </StoreProvider>
-        </ErrorBoundary>
+          </AppRouterCacheProvider>
+        </StoreProvider>
       </body>
     </html>
   );

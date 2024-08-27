@@ -24,7 +24,7 @@ const showErrorToast = (error: unknown): void => {
         toast.error('Wrong password');
         break;
       case 'auth/invalid-credential':
-        toast.error('Invalid credential');
+        toast.error('Invalid credentials');
         break;
       case 'auth/email-already-exists':
         toast.error('E-mail already exists');
@@ -44,6 +44,7 @@ const showErrorToast = (error: unknown): void => {
 export const signIn = async (email: string, password: string): Promise<boolean> => {
   try {
     await signInWithEmailAndPassword(auth, email, password);
+    toast.success(`Successfully signed in with ${email}!`);
 
     return true;
   } catch (error) {
@@ -73,6 +74,7 @@ export const signUp = async (name: string, email: string, password: string): Pro
 export const logOut = async (): Promise<void> => {
   try {
     await auth.signOut();
+    toast.success('You have been signed out');
   } catch (error: unknown) {
     showErrorToast(error);
   }

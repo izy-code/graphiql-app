@@ -1,14 +1,34 @@
 .header {
   display: flex;
-  gap: 10px;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 10px;
+  height: 5rem;
+  padding: 0 20px;
 }
 
-.links {
+.rightContainer {
   display: flex;
-  gap: 10px;
+  gap: 1rem;
   align-items: center;
 }
+
+.signLinks {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.usa,
+.russia {
+  background-size: cover;
+}
+
+.usa {
+  background-image: url("../../../public/usa.svg");
+}
+
+.russia {
+  background-image: url("../../../public/russia.svg");
+}
+

@@ -7,14 +7,13 @@ import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
-import { RoutePath } from '@/common/enums';
 import { registrationSchema, type RegistrationSchemaType } from '@/common/validation-schema';
 import { CustomButton } from '@/components/custom-button/CustomButton';
 import { FormInputField } from '@/components/form-input-field/FormInputField';
 import { FormPasswordField } from '@/components/form-password-field/FormPasswordField';
 import { signUp } from '@/firebase/firebase';
 
-import styles from './page.module.scss';
+import styles from './SignUp.module.scss';
 
 export default function SignUp(): ReactNode {
   const router = useRouter();
@@ -39,8 +38,8 @@ export default function SignUp(): ReactNode {
     const isSuccess = await signUp(data.name, data.email, data.password);
 
     if (isSuccess) {
-      toast.success(`Successfully registered ${data.name}!`);
-      router.push(RoutePath.MAIN);
+      toast.success(`Successfully signed up ${data.name}!`);
+      router.push('/');
     } else {
       setIsLoading(false);
     }

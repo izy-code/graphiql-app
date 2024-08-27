@@ -5,17 +5,16 @@ import { useRouter } from 'next/navigation';
 import { type ReactNode, useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
 
-import { RoutePath } from '@/common/enums';
 import { loginSchema, type LoginSchemaType } from '@/common/validation-schema';
 import { CustomButton } from '@/components/custom-button/CustomButton';
 import { FormInputField } from '@/components/form-input-field/FormInputField';
+import { NonAuthRoute } from '@/components/non-auth-route/NonAuthRoute';
 import { signIn } from '@/firebase/firebase';
 
-import styles from './page.module.scss';
+import styles from './SignIn.module.scss';
 
-export default function SignIn(): ReactNode {
+function SignIn(): ReactNode {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -38,8 +37,7 @@ export default function SignIn(): ReactNode {
     const isSuccess = await signIn(data.email, data.password);
 
     if (isSuccess) {
-      toast.success(`Successfully signed in with ${data.email}!`);
-      router.push(RoutePath.MAIN);
+      router.push('/');
     } else {
       setIsLoading(false);
     }
@@ -71,3 +69,5 @@ export default function SignIn(): ReactNode {
     </div>
   );
 }
+
+export default NonAuthRoute(SignIn);

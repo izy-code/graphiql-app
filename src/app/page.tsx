@@ -1,18 +1,7 @@
-'use client';
-
 import { type ReactNode } from 'react';
 
-import { useAuth } from '@/hooks/useAuth';
+import Main from '@/pages/main/Main';
 
-import styles from './page.module.scss';
-
-export default function Home(): ReactNode {
-  const { user } = useAuth();
-
-  return (
-    <div className={styles.page}>
-      <h1>Main page</h1>
-      <p>{user ? `Welcome back, ${user?.displayName}!` : 'Welcome, please sign in.'}</p>
-    </div>
-  );
+export default function MainPage(): ReactNode {
+  return <Main />;
 }
