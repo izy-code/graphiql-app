@@ -1,10 +1,9 @@
 import type { Store } from '@reduxjs/toolkit';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
-import { authSLice } from './authSlice';
 import { exampleSlice } from './example/example-slice';
 
-const rootReducer = combineReducers({ example: exampleSlice.reducer, auth: authSLice.reducer });
+const rootReducer = combineReducers({ example: exampleSlice.reducer });
 
 export function setupStore(preloadedState?: Partial<RootState>): Store<RootState> {
   return configureStore({

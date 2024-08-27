@@ -6,26 +6,35 @@ import Link from 'next/link';
 import { type ReactNode, useState } from 'react';
 
 import { NonProtectedPaths } from '@/common/enums';
-import { useAuth } from '@/store/authSlice';
+import { logOut } from '@/firebase/firebase';
+import { useAuth } from '@/hooks/useAuth';
 
-import styles from './styles.module.scss';
+import styles from './Header.module.scss';
 
 export function Header(): ReactNode {
+  const { user } = useAuth();
   const [lang, setLang] = useState(true);
-  const isAuthenticated = useAuth();
 
   return (
     <header className={styles.header}>
       <Link href="/" className={styles.logo}>
         Logo
       </Link>
-      <div className={styles.right}>
+
+      <div className={styles.rightContainer}>
         <IconButton
           onClick={() => setLang((p) => !p)}
           className={clsx(lang ? styles.usa : styles.russia)}
           size="large"
         />
-        {isAuthenticated ? <Button>Sign out</Button> : <Link href={NonProtectedPaths.LOGIN}>Sign in</Link>}
+        {user ? (
+          <Button onClick={logOut}>Sign out</Button>
+        ) : (
+          <div className={styles.signLinks}>
+            <Link href={NonProtectedPaths.SIGN_IN}>Sign in</Link>
+            <Link href={NonProtectedPaths.SIGN_UP}>Sign up</Link>
+          </div>
+        )}
       </div>
     </header>
   );

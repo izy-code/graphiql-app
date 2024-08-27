@@ -1,7 +1,7 @@
 import { type ReactNode } from 'react';
 
-import { Home } from '@/page/home/Home';
+import Main from '@/page-components/main/Main';
 
-export default function Page(): ReactNode {
-  return <Home />;
+export default function MainPage(): ReactNode {
+  return <Main />;
 }

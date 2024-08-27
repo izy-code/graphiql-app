@@ -1,7 +1,7 @@
 import { type ReactNode } from 'react';
 
-import History from '@/page/history/History';
+import History from '@/page-components/history/History';
 
-export default function Page(): ReactNode {
+export default function HistoryPage(): ReactNode {
   return <History />;
 }

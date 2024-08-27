@@ -3,20 +3,17 @@
 import { redirect } from 'next/navigation';
 import { type ElementType, type ReactNode, useEffect } from 'react';
 
-import { useAuth } from '@/store/authSlice';
+import { useAuth } from '@/hooks/useAuth';
 
 export const AuthRoute = (WrappedComponent: ElementType) =>
   function WithAuth(props: object): ReactNode {
-    const isAuthenticated = useAuth();
+    const { user } = useAuth();
 
     useEffect(() => {
-      if (!isAuthenticated) {
+      if (!user) {
         redirect('/');
       }
-    }, [isAuthenticated]);
+    }, [user]);
 
-    if (!isAuthenticated) {
-      return null;
-    }
-    return <WrappedComponent {...props} />;
+    return user ? <WrappedComponent {...props} /> : null;
   };

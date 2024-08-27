@@ -1,7 +1,7 @@
 import { type ReactNode } from 'react';
 
-import Graphiql from '@/page/graphiql/Graphiql';
+import GraphiQl from '@/page-components/graphiql/Graphiql';
 
-export default function Page(): ReactNode {
-  return <Graphiql />;
+export default function GraphiQlPage(): ReactNode {
+  return <GraphiQl />;
 }

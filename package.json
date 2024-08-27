@@ -44,9 +44,10 @@
     "node": ">=20.0.0"
   },
   "dependencies": {
-    "@emotion/cache": "^11.13.1",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
+    "@emotion/cache": "^11.13.1",
+    "@hookform/resolvers": "^3.9.0",
     "@mui/material": "^5.16.7",
     "@mui/material-nextjs": "^5.16.6",
     "@reduxjs/toolkit": "^2.2.6",
@@ -55,8 +56,10 @@
     "next": "^14.2.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-firebase-hooks": "^5.1.1",
-    "react-redux": "^9.1.2"
+    "react-hook-form": "^7.53.0",
+    "react-redux": "^9.1.2",
+    "react-toastify": "^10.0.5",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.6",

@@ -1,7 +1,7 @@
 import { type ReactNode } from 'react';
 
-import Rest from '@/page/rest/Rest';
+import Rest from '@/page-components/rest/Rest';
 
-export default function Page(): ReactNode {
+export default function RestPage(): ReactNode {
   return <Rest />;
 }

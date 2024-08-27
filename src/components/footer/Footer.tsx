@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { type ReactNode } from 'react';
 
-import styles from './styles.module.scss';
+import styles from './Footer.module.scss';
 
 export function Footer(): ReactNode {
   return (
