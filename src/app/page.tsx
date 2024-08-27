@@ -1,6 +1,6 @@
 import { type ReactNode } from 'react';
 
-import Main from '@/pages/main/Main';
+import Main from '@/page-components/main/Main';
 
 export default function MainPage(): ReactNode {
   return <Main />;

@@ -7,11 +7,11 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 
 import customButtonStyles from '@/components/custom-button/CustomButton.module.scss';
-import errorPageStyles from '@/components/error-page/ErrorPage.module.scss';
 import { Footer } from '@/components/footer/Footer';
 import { Header } from '@/components/header/Header';
 import { Toast } from '@/components/toast/Toast';
 import { AuthProvider } from '@/contexts/auth-context';
+import errorPageStyles from '@/page-components/error-page/ErrorPage.module.scss';
 import { StoreProvider } from '@/store/store-provider';
 
 export const metadata: Metadata = {

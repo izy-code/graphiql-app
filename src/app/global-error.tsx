@@ -2,7 +2,7 @@
 
 import { type ReactNode } from 'react';
 
-import { ErrorPage } from '@/components/error-page/ErrorPage';
+import { ErrorPage } from '@/page-components/error-page/ErrorPage';
 
 export default function GlobalError({ error }: { error: Error & { digest?: string } }): ReactNode {
   return (
