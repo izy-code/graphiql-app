@@ -1,11 +1,14 @@
 'use client';
 
 import Link from 'next/link';
-import { type ReactNode } from 'react';
+import type { ReactNode } from 'react';
+import * as React from 'react';
 
 import { NonProtectedPaths, ProtectedPaths } from '@/common/enums';
+import { CommandBlock } from '@/components/command-block/CommandBlock.tsx';
 import { useAuth } from '@/hooks/useAuth';
 
+import { commandInfo } from './data.ts';
 import styles from './Main.module.scss';
 
 export default function Main(): ReactNode {
@@ -13,9 +16,9 @@ export default function Main(): ReactNode {
 
   return (
     <div className={styles.page}>
-      <h1>REST/GraphiQL client</h1>
+      <h1 className={styles.welcomeTitle}>REST/GraphiQL client</h1>
       <p>{user ? `Welcome back, ${user?.displayName}!` : 'Welcome, please sign in.'}</p>
-      <div className={styles.links}>
+      <div className={styles.additionalInfo}>
         {user ? (
           <>
             <Link href={ProtectedPaths.REST}>REST Client</Link>
@@ -28,6 +31,21 @@ export default function Main(): ReactNode {
             <Link href={NonProtectedPaths.SIGN_UP}>Sign up</Link>
           </>
         )}
+      </div>
+      <div className={styles.container}>
+        <h2 className={styles.sectionTitle}>Our Command</h2>
+        {commandInfo.map((info, index) => (
+          <CommandBlock
+            key={info.classPhoto}
+            title={info.title}
+            classPhoto={info.classPhoto}
+            link={info.link}
+            textInfo={info.textInfo}
+            simpleText={info.simpleText}
+            github={info.github}
+            isEvenBlock={(index + 1) % 2 === 0}
+          />
+        ))}
       </div>
     </div>
   );
