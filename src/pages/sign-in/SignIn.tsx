@@ -1,7 +1,6 @@
 'use client';
 
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useRouter } from 'next/navigation';
 import { type ReactNode, useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
@@ -15,7 +14,6 @@ import { signIn } from '@/firebase/firebase';
 import styles from './SignIn.module.scss';
 
 function SignIn(): ReactNode {
-  const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const {
@@ -36,9 +34,7 @@ function SignIn(): ReactNode {
 
     const isSuccess = await signIn(data.email, data.password);
 
-    if (isSuccess) {
-      router.push('/');
-    } else {
+    if (!isSuccess) {
       setIsLoading(false);
     }
   };
