@@ -7,13 +7,7 @@ export default defineConfig({
   test: {
     coverage: {
       all: true,
-      exclude: [
-        '**/types.ts',
-        '**/types/*',
-        '**/enums.ts',
-        'src/test/**/*',
-        ...coverageConfigDefaults.exclude,
-      ],
+      exclude: ['**/types.ts', '**/types/*', '**/enums.ts', 'src/test/**/*', ...coverageConfigDefaults.exclude],
       extension: ['.ts', '.tsx'],
       include: ['src/**/*'],
       reporter: ['text', 'text-summary'],

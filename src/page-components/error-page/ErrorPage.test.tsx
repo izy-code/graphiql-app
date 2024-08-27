@@ -23,10 +23,10 @@ describe('ErrorPage', () => {
     Object.defineProperty(window, 'location', { configurable: true, value: original });
   });
 
-  it('displays the error message from errorBoundaryMessage prop', () => {
-    const errorBoundaryMessage = 'Boundary error message';
+  it('displays the error message from errorMessage prop', () => {
+    const errorMessage = 'Boundary error message';
 
-    render(<ErrorPage errorBoundaryMessage={errorBoundaryMessage} />);
+    render(<ErrorPage errorMessage={errorMessage} />);
 
     expect(screen.getByText('Oops!')).toBeInTheDocument();
     expect(screen.getByText('Sorry, an unexpected error has occurred.')).toBeInTheDocument();
@@ -34,7 +34,7 @@ describe('ErrorPage', () => {
   });
 
   it('sets errorMessage to null if routeError is not recognized', () => {
-    render(<ErrorPage errorBoundaryMessage={null} />);
+    render(<ErrorPage />);
 
     expect(screen.getByText('Oops!')).toBeInTheDocument();
     expect(screen.getByText('Sorry, an unexpected error has occurred.')).toBeInTheDocument();
@@ -44,7 +44,7 @@ describe('ErrorPage', () => {
   it('reloads the page when the refresh button is clicked', async () => {
     const user = userEvent.setup();
 
-    render(<ErrorPage errorBoundaryMessage={null} />);
+    render(<ErrorPage />);
 
     const refreshButton = screen.getByRole('button', { name: /refresh the page/i });
     await user.click(refreshButton);

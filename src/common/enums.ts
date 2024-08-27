@@ -1,10 +1,12 @@
-export enum SearchParams {
-  NAME = 'name',
-  PAGE = 'page',
-  DETAILS = 'details',
+export enum LocalStorageKeys {}
+
+export enum NonProtectedPaths {
+  SIGN_UP = '/sign-up',
+  SIGN_IN = '/sign-in',
 }
 
-export enum LocalStorageKeys {
-  SEARCH = 'search-term',
-  THEME = 'is-dark-theme',
+export enum ProtectedPaths {
+  REST = '/rest',
+  GRAPHIQL = '/graphiql',
+  HISTORY = '/history',
 }
