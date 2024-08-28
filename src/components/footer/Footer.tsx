@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
@@ -8,6 +9,12 @@ import styles from './Footer.module.scss';
 export function Footer(): ReactNode {
   return (
     <footer className={styles.footer}>
+      <div className={clsx(styles.links, styles.small)}>
+        <h5 className={styles.footer_creators}>Creators:</h5>
+        <Link href="https://github.com/izy-code">izy-code</Link>
+        <Link href="https://github.com/VadimKol">vadimkol</Link>
+        <Link href="https://github.com/BodnarAlex">bodnaralex</Link>
+      </div>
       <div className={styles.links}>
         <Link className={styles.footer_items} href="https://github.com/izy-code/graphiql-app">
           Our project

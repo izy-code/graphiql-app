@@ -27,10 +27,10 @@ const showErrorToast = (error: unknown): void => {
         toast.error('Invalid credentials');
         break;
       case 'auth/email-already-exists':
-        toast.error('E-mail already exists');
+        toast.error('Email already exists');
         break;
       case 'auth/email-already-in-use':
-        toast.error('E-mail already in use');
+        toast.error('Email already in use');
         break;
       case 'auth/too-many-requests':
         toast.error('Too many requests');
