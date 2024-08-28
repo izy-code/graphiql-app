@@ -56,12 +56,13 @@ export const signIn = async (email: string, password: string): Promise<boolean> 
 
 export const signUp = async (name: string, email: string, password: string): Promise<boolean> => {
   try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    const { user } = userCredential;
+    const { user } = await createUserWithEmailAndPassword(auth, email, password);
 
     await updateProfile(user, {
       displayName: name,
     });
+
+    toast.success(`Successfully signed up ${name}!`);
 
     return true;
   } catch (error) {

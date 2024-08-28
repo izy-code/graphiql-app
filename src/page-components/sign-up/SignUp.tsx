@@ -6,17 +6,18 @@ import { useRouter } from 'next/navigation';
 import { type ReactNode, useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
 
 import { registrationSchema, type RegistrationSchemaType } from '@/common/validation-schema';
 import { CustomButton } from '@/components/custom-button/CustomButton';
 import { FormInputField } from '@/components/form-input-field/FormInputField';
 import { FormPasswordField } from '@/components/form-password-field/FormPasswordField';
 import { signUp } from '@/firebase/firebase';
+import { useAuth } from '@/hooks/useAuth';
 
 import styles from './SignUp.module.scss';
 
 export default function SignUp(): ReactNode {
+  const { user } = useAuth();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -39,7 +40,6 @@ export default function SignUp(): ReactNode {
     const isSuccess = await signUp(data.name, data.email, data.password);
 
     if (isSuccess) {
-      toast.success(`Successfully signed up ${data.name}!`);
       router.push('/');
     } else {
       setIsLoading(false);
@@ -52,6 +52,11 @@ export default function SignUp(): ReactNode {
         <h1>Signing up...</h1>
       </div>
     );
+  }
+
+  if (user) {
+    router.push('/');
+    return null;
   }
 
   return (

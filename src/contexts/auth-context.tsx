@@ -46,7 +46,7 @@ export function AuthProvider({ children }: { children: ReactNode }): ReactNode {
     });
 
     return (): void => unsubscribe();
-  }, [router, user]);
+  }, [router]);
 
   const value = useMemo(() => ({ user }), [user]);
 
