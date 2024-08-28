@@ -1,24 +1,16 @@
-.main {
-  display: flex;
-  flex-grow: 1;
-  width: 100%;
-  height: 100%;
-  padding: 20px;
-  background-color: var(--color-bg-page);
-}
-
 .container {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   max-width: 100%;
+  height: 73vh;
   margin: auto;
   padding: 20px 40px 40px;
   text-align: center;
-  color: var(--color-text-primary);
-  background: var(--color-bg-container);
+  color: var(--color-accent);
   border: 5px solid transparent;
   border-radius: 10px;
-  box-shadow: 0 0 16px 8px var(--color-shadow),;
 }
 
 .title {
@@ -26,10 +18,10 @@
   font-family: var(--secondary-font);
   font-size: 8em;
   line-height: 1;
-  text-shadow: 0 0 20px var(--color-text-primary);
-  -webkit-text-fill-color: var(--color-primary);
+  text-shadow: 0 0 20px var(--color-accent);
+  -webkit-text-fill-color: var(--color-accent-dark);
   -webkit-text-stroke-width: 1px;
-  -webkit-text-stroke-color: var(--color-text-primary);
+  -webkit-text-stroke-color: var(--color-accent);
 }
 
 .text {
@@ -38,6 +30,6 @@
 
 .buttons {
   display: flex;
-  gap: 10px;
-  justify-content: space-between;
+  gap: 30px;
+  justify-content: center;
 }

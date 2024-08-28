@@ -1,3 +1,13 @@
+.page {
+  display: flex;
+  flex: 1;
+  flex-flow: column nowrap;
+  justify-content: start;
+  align-items: center;
+  width: 100%;
+  padding: 10px 0 30px;
+}
+
 .container {
   display: flex;
   flex-flow: column nowrap;

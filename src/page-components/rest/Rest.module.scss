@@ -5,6 +5,7 @@
   justify-content: start;
   align-items: center;
   width: 100%;
+  padding: 10px 0 30px;
 }
 
 .container {
@@ -33,6 +34,10 @@
   padding: 30px;
   border: 1px solid var(--color-border);
   border-radius: 50px;
+}
+
+.section {
+  margin-bottom: 30px;
 }
 
 .sectionTitle {

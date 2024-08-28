@@ -18,7 +18,7 @@ function GraphiQl(): ReactNode {
   const [responseBody] = React.useState('{}');
 
   return (
-    <>
+    <div className={styles.page}>
       <div className={styles.container}>
         <h1 className={styles.title}>GraphiQl Client</h1>
         <div className={styles.items}>
@@ -57,7 +57,7 @@ function GraphiQl(): ReactNode {
           </Box>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
