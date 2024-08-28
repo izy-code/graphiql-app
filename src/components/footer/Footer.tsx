@@ -17,9 +17,11 @@ export function Footer(): ReactNode {
         <Link href="https://github.com/BodnarAlex">bodnaralex</Link>
       </div>
       <div className={styles.links}>
-        <Link className={styles.footer_items} href="https://github.com/izy-code/graphiql-app">
-          <Image className={styles.footer_image} src={github} alt="github" />
-        </Link>
+        <div className={styles.footer_items}>
+          <Link href="https://github.com/izy-code/graphiql-app">
+            <Image className={styles.footer_image} src={github} alt="github" />
+          </Link>
+        </div>
         <p>2024</p>
         <div className={styles.footer_items}>
           <Link href="https://rs.school/courses/">

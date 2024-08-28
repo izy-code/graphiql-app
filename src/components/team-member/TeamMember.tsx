@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import styles from './styles.module.scss';
+import styles from './TeamMember.module.scss';
 import type { BlockInfoProps, BlockParagraph } from './types.ts';
 
 function InfoItem({ title, content }: BlockParagraph): JSX.Element {
@@ -12,7 +12,7 @@ function InfoItem({ title, content }: BlockParagraph): JSX.Element {
   );
 }
 
-export function CommandBlock({
+export function TeamMember({
   title,
   classPhoto,
   link,
@@ -25,7 +25,7 @@ export function CommandBlock({
 
   return (
     <div className={`${styles.blockInfo} ${isEvenBlock ? styles.rotate : ''}`}>
-      <Link href={link} className={styles.titleBlock} target="_blank">
+      <Link href={link} target="_blank">
         <div className={`${styles.imageCommand} ${styles[classPhoto]}`} />
       </Link>
       <div className={styles.textInfo}>
@@ -59,4 +59,4 @@ export function CommandBlock({
   );
 }
 
-export default CommandBlock;
+export default TeamMember;

@@ -5,7 +5,7 @@ import type { ReactNode } from 'react';
 import * as React from 'react';
 
 import { NonProtectedPaths, ProtectedPaths } from '@/common/enums';
-import { CommandBlock } from '@/components/command-block/CommandBlock.tsx';
+import { TeamMember } from '@/components/team-member/TeamMember.tsx';
 import { useAuth } from '@/hooks/useAuth';
 
 import { commandInfo, teamText } from './data.ts';
@@ -46,7 +46,7 @@ export default function Main(): ReactNode {
           ))}
 
         {commandInfo.map((info, index) => (
-          <CommandBlock
+          <TeamMember
             key={info.classPhoto}
             title={info.title}
             classPhoto={info.classPhoto}

@@ -39,4 +39,10 @@
 .footer_items {
   width: 105px;
   text-align: center;
+  transition: all 500ms ease;
+  transform: scale(1);
+
+  &:hover {
+    transform: scale(1.1);
+  }
 }
