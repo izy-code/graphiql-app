@@ -7,11 +7,6 @@
   width: 100%;
 }
 
-.links {
-  display: flex;
-  gap: 1rem;
-}
-
 .container {
   display: flex;
   flex-direction: column;
@@ -26,7 +21,7 @@
   border-radius: 10px;
 }
 
-.welcome {
+.bigSection {
   display: flex;
   flex-flow: column nowrap;
   gap: 10px;
@@ -50,40 +45,6 @@
 .sectionTitle {
   font-size: 36px;
   color: var(--color-accent-hover);
-}
-
-.blocksInfo {
-  display: flex;
-  flex-flow: column nowrap;
-  gap: 10px;
-}
-
-.blockIntro {
-  box-sizing: border-box;
-  width: 100%;
-  max-width: 1200px;
-  margin: auto;
-  padding: 20px 40px 25px;
-  border-radius: 10px;
-
-  & .introTitle {
-    margin-bottom: 10px;
-  }
-
-  & .introParagraph {
-    text-align: justify;
-
-    &:not(:last-child) {
-      margin-bottom: 5px;
-    }
-  }
-}
-
-@media (width <= 500px) {
-  .container {
-    margin: 2;
-    padding: 20px 0;
-  }
 }
 
 .additionalInfo {

@@ -1,6 +1,7 @@
 'use client';
 
 import { yupResolver } from '@hookform/resolvers/yup';
+import clsx from 'clsx';
 import { type ReactNode, useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
@@ -40,12 +41,16 @@ function SignIn(): ReactNode {
   };
 
   if (isLoading) {
-    return <h1>Signing in...</h1>;
+    return (
+      <div className={clsx(styles.page, styles.loader)}>
+        <h1>Signing in...</h1>
+      </div>
+    );
   }
 
   return (
     <div className={styles.page}>
-      <h1>Login page</h1>
+      <h1 className={styles.title}>Login</h1>
       <form className={styles.form} name="react-hook-form" noValidate onSubmit={handleSubmit(onValid)}>
         <FormInputField
           label="Email"

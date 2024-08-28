@@ -16,22 +16,25 @@ export default function Main(): ReactNode {
 
   return (
     <div className={styles.page}>
-      <h1 className={styles.welcomeTitle}>REST/GraphiQL client</h1>
-      <p>{user ? `Welcome back, ${user?.displayName}!` : 'Welcome, please sign in.'}</p>
-      <div className={styles.additionalInfo}>
-        {user ? (
-          <>
-            <Link href={ProtectedPaths.REST}>REST Client</Link>
-            <Link href={ProtectedPaths.GRAPHIQL}>GraphiQL Client</Link>
-            <Link href={ProtectedPaths.HISTORY}>History</Link>
-          </>
-        ) : (
-          <>
-            <Link href={NonProtectedPaths.SIGN_IN}>Sign in</Link>
-            <Link href={NonProtectedPaths.SIGN_UP}>Sign up</Link>
-          </>
-        )}
+      <div className={styles.bigSection}>
+        <h1 className={styles.welcomeTitle}>REST/GraphiQL client</h1>
+        <p>{user ? `Welcome back, ${user?.displayName}!` : 'Welcome, please sign in.'}</p>
+        <div className={styles.additionalInfo}>
+          {user ? (
+            <>
+              <Link href={ProtectedPaths.REST}>REST Client</Link>
+              <Link href={ProtectedPaths.GRAPHIQL}>GraphiQL Client</Link>
+              <Link href={ProtectedPaths.HISTORY}>History</Link>
+            </>
+          ) : (
+            <>
+              <Link href={NonProtectedPaths.SIGN_IN}>Sign in</Link>
+              <Link href={NonProtectedPaths.SIGN_UP}>Sign up</Link>
+            </>
+          )}
+        </div>
       </div>
+
       <div className={styles.container}>
         <h2 className={styles.sectionTitle}>Our Command</h2>
 

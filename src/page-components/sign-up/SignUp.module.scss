@@ -5,7 +5,17 @@
   justify-content: start;
   align-items: center;
   width: 100%;
-  padding: 10px;
+  min-height: 75vh;
+  padding: 10px 0 30px;
+
+  & .title {
+    font-size: 50px;
+    color: var(--color-text-light);
+  }
+
+  &.loader {
+    justify-content: center;
+  }
 }
 
 .form {
@@ -15,10 +25,10 @@
   min-width: 380px;
   max-width: 500px;
   margin-inline: auto;
-  padding: 10px 20px 15px;
-  background-color: var(--color-bg-container);
-  border-radius: 8px;
-  box-shadow: 0 0 16px 8px var(--color-shadow);
+  padding: 30px 30px 40px;
+  border: 1px solid var(--color-border);
+  border-radius: 50px;
+  box-shadow: 0 0 16px 8px var(--color-accent);
 }
 
 .fieldset {
@@ -29,6 +39,7 @@
 .legend {
   font-size: 16px;
   font-weight: 600;
+  color: var(--color-accent);
 }
 
 .submitButton {

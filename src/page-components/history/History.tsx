@@ -15,8 +15,8 @@ function History(): ReactNode {
   const [requests] = React.useState<string[]>(example);
 
   return (
-    <div className={styles.welcome}>
-      <h1 className={styles.welcomeTitle}>History</h1>
+    <div className={styles.historyPage}>
+      <h1 className={styles.historyTitle}>History</h1>
       {requests.length === 0 ? (
         <div className={styles.noRequests}>
           <h2>You haven&apos;t executed any requests</h2>

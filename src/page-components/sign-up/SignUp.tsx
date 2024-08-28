@@ -1,6 +1,7 @@
 'use client';
 
 import { yupResolver } from '@hookform/resolvers/yup';
+import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
 import { type ReactNode, useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
@@ -46,12 +47,16 @@ export default function SignUp(): ReactNode {
   };
 
   if (isLoading) {
-    return <h1>Signing up...</h1>;
+    return (
+      <div className={clsx(styles.page, styles.loader)}>
+        <h1>Signing up...</h1>
+      </div>
+    );
   }
 
   return (
     <div className={styles.page}>
-      <h1>Registration page</h1>
+      <h1 className={styles.title}>Registration</h1>
       <form className={styles.form} name="react-hook-form" noValidate onSubmit={handleSubmit(onValid)}>
         <FormInputField label="Name" inputProps={{ ...register('name') }} error={errors.name?.message} />
         <FormInputField
