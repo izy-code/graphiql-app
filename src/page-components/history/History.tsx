@@ -15,34 +15,32 @@ function History(): ReactNode {
   const [requests] = React.useState<string[]>(example);
 
   return (
-    <main className="main">
-      <div className={styles.welcome}>
-        <h1 className={styles.welcomeTitle}>History</h1>
-        {requests.length === 0 ? (
-          <div className={styles.noRequests}>
-            <h2>You haven&apos;t executed any requests</h2>
-            <p>It&apos;s empty here. Try: </p>
-            <div className={styles.buttonGroup}>
-              <CustomMuiButton onClick={() => router.push('/rest')}>REST Client</CustomMuiButton>
-              <CustomMuiButton onClick={() => router.push('/graph')}>GraphiQL Client</CustomMuiButton>
+    <div className={styles.welcome}>
+      <h1 className={styles.welcomeTitle}>History</h1>
+      {requests.length === 0 ? (
+        <div className={styles.noRequests}>
+          <h2>You haven&apos;t executed any requests</h2>
+          <p>It&apos;s empty here. Try: </p>
+          <div className={styles.buttonGroup}>
+            <CustomMuiButton onClick={() => router.push('/rest')}>REST Client</CustomMuiButton>
+            <CustomMuiButton onClick={() => router.push('/graph')}>GraphiQL Client</CustomMuiButton>
+          </div>
+        </div>
+      ) : (
+        <div className={styles.requests}>
+          <div className={styles.section}>
+            <h2 className={styles.sectionTitle}> Requests:</h2>
+            <div className={styles.requestsStrings}>
+              {requests.map((request) => (
+                <div key={request} className={styles.requestItem}>
+                  {request}
+                </div>
+              ))}
             </div>
           </div>
-        ) : (
-          <div className={styles.requests}>
-            <div className={styles.section}>
-              <h2 className={styles.sectionTitle}> Requests:</h2>
-              <div className={styles.requestsStrings}>
-                {requests.map((request) => (
-                  <div key={request} className={styles.requestItem}>
-                    {request}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-    </main>
+        </div>
+      )}
+    </div>
   );
 }
 

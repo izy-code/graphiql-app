@@ -1,3 +1,18 @@
+export const teamText = [
+  {
+    key: '1',
+    text: 'This project was developed by three participants of the react course as a final assignment.',
+  },
+  {
+    key: '2',
+    text: 'The project itself, the design, the stack and the tools were implemented within four weeks in a team effortless effort.',
+  },
+  {
+    key: '3',
+    text: 'This site implements authorization, language change, you can configure and send requests using the Rest Client and GraphiQL Client, get answers, and see the history of such requests.',
+  },
+];
+
 export const commandInfo = [
   {
     title: 'Ivan Zhirebny',

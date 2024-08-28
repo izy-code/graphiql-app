@@ -8,7 +8,7 @@ import { NonProtectedPaths, ProtectedPaths } from '@/common/enums';
 import { CommandBlock } from '@/components/command-block/CommandBlock.tsx';
 import { useAuth } from '@/hooks/useAuth';
 
-import { commandInfo } from './data.ts';
+import { commandInfo, teamText } from './data.ts';
 import styles from './Main.module.scss';
 
 export default function Main(): ReactNode {
@@ -34,6 +34,14 @@ export default function Main(): ReactNode {
       </div>
       <div className={styles.container}>
         <h2 className={styles.sectionTitle}>Our Command</h2>
+
+        {teamText &&
+          teamText.map((texts) => (
+            <div className={styles.introParagraph} key={texts.key}>
+              {texts.text}
+            </div>
+          ))}
+
         {commandInfo.map((info, index) => (
           <CommandBlock
             key={info.classPhoto}

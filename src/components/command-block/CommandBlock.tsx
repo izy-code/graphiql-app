@@ -25,7 +25,9 @@ export function CommandBlock({
 
   return (
     <div className={`${styles.blockInfo} ${isEvenBlock ? styles.rotate : ''}`}>
-      <div className={`${styles.imageCommand} ${styles[classPhoto]}`} />
+      <Link href={link} className={styles.titleBlock} target="_blank">
+        <div className={`${styles.imageCommand} ${styles[classPhoto]}`} />
+      </Link>
       <div className={styles.textInfo}>
         <Link href={link} className={styles.titleBlock} target="_blank">
           <h2>{title} </h2>
