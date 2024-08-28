@@ -55,8 +55,8 @@ export default function SignUp(): ReactNode {
       <form className={styles.form} name="react-hook-form" noValidate onSubmit={handleSubmit(onValid)}>
         <FormInputField label="Name" inputProps={{ ...register('name') }} error={errors.name?.message} />
         <FormInputField
-          label="E-mail"
-          inputProps={{ ...register('email'), type: 'email', autoComplete: 'e-mail' }}
+          label="Email"
+          inputProps={{ ...register('email'), type: 'email', autoComplete: 'email' }}
           error={errors.email?.message}
         />
 
