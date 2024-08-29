@@ -11,19 +11,13 @@ export default function ErrorStatusPage({ status, message }: { status: number; m
   const router = useRouter();
 
   return (
-    <main className={styles.main}>
-      <div className={styles.container}>
-        <h1 className={styles.title}>{status}</h1>
-        <p className={styles.text}>{message}</p>
-        <div className={styles.buttons}>
-          <CustomButton variant="tertiary" onClick={() => router.back()}>
-            Previous page
-          </CustomButton>
-          <CustomButton variant="tertiary" onClick={() => router.push('/')}>
-            Main page
-          </CustomButton>
-        </div>
+    <div className={styles.container}>
+      <h1 className={styles.title}>{status}</h1>
+      <p className={styles.text}>{message}</p>
+      <div className={styles.buttons}>
+        <CustomButton onClick={() => router.back()}>Previous page</CustomButton>
+        <CustomButton onClick={() => router.push('/')}>Main page</CustomButton>
       </div>
-    </main>
+    </div>
   );
 }

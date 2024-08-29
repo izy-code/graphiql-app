@@ -27,10 +27,10 @@ const showErrorToast = (error: unknown): void => {
         toast.error('Invalid credentials');
         break;
       case 'auth/email-already-exists':
-        toast.error('E-mail already exists');
+        toast.error('Email already exists');
         break;
       case 'auth/email-already-in-use':
-        toast.error('E-mail already in use');
+        toast.error('Email already in use');
         break;
       case 'auth/too-many-requests':
         toast.error('Too many requests');
@@ -56,12 +56,13 @@ export const signIn = async (email: string, password: string): Promise<boolean> 
 
 export const signUp = async (name: string, email: string, password: string): Promise<boolean> => {
   try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    const { user } = userCredential;
+    const { user } = await createUserWithEmailAndPassword(auth, email, password);
 
     await updateProfile(user, {
       displayName: name,
     });
+
+    toast.success(`Successfully signed up ${name}!`);
 
     return true;
   } catch (error) {

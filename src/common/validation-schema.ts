@@ -10,7 +10,7 @@ import {
   UPPERCASE_LETTER_REGEX,
 } from './constants';
 
-const emailStringSchema = string().required('E-mail is required').matches(EMAIL_REGEX, 'E-mail must have valid format');
+const emailStringSchema = string().required('Email is required').matches(EMAIL_REGEX, 'Email must have valid format');
 const passwordStringSchema = string()
   .required('Password is required')
   .matches(NUMBER_REGEX, 'Password must contain a number')

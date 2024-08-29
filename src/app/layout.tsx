@@ -27,7 +27,7 @@ export default function RootLayout({ children }: { children: ReactNode }): React
           <AppRouterCacheProvider>
             <AuthProvider>
               <Header />
-              <main>{children}</main>
+              <main className="main">{children}</main>
               <Footer />
               <Toast />
             </AuthProvider>

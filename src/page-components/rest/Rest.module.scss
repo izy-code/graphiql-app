@@ -5,5 +5,74 @@
   justify-content: start;
   align-items: center;
   width: 100%;
+  padding: 10px 0 30px;
 }
 
+.container {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 30px;
+  align-items: start;
+  box-sizing: border-box;
+  width: 80%;
+  max-width: 700px;
+  font-size: 20px;
+  border-radius: 50px;
+}
+
+.title {
+  color: var(--color-text-light);
+}
+
+.section,
+.items {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 700px;
+  min-height: 200px;
+  padding: 30px;
+  border: 1px solid var(--color-border);
+  border-radius: 50px;
+}
+
+.section {
+  margin-bottom: 30px;
+}
+
+.sectionTitle {
+  position: absolute;
+  top: -52px;
+  left: 35%;
+  width: 200px;
+  text-align: center;
+  background-color: var(--color-bg-page);
+}
+
+
+.subtitle {
+  text-align: left;
+}
+
+.items {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 40px;
+  justify-content: start;
+  align-items: center;
+  width: 100%;
+
+  & input {
+    width: 65%;
+    height: 20px;
+    border: 1px solid var(--background-color);
+    border-radius: 5px;
+  }
+}
+
+.oneLine {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 10px;
+  align-items: baseline;
+}
