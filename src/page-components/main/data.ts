@@ -20,7 +20,7 @@ export const commandInfo = [
     link: 'https://github.com/izy-code',
     textInfo: {
       role: 'frontend-developer, team leader',
-      contributions: 'Dev environment setup, Routing, Firebase',
+      contributions: 'Dev environment setup, Authentication, Firebase',
       'Short bio':
         ' Graduated from the Bauman Moscow State Technical University, completed the Frontend Developer program at the HTML Academy',
       'Tech stack': 'CSS, Sass, HTML, JavaScript, Java, TypeScript, Webpack, Vite, Jest, React, Next, Redux',
@@ -34,7 +34,7 @@ export const commandInfo = [
     link: 'https://github.com/VadimKol',
     textInfo: {
       role: 'frontend-developer',
-      contributions: 'Routing, Authentication, Internationalization',
+      contributions: 'Routing, Internationalization',
       'Short bio':
         'Graduated from Saratov State University, studied at the Faculty of Computer Science and Information Technologies and in the Department of Computer Security and Cryptography Theory. Graduated layout courses from Frontendblok. Worked as a T-SQL developer',
       'Tech stack': 'CSS, Sass, SQL, HTML, JavaScript, TypeScript, Webpack, Vite, Jest, React, Next, Redux',

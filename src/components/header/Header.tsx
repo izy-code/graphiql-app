@@ -14,7 +14,6 @@ import styles from './Header.module.scss';
 
 export function Header(): ReactNode {
   const { user } = useAuth();
-
   const [isSticky, setIsSticky] = useState(false);
 
   useEffect(() => {

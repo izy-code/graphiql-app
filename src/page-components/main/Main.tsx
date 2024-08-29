@@ -7,18 +7,20 @@ import * as React from 'react';
 import { NonProtectedPaths, ProtectedPaths } from '@/common/enums';
 import { TeamMember } from '@/components/team-member/TeamMember.tsx';
 import { useAuth } from '@/hooks/useAuth';
+import { useScopedI18n } from '@/locales/client.ts';
 
 import { commandInfo, teamText } from './data.ts';
 import styles from './Main.module.scss';
 
 export default function Main(): ReactNode {
   const { user } = useAuth();
+  const translate = useScopedI18n('main');
 
   return (
     <div className={styles.page}>
       <div className={styles.bigSection}>
         <h1 className={styles.welcomeTitle}>REST/GraphiQL client</h1>
-        <p>{user ? `Welcome back, ${user?.displayName}!` : 'Welcome, please sign in.'}</p>
+        <p>{user ? translate('signed-in', { name: user?.displayName }) : translate('welcome')}</p>
         <div className={styles.additionalInfo}>
           {user ? (
             <>
