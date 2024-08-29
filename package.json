@@ -53,7 +53,7 @@
     "@mui/material-nextjs": "^5.16.6",
     "@reduxjs/toolkit": "^2.2.6",
     "clsx": "^2.1.1",
-    "firebase": "^10.13.0",
+    "firebase": "^10.13.1",
     "next": "^14.2.5",
     "next-international": "^1.2.4",
     "react": "^18.3.1",
