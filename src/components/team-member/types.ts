@@ -2,7 +2,7 @@ interface TextInfo {
   role?: string;
   contributions?: string;
   'Short bio'?: string;
-  'Soft stack'?: string;
+  'Tech stack'?: string;
 }
 
 export interface BlockInfoProps {

@@ -21,7 +21,7 @@ export function TeamMember({
   github,
   isEvenBlock,
 }: BlockInfoProps): JSX.Element {
-  const softStackItems = textInfo['Soft stack']?.split(',').map((item) => item.trim()) || [];
+  const softStackItems = textInfo['Tech stack']?.split(',').map((item) => item.trim()) || [];
 
   return (
     <div className={`${styles.blockInfo} ${isEvenBlock ? styles.rotate : ''}`}>
@@ -43,7 +43,7 @@ export function TeamMember({
         {textInfo.role && <InfoItem title="Role" content={textInfo.role} />}
         {textInfo.contributions && <InfoItem title="Contributions" content={textInfo.contributions} />}
         {textInfo['Short bio'] && <InfoItem title="Short bio" content={textInfo['Short bio']} />}
-        {textInfo['Soft stack'] && (
+        {textInfo['Tech stack'] && (
           <div>
             <span className={styles.infoTitle}>Soft stack: </span>
             {softStackItems.map((item) => (
