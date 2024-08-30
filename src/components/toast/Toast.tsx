@@ -1,5 +1,4 @@
-import type { ToastTransition } from 'react-toastify';
-import { Flip, ToastContainer } from 'react-toastify';
+import { Flip, ToastContainer, type ToastTransition } from 'react-toastify';
 
 export function Toast(): JSX.Element {
   return (
@@ -14,6 +13,7 @@ export function Toast(): JSX.Element {
         pauseOnHover
         transition={Flip as ToastTransition}
         newestOnTop={false}
+        theme="dark"
         closeOnClick
         limit={3}
       />
