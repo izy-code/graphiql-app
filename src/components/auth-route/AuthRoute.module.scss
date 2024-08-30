@@ -1,0 +1,11 @@
+.loader {
+  display: flex;
+  flex: 1;
+  flex-grow: 1;
+  flex-flow: column nowrap;
+  gap: 50px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 75vh;
+}

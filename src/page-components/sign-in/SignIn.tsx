@@ -7,9 +7,9 @@ import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 
 import { loginSchema, type LoginSchemaType } from '@/common/validation-schema';
+import { AuthRoute } from '@/components/auth-route/AuthRoute';
 import { CustomButton } from '@/components/custom-button/CustomButton';
 import { FormInputField } from '@/components/form-input-field/FormInputField';
-import { NonAuthRoute } from '@/components/non-auth-route/NonAuthRoute';
 import { signIn } from '@/firebase/firebase';
 
 import styles from './SignIn.module.scss';
@@ -71,4 +71,4 @@ function SignIn(): ReactNode {
   );
 }
 
-export default NonAuthRoute(SignIn);
+export default AuthRoute(SignIn, true);
