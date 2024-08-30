@@ -3,7 +3,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
-import { type ReactNode, useState } from 'react';
+import { type ReactNode, useEffect, useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 
@@ -22,13 +22,27 @@ export default function SignUp(): ReactNode {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const {
-    formState: { errors, isDirty, isSubmitting, isValid },
+    formState: { errors, isDirty, isSubmitting, isValid, touchedFields },
     handleSubmit,
     register,
+    trigger,
+    watch,
   } = useForm<RegistrationSchemaType>({
     mode: 'onChange',
     resolver: yupResolver(registrationSchema),
   });
+
+  const password = watch('password');
+
+  useEffect(() => {
+    const asyncTrigger = async (): Promise<void> => {
+      if (touchedFields.passwordConfirm) {
+        await trigger('passwordConfirm');
+      }
+    };
+
+    void asyncTrigger();
+  }, [password, trigger, touchedFields]);
 
   const onValid: SubmitHandler<RegistrationSchemaType> = async (data) => {
     if (!isValid) {
