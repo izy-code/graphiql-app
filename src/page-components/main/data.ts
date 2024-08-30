@@ -1,7 +1,7 @@
 export const teamText = [
   {
     key: '1',
-    text: 'This project was developed by three participants f the React course as a final assignment.',
+    text: 'This project was developed by three participants of the React course as a final assignment.',
   },
   {
     key: '2',
@@ -20,7 +20,7 @@ export const commandInfo = [
     link: 'https://github.com/izy-code',
     textInfo: {
       role: 'frontend-developer, team leader',
-      contributions: 'Dev environment setup, Routing, Firebase',
+      contributions: 'Dev environment setup, Authentication, Firebase',
       'Short bio':
         ' Graduated from the Bauman Moscow State Technical University, completed the Frontend Developer program at the HTML Academy',
       'Tech stack': 'CSS, Sass, HTML, JavaScript, Java, TypeScript, Webpack, Vite, Jest, React, Next, Redux',
@@ -34,9 +34,9 @@ export const commandInfo = [
     link: 'https://github.com/VadimKol',
     textInfo: {
       role: 'frontend-developer',
-      contributions: 'Routing, Authentication, Internationalization',
+      contributions: 'Routing, Internationalization',
       'Short bio':
-        'Graduated from Saratov State University, studied at the Faculty of Computer Science and Information Technologies and in the Department of Computer Security and Cryptography Theory. Graduated layout courses from Frontendblok. Worked as a T-SQL developer',
+        'Graduated from the Saratov State University, studied at the Faculty of Computer Science and Information Technologies and in the Department of Computer Security and Cryptography Theory. Graduated layout courses from Frontendblok. Worked as a T-SQL developer',
       'Tech stack': 'CSS, Sass, SQL, HTML, JavaScript, TypeScript, Webpack, Vite, Jest, React, Next, Redux',
     },
     github: 'vadimkol',
@@ -50,7 +50,7 @@ export const commandInfo = [
       role: ' frontend-developer, scrum-master',
       contributions: 'Jira, Design, MUI',
       'Short bio':
-        'Graduated from the Immanuel Kant Baltic Federal University, studied at the Faculty of Business Informatics. Graduated from 3WC courses with a degree in Frontend-developer. Built PHP-driven features for 1C CRM',
+        'Graduated from the Immanuel Kant Baltic Federal University, studied at the Faculty of Business Informatics. Graduated from 3WC courses with a degree in Frontend-development. Built PHP-driven features for 1C CRM',
       'Tech stack':
         'PHP, C++, Python, Wordpress, CSS, Sass, HTML, JavaScript, TypeScript, Webpack, Vite, React, Next, Redux',
     },
@@ -60,7 +60,7 @@ export const commandInfo = [
   {
     title: 'Rolling Scopes School',
     classPhoto: 'imageRss',
-    link: 'https://rollingscopes.com/',
+    link: 'https://rs.school',
     textInfo: {},
     simpleText: [
       'RSSchool is an online educational community focused on web development and programming, offering well-structured courses for both beginners and experienced developers. ',

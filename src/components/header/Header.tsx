@@ -2,6 +2,7 @@
 
 import { Button } from '@mui/material';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { type ReactNode } from 'react';
 import { useEffect, useState } from 'react';
 
@@ -14,8 +15,8 @@ import styles from './Header.module.scss';
 
 export function Header(): ReactNode {
   const { user } = useAuth();
-
   const [isSticky, setIsSticky] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = (): void => {
@@ -49,12 +50,16 @@ export function Header(): ReactNode {
             <Button onClick={logOut}>Sign out</Button>
           ) : (
             <>
-              <Link className={styles.footer_items} href={NonProtectedPaths.SIGN_IN}>
-                Sign in
-              </Link>
-              <Link className={styles.footer_items} href={NonProtectedPaths.SIGN_UP}>
-                Sign up
-              </Link>
+              {!pathname.includes(NonProtectedPaths.SIGN_IN) && (
+                <Link className={styles.footer_items} href={NonProtectedPaths.SIGN_IN}>
+                  Sign in
+                </Link>
+              )}
+              {!pathname.includes(NonProtectedPaths.SIGN_UP) && (
+                <Link className={styles.footer_items} href={NonProtectedPaths.SIGN_UP}>
+                  Sign up
+                </Link>
+              )}
             </>
           )}
         </div>

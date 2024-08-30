@@ -2,22 +2,17 @@
 
 import FormControl from '@mui/material/FormControl';
 import MenuItem from '@mui/material/MenuItem';
-import type { SelectChangeEvent } from '@mui/material/Select';
 import Select from '@mui/material/Select';
 import Image from 'next/image';
-import type { ReactNode } from 'react';
-import * as React from 'react';
+import { type ReactNode } from 'react';
 
-import en_flag from '../../assets/images/en_flag.jpg';
-import ru_flag from '../../assets/images/ru_flag.jpg';
+import { useChangeLocale, useCurrentLocale } from '@/locales/client';
+
 import styles from './FlagButtons.module.scss';
 
 export default function FlagButtons(): ReactNode {
-  const [lang, setLang] = React.useState('en');
-
-  const handleChange = (event: SelectChangeEvent): void => {
-    setLang(event.target.value);
-  };
+  const locale = useCurrentLocale();
+  const changeLocale = useChangeLocale({ preserveSearchParams: true });
 
   return (
     <div>
@@ -25,22 +20,38 @@ export default function FlagButtons(): ReactNode {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={lang}
-          onChange={handleChange}
+          value={locale}
           label="Lang"
+          onChange={() => changeLocale(locale === 'en' ? 'ru' : 'en')}
           MenuProps={{
+            disableScrollLock: true,
             sx: {
               '&& .MuiPaper-root': {
                 backgroundColor: 'inherit',
               },
             },
           }}
+          variant="standard"
+          sx={{
+            '.MuiSelect-icon': {
+              color: 'white',
+            },
+            '&:before': {
+              borderBottomColor: 'white',
+            },
+            '&:hover:not(.Mui-disabled):before': {
+              borderBottomColor: 'white',
+            },
+            '&:after': {
+              borderBottomColor: '#6554c2',
+            },
+          }}
         >
           <MenuItem className={styles.select} value="en">
-            <Image className={styles.header_image} src={en_flag} alt="English flag" />
+            <Image className={styles.header_image} src="/usa.svg" alt="English flag" width={40} height={25} />
           </MenuItem>
           <MenuItem className={styles.select} value="ru">
-            <Image className={styles.header_image} src={ru_flag} alt="Russian flag" />
+            <Image className={styles.header_image} src="/russia.svg" alt="Russian flag" width={40} height={25} />
           </MenuItem>
         </Select>
       </FormControl>
