@@ -1,7 +1,7 @@
 export const teamText = [
   {
     key: '1',
-    text: 'This project was developed by three participants f the React course as a final assignment.',
+    text: 'This project was developed by three participants of the React course as a final assignment.',
   },
   {
     key: '2',
@@ -36,7 +36,7 @@ export const commandInfo = [
       role: 'frontend-developer',
       contributions: 'Routing, Internationalization',
       'Short bio':
-        'Graduated from Saratov State University, studied at the Faculty of Computer Science and Information Technologies and in the Department of Computer Security and Cryptography Theory. Graduated layout courses from Frontendblok. Worked as a T-SQL developer',
+        'Graduated from the Saratov State University, studied at the Faculty of Computer Science and Information Technologies and in the Department of Computer Security and Cryptography Theory. Graduated layout courses from Frontendblok. Worked as a T-SQL developer',
       'Tech stack': 'CSS, Sass, SQL, HTML, JavaScript, TypeScript, Webpack, Vite, Jest, React, Next, Redux',
     },
     github: 'vadimkol',
@@ -50,7 +50,7 @@ export const commandInfo = [
       role: ' frontend-developer, scrum-master',
       contributions: 'Jira, Design, MUI',
       'Short bio':
-        'Graduated from the Immanuel Kant Baltic Federal University, studied at the Faculty of Business Informatics. Graduated from 3WC courses with a degree in Frontend-developer. Built PHP-driven features for 1C CRM',
+        'Graduated from the Immanuel Kant Baltic Federal University, studied at the Faculty of Business Informatics. Graduated from 3WC courses with a degree in Frontend-development. Built PHP-driven features for 1C CRM',
       'Tech stack':
         'PHP, C++, Python, Wordpress, CSS, Sass, HTML, JavaScript, TypeScript, Webpack, Vite, React, Next, Redux',
     },
