@@ -34,7 +34,7 @@ export function TeamMember({
         </Link>
         {github && (
           <div>
-            <span className={styles.infoTitle}>Github: </span>
+            <span className={styles.infoTitle}>GitHub: </span>
             <Link href={link} className={styles.link} target="_blank">
               {github}
             </Link>
@@ -45,7 +45,7 @@ export function TeamMember({
         {textInfo['Short bio'] && <InfoItem title="Short bio" content={textInfo['Short bio']} />}
         {textInfo['Tech stack'] && (
           <div>
-            <span className={styles.infoTitle}>Soft stack: </span>
+            <span className={styles.infoTitle}>Tech stack: </span>
             {softStackItems.map((item) => (
               <span key={item} className={styles.softStackItem}>
                 {item}

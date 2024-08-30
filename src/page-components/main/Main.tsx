@@ -38,7 +38,7 @@ export default function Main(): ReactNode {
       </div>
 
       <div className={styles.container}>
-        <h2 className={styles.sectionTitle}> Team information</h2>
+        <h2 className={styles.sectionTitle}>Project information</h2>
 
         {teamText &&
           teamText.map((texts) => (
