@@ -25,28 +25,28 @@
 
 
 .imageIzy {
-  background: url("../../assets/images/izy.jpg");
+  background: url("/izy.jpg");
 }
 
 .imageVadim {
-  background: url("../../assets/images/vadim.png");
+  background: url("/vadim.png");
 }
 
 .imageAlex {
-  background: url("../../assets/images/alex.png");
+  background: url("/alex.png");
 }
 
 .imageCommand.imageRss {
   background: var(--color-text-dark);
-  background-image: url("../../assets/images/rss.png");
+  background-image: url("/rss.png");
   background-position: center;
   background-size: 80%;
   background-repeat: no-repeat;
   border-radius: 50%;
+  transition: all 500ms;
 
   &:hover {
-    background-size: 90%;
-    transition: all 500ms;
+    background-size: 80%;
   }
 }
 
@@ -93,6 +93,8 @@
 }
 
 .titleBlock {
+  align-self: center;
+  width: max-content;
   text-decoration: none;
   transition: all 500ms;
 

@@ -60,7 +60,7 @@ export const commandInfo = [
   {
     title: 'Rolling Scopes School',
     classPhoto: 'imageRss',
-    link: 'https://rollingscopes.com/',
+    link: 'https://rs.school',
     textInfo: {},
     simpleText: [
       'RSSchool is an online educational community focused on web development and programming, offering well-structured courses for both beginners and experienced developers. ',
