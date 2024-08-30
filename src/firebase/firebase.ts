@@ -23,6 +23,9 @@ export const auth = getAuth(firebaseApp);
 const showErrorToast = (error: unknown): void => {
   if (error instanceof FirebaseError) {
     switch (error.code) {
+      case AuthErrorCodes.USER_DISABLED:
+        toast.error('User disabled');
+        break;
       case AuthErrorCodes.INVALID_LOGIN_CREDENTIALS:
         toast.error('Invalid credentials');
         break;
@@ -30,7 +33,7 @@ const showErrorToast = (error: unknown): void => {
         toast.error('Email already in use');
         break;
       case AuthErrorCodes.TOO_MANY_ATTEMPTS_TRY_LATER:
-        toast.error('Too many requests');
+        toast.error('Too many authentication requests');
         break;
       default:
         toast.error(error.code);
