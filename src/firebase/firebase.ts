@@ -1,5 +1,11 @@
 import { FirebaseError, getApp, getApps, initializeApp } from 'firebase/app';
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import {
+  AuthErrorCodes,
+  createUserWithEmailAndPassword,
+  getAuth,
+  signInWithEmailAndPassword,
+  updateProfile,
+} from 'firebase/auth';
 import { toast } from 'react-toastify';
 
 const firebaseConfig = {
@@ -17,22 +23,13 @@ export const auth = getAuth(firebaseApp);
 const showErrorToast = (error: unknown): void => {
   if (error instanceof FirebaseError) {
     switch (error.code) {
-      case 'auth/user-not-found':
-        toast.error('User not found');
-        break;
-      case 'auth/invalid-password':
-        toast.error('Wrong password');
-        break;
-      case 'auth/invalid-credential':
+      case AuthErrorCodes.INVALID_LOGIN_CREDENTIALS:
         toast.error('Invalid credentials');
         break;
-      case 'auth/email-already-exists':
-        toast.error('Email already exists');
-        break;
-      case 'auth/email-already-in-use':
+      case AuthErrorCodes.EMAIL_EXISTS:
         toast.error('Email already in use');
         break;
-      case 'auth/too-many-requests':
+      case AuthErrorCodes.TOO_MANY_ATTEMPTS_TRY_LATER:
         toast.error('Too many requests');
         break;
       default:
@@ -57,11 +54,7 @@ export const signIn = async (email: string, password: string): Promise<boolean> 
 export const signUp = async (name: string, email: string, password: string): Promise<boolean> => {
   try {
     const { user } = await createUserWithEmailAndPassword(auth, email, password);
-
-    await updateProfile(user, {
-      displayName: name,
-    });
-
+    await updateProfile(user, { displayName: name });
     toast.success(`Successfully signed up ${name}!`);
 
     return true;
@@ -76,7 +69,7 @@ export const logOut = async (): Promise<void> => {
   try {
     await auth.signOut();
     toast.success('You have been signed out');
-  } catch (error: unknown) {
+  } catch (error) {
     showErrorToast(error);
   }
 };
