@@ -1,29 +1,29 @@
 export const teamText = [
   {
     key: '1',
-    text: 'This project was developed by three participants of the React course as a final assignment.',
+    text: 'Developed as the final assignment for a React course, this project showcases the coordinated effort of three dedicated participants.',
   },
   {
     key: '2',
-    text: 'The project was completed within four weeks through the coordinated work of the entire team.',
+    text: `Completed within a span of four weeks, the application is a result of the team's hard work and collaboration.`,
   },
   {
     key: '3',
-    text: 'This application supports both RESTful and GraphQL APIs, featuring Firebase authentication, request history tracking, and language switching. Users can configure, send requests, and view responses.',
+    text: 'The application supports both RESTful and GraphQL APIs, featuring Firebase authentication, request history tracking, and language switching. Users can configure, send requests, and view responses.',
   },
 ];
 
-export const commandInfo = [
+export const teamInfo = [
   {
     title: 'Ivan Zhirebny',
     classPhoto: 'imageIzy',
     link: 'https://github.com/izy-code',
     textInfo: {
-      role: 'frontend-developer, team leader',
+      role: 'Frontend-developer, Team leader',
       contributions: 'Dev environment setup, Authentication, Firebase',
       'Short bio':
         ' Graduated from the Bauman Moscow State Technical University, completed the Frontend Developer program at the HTML Academy',
-      'Tech stack': 'CSS, Sass, HTML, JavaScript, Java, TypeScript, Webpack, Vite, Jest, React, Next, Redux',
+      'Tech stack': 'CSS, Sass, HTML, JavaScript, Java, TypeScript, Webpack, Vite, Jest, React, Next, Redux, Remix',
     },
     github: 'izy-code',
     simpleText: [],
@@ -33,10 +33,10 @@ export const commandInfo = [
     classPhoto: 'imageVadim',
     link: 'https://github.com/VadimKol',
     textInfo: {
-      role: 'frontend-developer',
+      role: 'Frontend-developer',
       contributions: 'Routing, Internationalization',
       'Short bio':
-        'Graduated from the Saratov State University, studied at the Faculty of Computer Science and Information Technologies and in the Department of Computer Security and Cryptography Theory. Graduated layout courses from Frontendblok. Worked as a T-SQL developer',
+        'Graduated from the Saratov State University, studied at the Faculty of Computer Science and Information Technologies and in the Department of Computer Security and Cryptography Theory. Graduated from layout courses at Frontendblok. Worked as a T-SQL developer',
       'Tech stack': 'CSS, Sass, SQL, HTML, JavaScript, TypeScript, Webpack, Vite, Jest, React, Next, Redux',
     },
     github: 'vadimkol',
@@ -47,7 +47,7 @@ export const commandInfo = [
     classPhoto: 'imageAlex',
     link: 'https://github.com/BodnarAlex',
     textInfo: {
-      role: ' frontend-developer, scrum-master',
+      role: 'Frontend-developer, Scrum-master',
       contributions: 'Jira, Design, MUI',
       'Short bio':
         'Graduated from the Immanuel Kant Baltic Federal University, studied at the Faculty of Business Informatics. Graduated from 3WC courses with a degree in Frontend-development. Built PHP-driven features for 1C CRM',

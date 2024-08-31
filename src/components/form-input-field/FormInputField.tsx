@@ -8,54 +8,25 @@ type Props = {
   label: string;
   inputProps: InputHTMLAttributes<HTMLInputElement>;
   error?: string | undefined;
-  hasFieldWrapper?: boolean;
-  isErrorShown?: boolean;
-  isRowLayout?: boolean;
 };
 
-export function FormInputField({
-  label,
-  inputProps,
-  error,
-  hasFieldWrapper = true,
-  isErrorShown = true,
-  isRowLayout = false,
-}: Props): ReactNode {
+export function FormInputField({ label, inputProps, error }: Props): ReactNode {
   const generatedId = useId();
   const inputId = inputProps.id ?? generatedId;
 
-  const wrappedContent = (
-    <>
-      {isRowLayout ? (
-        <div className={styles.row}>
-          <input
-            id={inputId}
-            className={clsx(styles.input, error && styles.invalid)}
-            autoComplete="off"
-            aria-invalid={error ? 'true' : 'false'}
-            {...inputProps}
-          />
-          <label className={styles.label} htmlFor={inputId}>
-            {label}
-          </label>
-        </div>
-      ) : (
-        <>
-          <label className={styles.label} htmlFor={inputId}>
-            {label}
-          </label>
-          <input
-            id={inputId}
-            className={clsx(styles.input, error && styles.invalid)}
-            autoComplete="off"
-            aria-invalid={error ? 'true' : 'false'}
-            {...inputProps}
-          />
-        </>
-      )}
-      {isErrorShown && <p className={styles.errorMessage}>{error}</p>}
-    </>
+  return (
+    <div className={styles.field}>
+      <label className={styles.label} htmlFor={inputId}>
+        {label}
+      </label>
+      <input
+        id={inputId}
+        className={clsx(styles.input, error && styles.invalid)}
+        autoComplete="off"
+        aria-invalid={error ? 'true' : 'false'}
+        {...inputProps}
+      />
+      <p className={styles.errorMessage}>{error}</p>
+    </div>
   );
-
-  return hasFieldWrapper ? <div className={styles.field}>{wrappedContent}</div> : wrappedContent;
 }

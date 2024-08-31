@@ -1,20 +1,16 @@
 .page {
   display: flex;
-  flex: 1;
   flex-flow: column nowrap;
+  gap: 30px;
   justify-content: start;
   align-items: center;
   width: 100%;
-  min-height: 75vh;
-  padding: 10px 0 30px;
+  padding-bottom: 30px;
 
   & .title {
+    margin: 0;
     font-size: 50px;
     color: var(--color-text-light);
-  }
-
-  &.loader {
-    justify-content: center;
   }
 }
 
@@ -22,7 +18,7 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
-  min-width: 380px;
+  min-width: 400px;
   max-width: 500px;
   margin-inline: auto;
   padding: 30px 30px 40px;

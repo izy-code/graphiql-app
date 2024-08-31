@@ -3,20 +3,23 @@
 import { type User } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 import type { ReactNode } from 'react';
-import { createContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
+import { Loader } from '@/components/loader/Loader';
 import { auth, logOut } from '@/firebase/firebase';
 
-const FIREBASE_ID_TOKEN_EXPIRATION_TIME_MS = 60 * 60 * 1000;
-
-export interface AuthContextType {
-  user: User | null;
+export interface UserImpl {
+  stsTokenManager: {
+    expirationTime: number;
+  };
 }
 
-export const AuthContext = createContext<AuthContextType>({
-  user: null,
-});
+export type AuthContextType = User | null;
+
+const TOKEN_CHECK_INTERVAL_MS = 60 * 1000;
+
+export const AuthContext = createContext<AuthContextType>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }): ReactNode {
   const [user, setUser] = useState<User | null>(null);
@@ -24,33 +27,42 @@ export function AuthProvider({ children }: { children: ReactNode }): ReactNode {
   const router = useRouter();
 
   useEffect(() => {
-    const unsubscribe = auth.onIdTokenChanged(async (userParameter) => {
-      if (!userParameter) {
-        setUser(null);
-        setIsLoading(false);
-      } else {
-        setUser(userParameter);
-        setIsLoading(false);
+    const checkTokenExpiration = async (currentUser: User): Promise<void> => {
+      const userImpl = currentUser.toJSON() as UserImpl;
+      const { expirationTime } = userImpl.stsTokenManager;
+      const currentTime = new Date().getTime();
 
-        const { lastSignInTime } = userParameter.metadata;
-        const expirationTime = new Date(lastSignInTime!);
-        expirationTime.setTime(expirationTime.getTime() + FIREBASE_ID_TOKEN_EXPIRATION_TIME_MS);
-        const currentTime = new Date();
+      if (currentTime >= expirationTime) {
+        await logOut();
+        toast.info('Your token has expired, please sign in again');
+        router.push('/');
+      }
+    };
 
-        if (currentTime >= expirationTime) {
-          await logOut();
-          router.push('/');
-          toast.info('Your token has expired, please sign in again.');
-        }
+    const unsubscribe = auth.onIdTokenChanged(async (changedUser) => {
+      setUser(changedUser);
+      setIsLoading(false);
+
+      if (changedUser) {
+        await checkTokenExpiration(changedUser);
       }
     });
 
-    return (): void => unsubscribe();
+    const intervalId = setInterval(async () => {
+      if (auth.currentUser) {
+        await checkTokenExpiration(auth.currentUser);
+      }
+    }, TOKEN_CHECK_INTERVAL_MS);
+
+    return (): void => {
+      unsubscribe();
+      clearInterval(intervalId);
+    };
   }, [router]);
 
-  const value = useMemo(() => ({ user }), [user]);
-
   return (
-    <AuthContext.Provider value={value}>{isLoading ? <h1>Loading Firebase...</h1> : children}</AuthContext.Provider>
+    <AuthContext.Provider value={user}>
+      {isLoading ? <Loader loaderText="Loading Firebase..." /> : children}
+    </AuthContext.Provider>
   );
 }
