@@ -1,7 +1,6 @@
 'use client';
 
 import { yupResolver } from '@hookform/resolvers/yup';
-import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
 import { type ReactNode, useEffect, useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
@@ -11,6 +10,7 @@ import { registrationSchema, type RegistrationSchemaType } from '@/common/valida
 import { CustomButton } from '@/components/custom-button/CustomButton';
 import { FormInputField } from '@/components/form-input-field/FormInputField';
 import { FormPasswordField } from '@/components/form-password-field/FormPasswordField';
+import { Loader } from '@/components/loader/Loader';
 import { signUp } from '@/firebase/firebase';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -61,11 +61,7 @@ export default function SignUp(): ReactNode {
   };
 
   if (isLoading) {
-    return (
-      <div className={clsx(styles.page, styles.loader)}>
-        <h1>Signing up...</h1>
-      </div>
-    );
+    return <Loader loaderText="Signing up..." />;
   }
 
   if (user) {
@@ -75,7 +71,7 @@ export default function SignUp(): ReactNode {
 
   return (
     <div className={styles.page}>
-      <h1 className={styles.title}>Registration</h1>
+      <h1 className={styles.title}>Sign up</h1>
       <form className={styles.form} name="react-hook-form" noValidate onSubmit={handleSubmit(onValid)}>
         <FormInputField label="Name" inputProps={{ ...register('name') }} error={errors.name?.message} />
         <FormInputField

@@ -6,6 +6,7 @@ import type { ReactNode } from 'react';
 import { createContext, useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 
+import { Loader } from '@/components/loader/Loader';
 import { auth, logOut } from '@/firebase/firebase';
 
 export interface UserImpl {
@@ -66,6 +67,8 @@ export function AuthProvider({ children }: { children: ReactNode }): ReactNode {
   const value = useMemo(() => ({ user }), [user]);
 
   return (
-    <AuthContext.Provider value={value}>{isLoading ? <h1>Loading Firebase...</h1> : children}</AuthContext.Provider>
+    <AuthContext.Provider value={value}>
+      {isLoading ? <Loader loaderText="Loading Firebase..." /> : children}
+    </AuthContext.Provider>
   );
 }

@@ -5,7 +5,7 @@ import { type ElementType, type ReactNode, useEffect } from 'react';
 
 import { useAuth } from '@/hooks/useAuth';
 
-import styles from './AuthRoute.module.scss';
+import { Loader } from '../loader/Loader';
 
 export const AuthRoute = (WrappedComponent: ElementType, isNonAuth = false) =>
   function WithAuthControl(props: object): ReactNode {
@@ -21,8 +21,6 @@ export const AuthRoute = (WrappedComponent: ElementType, isNonAuth = false) =>
     return (isNonAuth && !user) || (!isNonAuth && user) ? (
       <WrappedComponent {...props} />
     ) : (
-      <div className={styles.loader}>
-        <h1>Redirecting...</h1>
-      </div>
+      <Loader loaderText="Redirecting..." />
     );
   };

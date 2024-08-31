@@ -23,6 +23,17 @@
   flex-flow: row-reverse nowrap;
 }
 
+.imageIzy {
+  background: url("/izy.jpg");
+}
+
+.imageVadim {
+  background: url("/vadim.png");
+}
+
+.imageAlex {
+  background: url("/alex.png");
+}
 
 .imageTeam {
   width: 300px;
@@ -31,36 +42,25 @@
   background-size: 100%;
   background-repeat: no-repeat;
   border-radius: 50%;
-  transition: all 500ms;
+  transition: background-size 500ms;
 
   &:hover {
     background-size: 110%;
   }
+}
 
-  &.imageIzy {
-    background: url("/izy.jpg");
-  }
+.imageRss {
+  background-color: var(--color-text-dark);
+  background-image: url("/rss.png");
+  background-position: center;
+  background-size: 80%;
+  background-repeat: no-repeat;
+  border-radius: 50%;
+  transition: background-color 500ms ease-out;
 
-  &.imageVadim {
-    background: url("/vadim.png");
-  }
-
-  &.imageAlex {
-    background: url("/alex.png");
-  }
-
-  &.imageRss {
-    background: var(--color-text-dark);
-    background-image: url("/rss.png");
-    background-position: center;
+  &:hover {
+    background-color: var(--color-primary);
     background-size: 80%;
-    background-repeat: no-repeat;
-    border-radius: 50%;
-    transition: all 500ms;
-
-    &:hover {
-      background-size: 80%;
-    }
   }
 }
 
