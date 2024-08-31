@@ -26,7 +26,7 @@ export function TeamMember({
   return (
     <div className={`${styles.blockInfo} ${isEvenBlock ? styles.rotate : ''}`}>
       <Link href={link} target="_blank">
-        <div className={`${styles.imageCommand} ${styles[classPhoto]}`} />
+        <div className={`${styles.imageTeam} ${styles[classPhoto]}`} />
       </Link>
       <div className={styles.textInfo}>
         <Link href={link} className={styles.titleBlock} target="_blank">

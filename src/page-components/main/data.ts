@@ -13,7 +13,7 @@ export const teamText = [
   },
 ];
 
-export const commandInfo = [
+export const teamInfo = [
   {
     title: 'Ivan Zhirebny',
     classPhoto: 'imageIzy',

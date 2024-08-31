@@ -9,7 +9,7 @@ import { TeamMember } from '@/components/team-member/TeamMember.tsx';
 import { useAuth } from '@/hooks/useAuth';
 import { useScopedI18n } from '@/locales/client.ts';
 
-import { commandInfo, teamText } from './data.ts';
+import { teamInfo, teamText } from './data.ts';
 import styles from './Main.module.scss';
 
 export default function Main(): ReactNode {
@@ -47,7 +47,7 @@ export default function Main(): ReactNode {
             </div>
           ))}
 
-        {commandInfo.map((info, index) => (
+        {teamInfo.map((info, index) => (
           <TeamMember
             key={info.classPhoto}
             title={info.title}
