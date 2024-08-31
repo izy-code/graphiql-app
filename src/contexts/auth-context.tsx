@@ -3,7 +3,7 @@
 import { type User } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 import type { ReactNode } from 'react';
-import { createContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { Loader } from '@/components/loader/Loader';
@@ -15,15 +15,11 @@ export interface UserImpl {
   };
 }
 
-export interface AuthContextType {
-  user: User | null;
-}
+export type AuthContextType = User | null;
 
 const TOKEN_CHECK_INTERVAL_MS = 60 * 1000;
 
-export const AuthContext = createContext<AuthContextType>({
-  user: null,
-});
+export const AuthContext = createContext<AuthContextType>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }): ReactNode {
   const [user, setUser] = useState<User | null>(null);
@@ -64,10 +60,8 @@ export function AuthProvider({ children }: { children: ReactNode }): ReactNode {
     };
   }, [router]);
 
-  const value = useMemo(() => ({ user }), [user]);
-
   return (
-    <AuthContext.Provider value={value}>
+    <AuthContext.Provider value={user}>
       {isLoading ? <Loader loaderText="Loading Firebase..." /> : children}
     </AuthContext.Provider>
   );

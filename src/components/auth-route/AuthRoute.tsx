@@ -9,7 +9,7 @@ import { Loader } from '../loader/Loader';
 
 export const AuthRoute = (WrappedComponent: ElementType, isNonAuth = false) =>
   function WithAuthControl(props: object): ReactNode {
-    const { user } = useAuth();
+    const user = useAuth();
     const router = useRouter();
 
     useEffect(() => {

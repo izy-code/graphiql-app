@@ -17,7 +17,7 @@ import { useAuth } from '@/hooks/useAuth';
 import styles from './SignUp.module.scss';
 
 export default function SignUp(): ReactNode {
-  const { user } = useAuth();
+  const user = useAuth();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 

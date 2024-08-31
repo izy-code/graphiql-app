@@ -13,7 +13,7 @@ import { teamInfo, teamText } from './data.ts';
 import styles from './Main.module.scss';
 
 export default function Main(): ReactNode {
-  const { user } = useAuth();
+  const user = useAuth();
   const translate = useScopedI18n('main');
 
   return (

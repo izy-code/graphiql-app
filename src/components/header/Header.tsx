@@ -14,7 +14,7 @@ import FlagButtons from '../flag-buttons/FlagButtons';
 import styles from './Header.module.scss';
 
 export function Header(): ReactNode {
-  const { user } = useAuth();
+  const user = useAuth();
   const [isSticky, setIsSticky] = useState(false);
   const pathname = usePathname();
 
