@@ -50,16 +50,8 @@ export function Header(): ReactNode {
             <Button onClick={logOut}>Sign out</Button>
           ) : (
             <>
-              {!pathname.includes(NonProtectedPaths.SIGN_IN) && (
-                <Link className={styles.footer_items} href={NonProtectedPaths.SIGN_IN}>
-                  Sign in
-                </Link>
-              )}
-              {!pathname.includes(NonProtectedPaths.SIGN_UP) && (
-                <Link className={styles.footer_items} href={NonProtectedPaths.SIGN_UP}>
-                  Sign up
-                </Link>
-              )}
+              {!pathname.includes(NonProtectedPaths.SIGN_IN) && <Link href={NonProtectedPaths.SIGN_IN}>Sign in</Link>}
+              {!pathname.includes(NonProtectedPaths.SIGN_UP) && <Link href={NonProtectedPaths.SIGN_UP}>Sign up</Link>}
             </>
           )}
         </div>
