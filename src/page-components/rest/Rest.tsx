@@ -2,7 +2,7 @@
 
 import { Button } from '@mui/material';
 import Box from '@mui/material/Box';
-// import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import type { ReactNode } from 'react';
 import * as React from 'react';
 
@@ -15,8 +15,13 @@ import MethodButtons from '@/components/method-buttons/MethodButtons';
 
 import styles from './Rest.module.scss';
 
+const encodeBase64 = (str: string): string => Buffer.from(str, 'utf-8').toString('base64');
+const decodeBase64 = (str: string): string => Buffer.from(str, 'base64').toString('utf-8');
+
 function Rest(): ReactNode {
-  // const router = useRouter();
+  const router = useRouter();
+  const pathname = usePathname();
+
   const [body, setBody] = React.useState('');
   const [endpoint, setEndpoint] = React.useState('');
   const [method, setMethod] = React.useState('GET');
@@ -24,6 +29,24 @@ function Rest(): ReactNode {
   const [variables, setVariables] = React.useState<IData[]>([]);
   const [status, setStatus] = React.useState<number | null>(null);
   const [responseBody, setResponseBody] = React.useState('');
+
+  React.useEffect(() => {
+    const pathParts: string[] = pathname.split('/').filter((_, index) => index > 2);
+    if (pathParts.length >= 3) {
+      const [methodParam, endpointParam, headersParam, bodyParam] = pathParts;
+
+      setMethod(methodParam || '');
+      setEndpoint(decodeBase64(endpointParam || '') || '');
+      setBody(decodeBase64(bodyParam || '') || '');
+      try {
+        const decodedHeaders = decodeBase64(headersParam || '');
+        const headersArray: IData[] = JSON.parse(decodedHeaders) as IData[];
+        setHeaders(headersArray);
+      } catch (jsonError) {
+        setHeaders([]);
+      }
+    }
+  }, [pathname]);
 
   const handleRequest = async (): Promise<void> => {
     try {
@@ -37,20 +60,6 @@ function Rest(): ReactNode {
       if (method !== 'GET' && body) {
         options.body = body;
       }
-      // const encodedEndpoint = encodeBase64(endpoint);
-      // const encodedBody = body ? encodeBase64(JSON.stringify(JSON.parse(body))) : '';
-      // let routeUrl = `/${method}/${encodedEndpoint}`;
-      // if (encodedBody) {
-      //   routeUrl += `/${encodedBody}`;
-      // }
-      // const queryParams = headers
-      //   .map(({ key, value }) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
-      //   .join('&');
-      // if (queryParams) {
-      //   routeUrl += `?${queryParams}`;
-      // }
-      // router.push(routeUrl);
-
       const response = await fetch(endpoint, options);
       const data: unknown = await response.json();
       setStatus(response.status);
@@ -61,13 +70,21 @@ function Rest(): ReactNode {
     }
   };
 
+  const handleMethodChange = (newMethod: string): void => {
+    setMethod(newMethod);
+    const encodedEndpoint = encodeBase64(endpoint);
+    const encodedBody = encodeBase64(body);
+    const encodedHeaders = encodeBase64(JSON.stringify(headers));
+    router.push(`/rest/${newMethod}/${encodedEndpoint}/${encodedHeaders}/${encodedBody}`);
+  };
+
   return (
     <div className={styles.page}>
       <div className={styles.container}>
         <h1 className={styles.title}>REST Client</h1>
         <div className={styles.items}>
           <h2 className={styles.sectionTitle}>URL</h2>
-          <MethodButtons method={method} onMethodChange={setMethod} onBlur={handleRequest} />
+          <MethodButtons method={method} onMethodChange={handleMethodChange} onBlur={handleRequest} />
           <CustomInput
             label="Endpoint URL"
             variant="standard"
