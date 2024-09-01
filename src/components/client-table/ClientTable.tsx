@@ -22,9 +22,16 @@ export default function ClientTable({ title, tableInfo, onChange }: ITableProps)
   const [newKey, setNewKey] = React.useState<string>('');
   const [newValue, setNewValue] = React.useState<string>('');
 
+  const generateUniqueId = (): string => `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+
   const handleAddMode = (): void => {
     if (newKey.trim() && newValue.trim()) {
-      onChange([...tableInfo, { key: newKey, value: newValue }]);
+      if (tableInfo.length === 1 && !tableInfo[0]?.key && !tableInfo[0]?.value) {
+        onChange([{ id: generateUniqueId(), key: newKey, value: newValue }]);
+      } else {
+        const newEntry = { id: generateUniqueId(), key: newKey, value: newValue };
+        onChange([...tableInfo, newEntry]);
+      }
       setNewKey('');
       setNewValue('');
     }
@@ -43,10 +50,15 @@ export default function ClientTable({ title, tableInfo, onChange }: ITableProps)
 
   const handleDeleteMode = (index: number): void => {
     const newData = tableInfo.filter((_, i) => i !== index);
-    onChange(newData);
+    onChange(newData.length === 0 ? [{ id: generateUniqueId(), key: '', value: '' }] : newData);
   };
 
-  const infoToDisplay = tableInfo.length === 0 ? [{ key: '', value: '' }] : tableInfo;
+  // Ensure there's always at least one empty row when tableInfo is empty
+  React.useEffect(() => {
+    if (tableInfo.length === 0) {
+      onChange([{ id: generateUniqueId(), key: '', value: '' }]);
+    }
+  }, [tableInfo, onChange]);
 
   return (
     <div className={styles.container}>
@@ -82,8 +94,8 @@ export default function ClientTable({ title, tableInfo, onChange }: ITableProps)
             </TableRow>
           </TableHead>
           <TableBody>
-            {infoToDisplay.map((rowData, index) => (
-              <TableRow key={rowData.key}>
+            {tableInfo.map((rowData, index) => (
+              <TableRow key={rowData.id}>
                 <TableCell component="th" scope="row">
                   <TextField
                     className={styles.input}
