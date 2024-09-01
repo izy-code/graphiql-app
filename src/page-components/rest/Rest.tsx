@@ -7,32 +7,31 @@ import type { ReactNode } from 'react';
 import * as React from 'react';
 
 import { AuthRoute } from '@/components/auth-route/AuthRoute';
+import ClientTable from '@/components/client-table/ClientTable';
+import type { IData } from '@/components/client-table/types.ts';
 import CustomInput from '@/components/custom-input/CustomInput';
 import CustomTextarea from '@/components/custom-textarea/CustomTextarea';
 import MethodButtons from '@/components/method-buttons/MethodButtons';
-import TableHeaders from '@/components/table-headers/TableHeaders';
 
 import styles from './Rest.module.scss';
-
-interface HeaderData {
-  key: string;
-  value: string;
-}
 
 function Rest(): ReactNode {
   // const router = useRouter();
   const [body, setBody] = React.useState('');
   const [endpoint, setEndpoint] = React.useState('');
   const [method, setMethod] = React.useState('GET');
-  const [headers, setHeaders] = React.useState<HeaderData[]>([]);
+  const [headers, setHeaders] = React.useState<IData[]>([]);
+  const [variables, setVariables] = React.useState<IData[]>([]);
   const [status, setStatus] = React.useState<number | null>(null);
   const [responseBody, setResponseBody] = React.useState('');
 
   const handleRequest = async (): Promise<void> => {
     try {
+      const validHeaders = headers.filter(({ key, value }) => key.trim() && value.trim());
+
       const options: RequestInit = {
         method,
-        headers: Object.fromEntries(headers.map(({ key, value }) => [key, value])),
+        headers: Object.fromEntries(validHeaders.map(({ key, value }) => [key, value])),
       };
 
       if (method !== 'GET' && body) {
@@ -80,13 +79,13 @@ function Rest(): ReactNode {
         </div>
         <div className={styles.section}>
           <h2 className={styles.sectionTitle}>Params</h2>
-          <TableHeaders headers={headers} onHeadersChange={setHeaders} />
+          <ClientTable title="Header" tableInfo={headers} onChange={setHeaders} />
+          <ClientTable title="Variable" tableInfo={variables} onChange={setVariables} />
           <div className={styles.item}>
             <h4>Body: </h4>
             <CustomTextarea
               label="Body"
               value={body}
-              width="500px"
               onChange={(e) => setBody(e.target.value)}
               onBlur={handleRequest}
             />

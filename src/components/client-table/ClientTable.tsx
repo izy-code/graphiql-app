@@ -15,50 +15,43 @@ import type { ReactNode } from 'react';
 import * as React from 'react';
 
 import CustomInput from '../custom-input/CustomInput';
-import styles from './TableHeaders.module.scss';
+import styles from './ClientTable.module.scss';
+import type { ITableProps } from './types.ts';
 
-interface Data {
-  key: string;
-  value: string;
-}
-
-interface TableHeadersProps {
-  headers: Data[];
-  onHeadersChange: (newHeaders: Data[]) => void;
-}
-
-export default function TableHeaders({ headers, onHeadersChange }: TableHeadersProps): ReactNode {
+export default function ClientTable({ title, tableInfo, onChange }: ITableProps): ReactNode {
   const [newKey, setNewKey] = React.useState<string>('');
   const [newValue, setNewValue] = React.useState<string>('');
 
-  const handleAddHeader = (): void => {
+  const handleAddMode = (): void => {
     if (newKey.trim() && newValue.trim()) {
-      onHeadersChange([...headers, { key: newKey, value: newValue }]);
+      onChange([...tableInfo, { key: newKey, value: newValue }]);
       setNewKey('');
       setNewValue('');
     }
   };
 
-  const handleHeaderChange = (index: number, field: 'key' | 'value', value: string): void => {
-    const newHeaders = [...headers];
-    if (newHeaders[index]) {
-      newHeaders[index] = {
-        ...newHeaders[index],
+  const handleChangeMode = (index: number, field: 'key' | 'value', value: string): void => {
+    const newData = [...tableInfo];
+    if (newData[index]) {
+      newData[index] = {
+        ...newData[index],
         [field]: value,
       };
-      onHeadersChange(newHeaders);
+      onChange(newData);
     }
   };
 
-  const handleDeleteHeader = (index: number): void => {
-    const newHeaders = headers.filter((_, i) => i !== index);
-    onHeadersChange(newHeaders);
+  const handleDeleteMode = (index: number): void => {
+    const newData = tableInfo.filter((_, i) => i !== index);
+    onChange(newData);
   };
+
+  const infoToDisplay = tableInfo.length === 0 ? [{ key: '', value: '' }] : tableInfo;
 
   return (
     <div className={styles.container}>
-      <div className={styles.headerContainer}>
-        <h4 className={styles.subtitle}>Headers:</h4>
+      <div>
+        <h4 className={styles.subtitle}>{title}s:</h4>
         <div className={styles.inputContainer}>
           <CustomInput
             label="Key"
@@ -74,13 +67,13 @@ export default function TableHeaders({ headers, onHeadersChange }: TableHeadersP
             value={newValue}
             onChange={(e) => setNewValue(e.target.value)}
           />
-          <Button className={styles.button} variant="contained" color="primary" onClick={handleAddHeader}>
+          <Button className={styles.button} variant="contained" color="primary" onClick={handleAddMode}>
             + row
           </Button>
         </div>
       </div>
       <TableContainer component={Paper} sx={{ mt: 2 }} className={styles.table}>
-        <Table sx={{ minWidth: 550 }} aria-label="headers table">
+        <Table sx={{ minWidth: 550 }} aria-label="table">
           <TableHead>
             <TableRow>
               <TableCell>Key</TableCell>
@@ -89,28 +82,28 @@ export default function TableHeaders({ headers, onHeadersChange }: TableHeadersP
             </TableRow>
           </TableHead>
           <TableBody>
-            {headers.map((header, index) => (
-              <TableRow key={header.key}>
+            {infoToDisplay.map((rowData, index) => (
+              <TableRow key={rowData.key}>
                 <TableCell component="th" scope="row">
                   <TextField
                     className={styles.input}
-                    placeholder="Header Key"
-                    value={header.key}
-                    onChange={(e) => handleHeaderChange(index, 'key', e.target.value)}
+                    placeholder={`${title} Key`}
+                    value={rowData.key}
+                    onChange={(e) => handleChangeMode(index, 'key', e.target.value)}
                     fullWidth
                   />
                 </TableCell>
                 <TableCell align="right">
                   <TextField
                     className={styles.input}
-                    placeholder="Header Value"
-                    value={header.value}
-                    onChange={(e) => handleHeaderChange(index, 'value', e.target.value)}
+                    placeholder={`${title} Value`}
+                    value={rowData.value}
+                    onChange={(e) => handleChangeMode(index, 'value', e.target.value)}
                     fullWidth
                   />
                 </TableCell>
                 <TableCell align="right">
-                  <IconButton aria-label="delete" onClick={() => handleDeleteHeader(index)} color="secondary">
+                  <IconButton aria-label="delete" onClick={() => handleDeleteMode(index)} color="secondary">
                     <DeleteIcon />
                   </IconButton>
                 </TableCell>

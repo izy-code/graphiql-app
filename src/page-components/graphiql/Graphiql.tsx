@@ -5,16 +5,12 @@ import type { ReactNode } from 'react';
 import * as React from 'react';
 
 import { AuthRoute } from '@/components/auth-route/AuthRoute';
+import type { IData } from '@/components/client-table/types.ts';
 
+import ClientTable from '../../components/client-table/ClientTable.tsx';
 import CustomInput from '../../components/custom-input/CustomInput.tsx';
 import CustomTextarea from '../../components/custom-textarea/CustomTextarea';
-import TableHeaders from '../../components/table-headers/TableHeaders';
 import styles from './Graphiql.module.scss';
-
-interface HeaderData {
-  key: string;
-  value: string;
-}
 
 function GraphiQl(): ReactNode {
   const [query, setQuery] = React.useState('');
@@ -23,7 +19,7 @@ function GraphiQl(): ReactNode {
   const [responseBody] = React.useState('{}');
   const [endpoint, setEndpoint] = React.useState('');
   const [sdl, setSdl] = React.useState('');
-  const [headers, setHeaders] = React.useState<HeaderData[]>([]);
+  const [headers, setHeaders] = React.useState<IData[]>([]);
 
   return (
     <div className={styles.page}>
@@ -48,7 +44,7 @@ function GraphiQl(): ReactNode {
         </div>
         <div className={styles.section}>
           <h2 className={styles.sectionTitle}>Params</h2>
-          <TableHeaders headers={headers} onHeadersChange={setHeaders} />
+          <ClientTable title="Headers" tableInfo={headers} onChange={setHeaders} />
           <div className={styles.item}>
             <h4>Query: </h4>
             <CustomTextarea label="Query" value={query} width="500px" onChange={(e) => setQuery(e.target.value)} />
