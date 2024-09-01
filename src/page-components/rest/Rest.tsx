@@ -6,17 +6,16 @@ import { usePathname, useRouter } from 'next/navigation';
 import type { ReactNode } from 'react';
 import * as React from 'react';
 
+import { LocalStorageKeys } from '@/common/enums.ts';
 import { AuthRoute } from '@/components/auth-route/AuthRoute';
 import ClientTable from '@/components/client-table/ClientTable';
 import type { IData } from '@/components/client-table/types.ts';
 import CustomInput from '@/components/custom-input/CustomInput';
 import CustomTextarea from '@/components/custom-textarea/CustomTextarea';
 import MethodButtons from '@/components/method-buttons/MethodButtons';
+import { decodeBase64, encodeBase64 } from '@/utils/base-code';
 
 import styles from './Rest.module.scss';
-
-const encodeBase64 = (str: string): string => Buffer.from(str, 'utf-8').toString('base64');
-const decodeBase64 = (str: string): string => Buffer.from(str, 'base64').toString('utf-8');
 
 function Rest(): ReactNode {
   const router = useRouter();
@@ -68,6 +67,10 @@ function Rest(): ReactNode {
       setStatus(500);
       setResponseBody(JSON.stringify({ error }, null, 2));
     }
+    const urlToSave = `/rest/${method}/${encodeBase64(endpoint)}/${encodeBase64(JSON.stringify(headers))}/${encodeBase64(body)}`;
+    const existingUrls = JSON.parse(localStorage.getItem(LocalStorageKeys.URLS_RSS_REQUEST) || '[]') as string[];
+    existingUrls.push(urlToSave);
+    localStorage.setItem(LocalStorageKeys.URLS_RSS_REQUEST, JSON.stringify(existingUrls));
   };
 
   const handleMethodChange = (newMethod: string): void => {
@@ -91,7 +94,6 @@ function Rest(): ReactNode {
             width="420px"
             value={endpoint}
             onChange={(e) => setEndpoint(e.target.value)}
-            onBlur={handleRequest}
           />
         </div>
         <div className={styles.section}>
@@ -100,12 +102,7 @@ function Rest(): ReactNode {
           <ClientTable title="Variable" tableInfo={variables} onChange={setVariables} />
           <div className={styles.item}>
             <h4>Body: </h4>
-            <CustomTextarea
-              label="Body"
-              value={body}
-              onChange={(e) => setBody(e.target.value)}
-              onBlur={handleRequest}
-            />
+            <CustomTextarea label="Body" value={body} onChange={(e) => setBody(e.target.value)} />
           </div>
           <div className={styles.center}>
             <Button className={styles.button} variant="contained" color="primary" onClick={handleRequest}>

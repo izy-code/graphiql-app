@@ -1,4 +1,6 @@
-export enum LocalStorageKeys {}
+export enum LocalStorageKeys {
+  URLS_RSS_REQUEST = 'urls_rss_request',
+}
 
 export enum NonProtectedPaths {
   SIGN_UP = '/sign-up',
