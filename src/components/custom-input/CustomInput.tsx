@@ -10,14 +10,18 @@ interface ICustomInput {
   label: string;
   variant: 'standard' | 'filled' | 'outlined';
   width?: string;
+  value: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
 }
 
 export default function CustomInput({
   label,
   variant = 'standard',
   width = '420px',
+  value = '',
   onChange,
+  onBlur,
 }: ICustomInput): ReactNode {
   return (
     <Box
@@ -29,7 +33,14 @@ export default function CustomInput({
       autoComplete="off"
       className={styles.inputContainer}
     >
-      <TextField label={label} variant={variant} className={styles.input} onChange={onChange} />
+      <TextField
+        label={label}
+        variant={variant}
+        className={styles.input}
+        value={value}
+        onChange={onChange}
+        onBlur={onBlur}
+      />
     </Box>
   );
 }

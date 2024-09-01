@@ -1,6 +1,8 @@
 'use client';
 
+import DeleteIcon from '@mui/icons-material/Delete';
 import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -20,19 +22,21 @@ interface Data {
   value: string;
 }
 
-export default function TableHeaders(): ReactNode {
-  const [headers, setHeaders] = React.useState<Data[]>([
-    { key: 'Cache-control', value: 'no-cache' },
-    { key: 'Host', value: 'calculated when request is sent' },
-    { key: 'User-Agent', value: 'PostmanRuntime/7.41.1' },
-    { key: 'Accept', value: '*/*' },
-    { key: 'Accept-Encoding', value: 'gzip, deflate, br' },
-  ]);
+interface TableHeadersProps {
+  headers: Data[];
+  onHeadersChange: (newHeaders: Data[]) => void;
+}
+
+export default function TableHeaders({ headers, onHeadersChange }: TableHeadersProps): ReactNode {
   const [newKey, setNewKey] = React.useState<string>('');
   const [newValue, setNewValue] = React.useState<string>('');
 
   const handleAddHeader = (): void => {
-    setHeaders([...headers, { key: newKey, value: newValue }]);
+    if (newKey.trim() && newValue.trim()) {
+      onHeadersChange([...headers, { key: newKey, value: newValue }]);
+      setNewKey('');
+      setNewValue('');
+    }
   };
 
   const handleHeaderChange = (index: number, field: 'key' | 'value', value: string): void => {
@@ -42,8 +46,13 @@ export default function TableHeaders(): ReactNode {
         ...newHeaders[index],
         [field]: value,
       };
-      setHeaders(newHeaders);
+      onHeadersChange(newHeaders);
     }
+  };
+
+  const handleDeleteHeader = (index: number): void => {
+    const newHeaders = headers.filter((_, i) => i !== index);
+    onHeadersChange(newHeaders);
   };
 
   return (
@@ -51,8 +60,20 @@ export default function TableHeaders(): ReactNode {
       <div className={styles.headerContainer}>
         <h4 className={styles.subtitle}>Headers:</h4>
         <div className={styles.inputContainer}>
-          <CustomInput label="Key" variant="outlined" width="200px" onChange={(e) => setNewKey(e.target.value)} />
-          <CustomInput label="Value" variant="outlined" width="200px" onChange={(e) => setNewValue(e.target.value)} />
+          <CustomInput
+            label="Key"
+            variant="outlined"
+            width="200px"
+            value={newKey}
+            onChange={(e) => setNewKey(e.target.value)}
+          />
+          <CustomInput
+            label="Value"
+            variant="outlined"
+            width="200px"
+            value={newValue}
+            onChange={(e) => setNewValue(e.target.value)}
+          />
           <Button className={styles.button} variant="contained" color="primary" onClick={handleAddHeader}>
             + row
           </Button>
@@ -63,7 +84,8 @@ export default function TableHeaders(): ReactNode {
           <TableHead>
             <TableRow>
               <TableCell>Key</TableCell>
-              <TableCell align="right">Value</TableCell>
+              <TableCell align="center">Value</TableCell>
+              <TableCell align="right">Delete</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -86,6 +108,11 @@ export default function TableHeaders(): ReactNode {
                     onChange={(e) => handleHeaderChange(index, 'value', e.target.value)}
                     fullWidth
                   />
+                </TableCell>
+                <TableCell align="right">
+                  <IconButton aria-label="delete" onClick={() => handleDeleteHeader(index)} color="secondary">
+                    <DeleteIcon />
+                  </IconButton>
                 </TableCell>
               </TableRow>
             ))}

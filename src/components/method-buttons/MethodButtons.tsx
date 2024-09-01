@@ -6,15 +6,19 @@ import MenuItem from '@mui/material/MenuItem';
 import type { SelectChangeEvent } from '@mui/material/Select';
 import Select from '@mui/material/Select';
 import type { ReactNode } from 'react';
-import * as React from 'react';
+import type * as React from 'react';
 
 import styles from './MethodButtons.module.scss';
 
-export default function MethodButtons(): ReactNode {
-  const [method, setMethod] = React.useState('get');
+interface MethodButtonsProps {
+  method: string;
+  onMethodChange: (newMethod: string) => void;
+  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
+}
 
+export default function MethodButtons({ method, onMethodChange, onBlur }: MethodButtonsProps): ReactNode {
   const handleChange = (event: SelectChangeEvent): void => {
-    setMethod(event.target.value);
+    onMethodChange(event.target.value);
   };
 
   return (
@@ -28,6 +32,7 @@ export default function MethodButtons(): ReactNode {
           id="demo-simple-select"
           value={method}
           onChange={handleChange}
+          onBlur={onBlur}
           label="Method"
           className={styles.select}
           MenuProps={{
@@ -38,25 +43,25 @@ export default function MethodButtons(): ReactNode {
             },
           }}
         >
-          <MenuItem className={styles.option} value="get">
+          <MenuItem className={styles.option} value="GET">
             GET
           </MenuItem>
-          <MenuItem className={styles.option} value="post">
+          <MenuItem className={styles.option} value="POST">
             POST
           </MenuItem>
-          <MenuItem className={styles.option} value="put">
+          <MenuItem className={styles.option} value="PUT">
             PUT
           </MenuItem>
-          <MenuItem className={styles.option} value="patch">
+          <MenuItem className={styles.option} value="PATCH">
             PATCH
           </MenuItem>
-          <MenuItem className={styles.option} value="delete">
+          <MenuItem className={styles.option} value="DELETE">
             DELETE
           </MenuItem>
-          <MenuItem className={styles.option} value="head">
+          <MenuItem className={styles.option} value="HEAD">
             HEAD
           </MenuItem>
-          <MenuItem className={styles.option} value="option">
+          <MenuItem className={styles.option} value="OPTION">
             OPTION
           </MenuItem>
         </Select>

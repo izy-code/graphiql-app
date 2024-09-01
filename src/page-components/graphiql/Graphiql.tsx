@@ -11,11 +11,19 @@ import CustomTextarea from '../../components/custom-textarea/CustomTextarea';
 import TableHeaders from '../../components/table-headers/TableHeaders';
 import styles from './Graphiql.module.scss';
 
+interface HeaderData {
+  key: string;
+  value: string;
+}
+
 function GraphiQl(): ReactNode {
   const [query, setQuery] = React.useState('');
   const [variables, setVariables] = React.useState('');
   const [status] = React.useState(200);
   const [responseBody] = React.useState('{}');
+  const [endpoint, setEndpoint] = React.useState('');
+  const [sdl, setSdl] = React.useState('');
+  const [headers, setHeaders] = React.useState<HeaderData[]>([]);
 
   return (
     <div className={styles.page}>
@@ -23,12 +31,24 @@ function GraphiQl(): ReactNode {
         <h1 className={styles.title}>GraphiQl Client</h1>
         <div className={styles.items}>
           <h2 className={styles.sectionTitle}>URL</h2>
-          <CustomInput label="Endpoint URL" variant="standard" width="420px" />
-          <CustomInput label="SDL URL" variant="standard" width="420px" />
+          <CustomInput
+            label="Endpoint URL"
+            variant="standard"
+            value={endpoint}
+            width="420px"
+            onChange={(e) => setEndpoint(e.target.value)}
+          />
+          <CustomInput
+            label="SDL URL"
+            variant="standard"
+            value={sdl}
+            width="420px"
+            onChange={(e) => setSdl(e.target.value)}
+          />
         </div>
         <div className={styles.section}>
           <h2 className={styles.sectionTitle}>Params</h2>
-          <TableHeaders />
+          <TableHeaders headers={headers} onHeadersChange={setHeaders} />
           <div className={styles.item}>
             <h4>Query: </h4>
             <CustomTextarea label="Query" value={query} width="500px" onChange={(e) => setQuery(e.target.value)} />
