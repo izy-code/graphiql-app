@@ -3,10 +3,22 @@
 import { getIntrospectionQuery, type IntrospectionQuery } from 'graphql';
 import { gql, request } from 'graphql-request';
 
+import type { IData } from '@/components/client-table/types.ts';
+
 export interface QueryParams {
   query: string;
   variables?: string | null;
   headers?: string | null;
+}
+
+interface ParsedResponse {
+  data?: object;
+}
+
+export interface GraphQLResponseData {
+  status?: number;
+  data?: object;
+  errorMessage?: string;
 }
 
 export const getAPISchema = async (
@@ -31,57 +43,62 @@ export const getAPISchema = async (
 };
 
 export const makeRequest = async (
-  url: string,
-  { query, variables, headers }: QueryParams,
-): Promise<Record<string, unknown>> => {
+  endpoint: string,
+  query: string,
+  variables = '{}',
+  headers: IData[] = [],
+): Promise<GraphQLResponseData> => {
   try {
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: { ...(JSON.parse(headers || '{}') as Record<string, string>), 'Content-type': 'application/json' },
-      body: JSON.stringify({ query, variables: JSON.parse(variables || '{}') as Record<string, unknown> }),
-    });
-    const parsedResponse = (await response.json()) as Record<string, unknown>;
-    console.log(parsedResponse);
-    return parsedResponse;
-  } catch (error) {
-    if (error instanceof Error) {
-      const { message } = error;
-
-      return {
-        data: null,
-        errors: [{ message: `During the GQL request to ${url} an error occurred:${message}` }],
-      };
+    if (!endpoint || !query) {
+      return { errorMessage: 'No endpoint or query provided' };
     }
 
-    throw error;
-  }
-};
+    let parsedVariables = {};
 
-export const makeRequest1 = async (
-  url: string,
-  { query, variables, headers }: QueryParams,
-): Promise<Record<string, unknown>> => {
-  try {
-    const response = await request<IntrospectionQuery>(
-      url,
-      gql`
-        ${query}
-      `,
+    try {
+      parsedVariables = JSON.parse(variables) as object;
+    } catch (error) {
+      return { errorMessage: 'Variables field is not valid JSON' };
+    }
+
+    const headersObject = headers.reduce(
+      (acc, header) => {
+        if (header.key && header.value) {
+          acc[header.key] = header.value;
+        }
+        return acc;
+      },
+      {} as Record<string, string>,
     );
 
-    const parsedResponse = (await response.json()) as Record<string, unknown>;
-    console.log(parsedResponse);
-    return parsedResponse;
-  } catch (error) {
-    if (error instanceof Error) {
-      const { message } = error;
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...headersObject,
+      },
+      body: JSON.stringify({
+        query,
+        variables: parsedVariables,
+      }),
+    });
 
-      return {
-        data: null,
-        errors: [{ message: `During the GQL request to ${url} an error occurred:${message}` }],
-      };
+    const responseData = (await response.json()) as ParsedResponse;
+
+    if (response.ok) {
+      if (!('data' in responseData)) {
+        return { errorMessage: 'Unknown response structure: no data field. Check endpoint and request params.' };
+      }
+
+      return { status: response.status, data: responseData.data };
     }
 
-    throw error;
+    return { status: response.status, data: responseData };
+  } catch (error) {
+    if (error instanceof Error) {
+      return { errorMessage: error.message };
+    }
+
+    return { errorMessage: 'Unknown error occurred while making the request' };
   }
 };
