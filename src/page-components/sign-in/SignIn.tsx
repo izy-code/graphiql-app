@@ -15,7 +15,7 @@ import { signIn } from '@/firebase/firebase';
 import styles from './SignIn.module.scss';
 
 function SignIn(): ReactNode {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     formState: { errors, isDirty, isSubmitting, isValid },
@@ -50,7 +50,7 @@ function SignIn(): ReactNode {
       <form className={styles.form} name="react-hook-form" noValidate onSubmit={handleSubmit(onValid)}>
         <FormInputField
           label="Email"
-          inputProps={{ ...register('email'), type: 'email', autoComplete: 'email' }}
+          inputProps={{ ...register('email'), type: 'text', autoComplete: 'email' }}
           error={errors.email?.message}
         />
         <FormInputField

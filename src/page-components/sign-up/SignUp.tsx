@@ -19,7 +19,7 @@ import styles from './SignUp.module.scss';
 export default function SignUp(): ReactNode {
   const user = useAuth();
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     formState: { errors, isDirty, isSubmitting, isValid, touchedFields },
@@ -60,12 +60,17 @@ export default function SignUp(): ReactNode {
     }
   };
 
+  useEffect(() => {
+    if (user) {
+      router.push('/');
+    }
+  }, [router, user]);
+
   if (isLoading) {
     return <Loader loaderText="Signing up..." />;
   }
 
   if (user) {
-    router.push('/');
     return null;
   }
 
@@ -76,7 +81,7 @@ export default function SignUp(): ReactNode {
         <FormInputField label="Name" inputProps={{ ...register('name') }} error={errors.name?.message} />
         <FormInputField
           label="Email"
-          inputProps={{ ...register('email'), type: 'email', autoComplete: 'email' }}
+          inputProps={{ ...register('email'), type: 'text', autoComplete: 'email' }}
           error={errors.email?.message}
         />
 

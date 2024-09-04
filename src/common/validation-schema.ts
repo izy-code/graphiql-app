@@ -5,6 +5,7 @@ import {
   EMAIL_REGEX,
   LOWERCASE_LETTER_REGEX,
   MIN_PASSWORD_LENGTH,
+  NAME_REGEX,
   NUMBER_REGEX,
   SPECIAL_CHARACTER_REGEX,
   UPPERCASE_LETTER_REGEX,
@@ -20,9 +21,7 @@ const passwordStringSchema = string()
   .min(MIN_PASSWORD_LENGTH, `Password must be at least ${MIN_PASSWORD_LENGTH} characters`);
 
 export const registrationSchema = object().shape({
-  name: string()
-    .required('Name is required')
-    .matches(/^\p{Lu}/u, 'Name must start with a capital letter'),
+  name: string().required('Name is required').matches(NAME_REGEX, 'Name must start with a capital letter'),
   email: emailStringSchema,
   password: passwordStringSchema,
   passwordConfirm: string()
