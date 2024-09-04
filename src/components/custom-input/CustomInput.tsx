@@ -10,26 +10,41 @@ interface ICustomInput {
   label: string;
   variant: 'standard' | 'filled' | 'outlined';
   width?: string;
+  value: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
 }
 
 export default function CustomInput({
   label,
   variant = 'standard',
   width = '420px',
+  value = '',
   onChange,
+  onBlur,
 }: ICustomInput): ReactNode {
   return (
     <Box
       component="form"
       sx={{
-        '& > :not(style)': { m: 1, width },
+        m: 1,
+        width,
       }}
       noValidate
       autoComplete="off"
       className={styles.inputContainer}
     >
-      <TextField label={label} variant={variant} className={styles.input} onChange={onChange} />
+      <TextField
+        label={label}
+        variant={variant}
+        className={styles.input}
+        value={value}
+        onChange={onChange}
+        onBlur={onBlur}
+        sx={{
+          width,
+        }}
+      />
     </Box>
   );
 }
