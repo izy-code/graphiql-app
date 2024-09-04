@@ -21,6 +21,7 @@
 }
 
 .title {
+  margin-inline: auto;
   color: var(--color-text-light);
 }
 
@@ -42,13 +43,19 @@
   margin-bottom: 30px;
 }
 
+.response {
+  width: 80%;
+}
+
 .sectionTitle {
   position: absolute;
   top: -52px;
-  left: 35%;
-  width: 200px;
+  left: 50%;
+  width: fit-content;
+  padding-inline: 20px;
   text-align: center;
   background-color: var(--color-bg-page);
+  transform: translateX(-50%);
 }
 
 
@@ -61,11 +68,11 @@
   flex-flow: column nowrap;
   gap: 40px;
   justify-content: start;
-  align-items: center;
+  align-items: start;
   width: 100%;
 
   & input {
-    width: 65%;
+    width: 100%;
     height: 20px;
     border: 1px solid var(--background-color);
     border-radius: 5px;
@@ -79,3 +86,6 @@
   align-items: baseline;
 }
 
+.requestButton {
+  margin-inline: auto;
+}
