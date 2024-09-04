@@ -7,8 +7,10 @@
   width: 100%;
   min-width: 300px;
   max-width: 100%;
-  height: 73vh;
+  min-height: 73vh;
+  max-height: max-content;
   margin: auto;
+  margin-bottom: 30px;
   font-family: var(--primary-font);
   text-align: center;
   border-radius: 10px;
@@ -70,7 +72,7 @@
 
   & .requestsStrings {
     display: flex;
-    flex-flow: column nowrap;
+    flex-flow: column-reverse nowrap;
     gap: 20px;
     justify-content: center;
     align-items: center;

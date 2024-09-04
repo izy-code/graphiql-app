@@ -9,13 +9,30 @@ import * as React from 'react';
 import { LocalStorageKeys } from '@/common/enums.ts';
 import { AuthRoute } from '@/components/auth-route/AuthRoute';
 import ClientTable from '@/components/client-table/ClientTable';
-import type { IData } from '@/components/client-table/types.ts';
+import type { IDataWithId } from '@/components/client-table/types.ts';
 import CustomInput from '@/components/custom-input/CustomInput';
 import CustomTextarea from '@/components/custom-textarea/CustomTextarea';
 import MethodButtons from '@/components/method-buttons/MethodButtons';
 import { decodeBase64, encodeBase64 } from '@/utils/base-code';
 
 import styles from './Rest.module.scss';
+
+const convertToHeadersObject = (data: IDataWithId[]): { [key: string]: string } =>
+  Object.fromEntries(data.filter(({ key, value }) => key.trim() && value.trim()).map(({ key, value }) => [key, value]));
+
+const replaceVariables = (text: string, variables: IDataWithId[]): string => {
+  const variableMap = Object.fromEntries(
+    variables.filter(({ key, value }) => key.trim() && value.trim()).map(({ key, value }) => [key, value]),
+  );
+
+  let result = text;
+  Object.entries(variableMap).forEach(([variableKey, variableValue]) => {
+    const variablePlaceholder = `{{${variableKey}}}`;
+    result = result.replace(new RegExp(variablePlaceholder, 'g'), variableValue);
+  });
+
+  return result.trim();
+};
 
 function Rest(): ReactNode {
   const router = useRouter();
@@ -24,8 +41,8 @@ function Rest(): ReactNode {
   const [body, setBody] = React.useState('');
   const [endpoint, setEndpoint] = React.useState('');
   const [method, setMethod] = React.useState('GET');
-  const [headers, setHeaders] = React.useState<IData[]>([]);
-  const [variables, setVariables] = React.useState<IData[]>([]);
+  const [headers, setHeaders] = React.useState<IDataWithId[]>([]);
+  const [variables, setVariables] = React.useState<IDataWithId[]>([]);
   const [status, setStatus] = React.useState<number | null>(null);
   const [responseBody, setResponseBody] = React.useState('');
 
@@ -39,7 +56,7 @@ function Rest(): ReactNode {
       setBody(decodeBase64(bodyParam || '') || '');
       try {
         const decodedHeaders = decodeBase64(headersParam || '');
-        const headersArray: IData[] = JSON.parse(decodedHeaders) as IData[];
+        const headersArray: IDataWithId[] = JSON.parse(decodedHeaders) as IDataWithId[];
         setHeaders(headersArray);
       } catch (jsonError) {
         setHeaders([]);
@@ -49,15 +66,14 @@ function Rest(): ReactNode {
 
   const handleRequest = async (): Promise<void> => {
     try {
-      const validHeaders = headers.filter(({ key, value }) => key.trim() && value.trim());
-
+      const validHeaders = convertToHeadersObject(headers);
       const options: RequestInit = {
         method,
-        headers: Object.fromEntries(validHeaders.map(({ key, value }) => [key, value])),
+        headers: validHeaders,
       };
 
       if (method !== 'GET' && body) {
-        options.body = body;
+        options.body = JSON.stringify(JSON.parse(replaceVariables(body, variables)));
       }
       const response = await fetch(endpoint, options);
       const data: unknown = await response.json();
@@ -67,19 +83,45 @@ function Rest(): ReactNode {
       setStatus(500);
       setResponseBody(JSON.stringify({ error }, null, 2));
     }
-    const urlToSave = `/rest/${method}/${encodeBase64(endpoint)}/${encodeBase64(JSON.stringify(headers))}/${encodeBase64(body)}`;
+    const urlToSave = `/rest/${method}/${encodeBase64(endpoint)}/${encodeBase64(JSON.stringify(headers))}/${encodeBase64(replaceVariables(body, variables))}`;
     const existingUrls = JSON.parse(localStorage.getItem(LocalStorageKeys.URLS_RSS_REQUEST) || '[]') as string[];
     existingUrls.push(urlToSave);
     localStorage.setItem(LocalStorageKeys.URLS_RSS_REQUEST, JSON.stringify(existingUrls));
   };
 
+  // const handleUrlChange = (): void => {
+  //   const encodedEndpoint = encodeBase64(endpoint);
+  //   const encodedBody = encodeBase64(body);
+  //   const encodedHeaders = encodeBase64(JSON.stringify(headers));
+  //   router.push(`/rest/${method}/${encodedEndpoint}/${encodedHeaders}/${encodedBody}`);
+  // };
+
   const handleMethodChange = (newMethod: string): void => {
     setMethod(newMethod);
+    // handleUrlChange();
     const encodedEndpoint = encodeBase64(endpoint);
-    const encodedBody = encodeBase64(body);
+    const encodedBody = encodeBase64(replaceVariables(body, variables));
     const encodedHeaders = encodeBase64(JSON.stringify(headers));
     router.push(`/rest/${newMethod}/${encodedEndpoint}/${encodedHeaders}/${encodedBody}`);
   };
+
+  // const handleEndUrlInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  //   setEndpoint(e.target.value);
+  //   const encodedEndpoint = encodeBase64(endpoint);
+  //   const encodedBody = encodeBase64(replaceVariables(body, variables));
+  //   const encodedHeaders = encodeBase64(JSON.stringify(headers));
+  //   router.push(`/rest/${newMethod}/${encodedEndpoint}/${encodedHeaders}/${encodedBody}`);
+  // };
+
+  // const handleHeaderChange = (newHeaders: IDataWithId[]): void => {
+  //   setHeaders(newHeaders);
+  //   handleUrlChange();
+  // };
+
+  // const handleTextareaBlur = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  //   setBody(e.target.value);
+  //   handleUrlChange();
+  // };
 
   return (
     <div className={styles.page}>
@@ -87,7 +129,7 @@ function Rest(): ReactNode {
         <h1 className={styles.title}>REST Client</h1>
         <div className={styles.items}>
           <h2 className={styles.sectionTitle}>URL</h2>
-          <MethodButtons method={method} onMethodChange={handleMethodChange} onBlur={handleRequest} />
+          <MethodButtons method={method} onMethodChange={handleMethodChange} />
           <CustomInput
             label="Endpoint URL"
             variant="standard"
@@ -102,7 +144,12 @@ function Rest(): ReactNode {
           <ClientTable title="Variable" tableInfo={variables} onChange={setVariables} />
           <div className={styles.item}>
             <h4>Body: </h4>
-            <CustomTextarea label="Body" value={body} onChange={(e) => setBody(e.target.value)} />
+            <CustomTextarea
+              label="Body"
+              value={body}
+              onChange={(e) => setBody(e.target.value)}
+              // onBlur={handleTextareaBlur}
+            />
           </div>
           <div className={styles.center}>
             <Button className={styles.button} variant="contained" color="primary" onClick={handleRequest}>

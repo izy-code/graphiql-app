@@ -53,7 +53,6 @@ export default function ClientTable({ title, tableInfo, onChange }: ITableProps)
     onChange(newData.length === 0 ? [{ id: generateUniqueId(), key: '', value: '' }] : newData);
   };
 
-  // Ensure there's always at least one empty row when tableInfo is empty
   React.useEffect(() => {
     if (tableInfo.length === 0) {
       onChange([{ id: generateUniqueId(), key: '', value: '' }]);

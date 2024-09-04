@@ -5,7 +5,7 @@ import type { ReactNode } from 'react';
 import * as React from 'react';
 
 import { AuthRoute } from '@/components/auth-route/AuthRoute';
-import type { IData } from '@/components/client-table/types.ts';
+import type { IDataWithId } from '@/components/client-table/types.ts';
 
 import ClientTable from '../../components/client-table/ClientTable.tsx';
 import CustomInput from '../../components/custom-input/CustomInput.tsx';
@@ -19,7 +19,7 @@ function GraphiQl(): ReactNode {
   const [responseBody] = React.useState('{}');
   const [endpoint, setEndpoint] = React.useState('');
   const [sdl, setSdl] = React.useState('');
-  const [headers, setHeaders] = React.useState<IData[]>([]);
+  const [headers, setHeaders] = React.useState<IDataWithId[]>([]);
 
   return (
     <div className={styles.page}>
