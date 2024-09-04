@@ -11,9 +11,10 @@ interface ICustomInput {
   value: string;
   width?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
 }
 
-export default function CustomTextarea({ label, value, width = '420px', onChange }: ICustomInput): ReactNode {
+export default function CustomTextarea({ label, value, width = '100%', onChange, onBlur }: ICustomInput): ReactNode {
   return (
     <Box
       component="form"
@@ -28,10 +29,12 @@ export default function CustomTextarea({ label, value, width = '420px', onChange
         label={label}
         fullWidth
         multiline
-        rows={4}
+        minRows={1}
+        maxRows={Infinity}
         sx={{ mt: 2 }}
         value={value}
         onChange={onChange}
+        onBlur={onBlur}
         className={styles.input}
       />
     </Box>
