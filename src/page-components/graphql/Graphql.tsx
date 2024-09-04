@@ -6,11 +6,12 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import { type ReactNode, useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 
-import { ProtectedPaths } from '@/common/enums.ts';
+import { LocalStorageKeys, ProtectedPaths } from '@/common/enums.ts';
 import { makeRequest } from '@/common/graphQlApi.ts';
 import { AuthRoute } from '@/components/auth-route/AuthRoute';
 import type { IData } from '@/components/client-table/types.ts';
 import { CustomButton } from '@/components/custom-button/CustomButton.tsx';
+import { useLocalStorage } from '@/hooks/useLocalStorage.ts';
 import { useCurrentLocale } from '@/locales/client.ts';
 import { decodeBase64, encodeBase64, generateUniqueId } from '@/utils/utils.ts';
 
@@ -24,30 +25,29 @@ interface RequestBody {
   variables: string;
 }
 
+const NO_ENDPOINT = 'no-endpoint-provided';
+
 function GraphQl(): ReactNode {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const locale = useCurrentLocale();
+  const { getStoredValue, setStoredValue } = useLocalStorage();
 
   const [query, setQuery] = useState('');
   const [variables, setVariables] = useState('');
-  const [status, setStatus] = useState('');
-  const [responseBody, setResponseBody] = useState('');
+  const [status, setStatus] = useState('N/A');
+  const [responseBody, setResponseBody] = useState('{}');
   const [endpoint, setEndpoint] = useState('');
   const [sdl, setSdl] = useState('');
   const [headers, setHeaders] = useState<IData[]>([]);
   const didMount = useRef(false);
-  console.log(didMount.current);
-  console.log(pathname);
-  console.log('headers', headers);
 
   useEffect(() => {
     if (!didMount.current) {
-      console.log('did mount');
       const pathParts: string[] = pathname.split('/').filter((_, index) => index > 2);
       const [endpointPart, requestBodyPart] = pathParts;
 
-      if (endpointPart) {
+      if (endpointPart && endpointPart !== NO_ENDPOINT) {
         const decodedEndpoint = decodeBase64(endpointPart);
         setEndpoint(decodedEndpoint);
         setSdl(`${decodedEndpoint}?sdl`);
@@ -73,7 +73,11 @@ function GraphQl(): ReactNode {
     }
   }, [pathname, searchParams]);
 
-  const urlStart = `/${locale}${ProtectedPaths.GRAPHQL}/`;
+  const replaceUrl = (urlEnding: string, urlStart = `/${locale}${ProtectedPaths.GRAPHQL}/`): void => {
+    window.history.replaceState(null, '', `${urlStart}${urlEnding}`);
+  };
+
+  const getEncodedEndpoint = (): string => (endpoint ? encodeBase64(endpoint) : NO_ENDPOINT);
 
   const getEncodedRequestBody = (): string => {
     const requestBody = JSON.stringify({
@@ -109,10 +113,17 @@ function GraphQl(): ReactNode {
 
     setStatus(statusCode!.toString());
     setResponseBody(JSON.stringify(data, null, 2));
+    window.history.pushState(null, '', window.location.href);
+
+    const requestsArray = (getStoredValue(LocalStorageKeys.URLS_RSS_REQUEST) as string[]) || [];
+    const newRequestsArray = Array.from(new Set([...requestsArray, window.location.href]));
+    setStoredValue(LocalStorageKeys.URLS_RSS_REQUEST, newRequestsArray);
   };
 
   const handleEndpointChange = (evt: React.ChangeEvent<HTMLInputElement>): void => {
     setEndpoint(evt.target.value);
+
+    const encodedEndpoint = evt.target.value ? encodeBase64(evt.target.value) : NO_ENDPOINT;
 
     if (evt.target.value) {
       setSdl(`${evt.target.value}?sdl`);
@@ -121,34 +132,26 @@ function GraphQl(): ReactNode {
     }
 
     if (query || variables) {
-      window.history.replaceState(
-        null,
-        '',
-        `${urlStart}${encodeBase64(evt.target.value)}/${getEncodedRequestBody()}${getEncodedHeaders()}`,
-      );
+      replaceUrl(`${encodedEndpoint}/${getEncodedRequestBody()}${getEncodedHeaders()}`);
       return;
     }
 
-    window.history.replaceState(null, '', `${urlStart}${encodeBase64(evt.target.value)}${getEncodedHeaders()}`);
+    replaceUrl(`${encodedEndpoint}${getEncodedHeaders()}`);
   };
 
   const handleJsonEditorBlur = (): void => {
     if (!query && !variables) {
-      window.history.replaceState(null, '', `${urlStart}${encodeBase64(endpoint)}${getEncodedHeaders()}`);
+      replaceUrl(`${getEncodedEndpoint()}${getEncodedHeaders()}`);
       return;
     }
 
-    window.history.replaceState(
-      null,
-      '',
-      `${urlStart}${encodeBase64(endpoint)}/${getEncodedRequestBody()}${getEncodedHeaders()}`,
-    );
+    replaceUrl(`${getEncodedEndpoint()}/${getEncodedRequestBody()}${getEncodedHeaders()}`);
   };
 
   const handleHeadersChange = (changedHeaders: IData[]): void => {
     setHeaders(changedHeaders);
 
-    window.history.replaceState(null, '', `${pathname}${getEncodedHeaders(changedHeaders)}`);
+    replaceUrl(getEncodedHeaders(changedHeaders), pathname);
   };
 
   return (

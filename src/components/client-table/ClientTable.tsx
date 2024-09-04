@@ -53,12 +53,6 @@ export default function ClientTable({ title, tableInfo, onChange }: ITableProps)
     onChange(newData.length === 0 ? [{ id: generateUniqueId(), key: '', value: '' }] : newData);
   };
 
-  React.useEffect(() => {
-    if (tableInfo.length === 0) {
-      onChange([{ id: generateUniqueId(), key: '', value: '' }]);
-    }
-  }, [tableInfo, onChange]);
-
   return (
     <div className={styles.container}>
       <div>

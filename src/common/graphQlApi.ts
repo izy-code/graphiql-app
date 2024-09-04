@@ -56,7 +56,7 @@ export const makeRequest = async (
     let parsedVariables = {};
 
     try {
-      parsedVariables = JSON.parse(variables) as object;
+      parsedVariables = JSON.parse(variables.trim() || '{}') as object;
     } catch (error) {
       return { errorMessage: 'Variables field is not valid JSON' };
     }
