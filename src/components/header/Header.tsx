@@ -47,16 +47,18 @@ export function Header(): ReactNode {
         <div className={styles.right}>
           <FlagButtons />
           {user ? (
-            <Button onClick={logOut}>Sign out</Button>
+            <Button className={styles.signElement} onClick={logOut}>
+              Sign out
+            </Button>
           ) : (
             <>
               {!pathname.includes(NonProtectedPaths.SIGN_IN) && (
-                <Link className={styles.footer_items} href={NonProtectedPaths.SIGN_IN}>
+                <Link className={styles.signElement} href={NonProtectedPaths.SIGN_IN}>
                   Sign in
                 </Link>
               )}
               {!pathname.includes(NonProtectedPaths.SIGN_UP) && (
-                <Link className={styles.footer_items} href={NonProtectedPaths.SIGN_UP}>
+                <Link className={styles.signElement} href={NonProtectedPaths.SIGN_UP}>
                   Sign up
                 </Link>
               )}
