@@ -4,6 +4,7 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import { type ReactNode, useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
 
+import { ProtectedPaths } from '@/common/enums';
 import { AuthRoute } from '@/components/auth-route/AuthRoute';
 import type { IData } from '@/components/client-table/types.ts';
 import GraphqlParamsContainer from '@/components/graphql-params-container/GraphqlParamsContainer';
@@ -11,6 +12,8 @@ import GraphqlUrlFieldset from '@/components/graphql-url-fieldset/GraphqlUrlFiel
 import ResponseContainer from '@/components/response-container/ResponseContainer';
 import SchemaContainer from '@/components/schema-container/SchemaContainer.tsx';
 import { useAppDispatch } from '@/hooks/store-hooks';
+import { useEncodeUrl } from '@/hooks/useEncodeUrl';
+import { useCurrentLocale } from '@/locales/client';
 import { setEndpoint, setHeaders, setQuery, setSchemaUrl, setVariables } from '@/store/graphql-slice/graphql-slice';
 import { decodeBase64, generateUniqueId } from '@/utils/utils.ts';
 
@@ -28,6 +31,8 @@ function GraphQl(): ReactNode {
   const searchParams = useSearchParams();
   const dispatch = useAppDispatch();
   const didMount = useRef(false);
+  const locale = useCurrentLocale();
+  const { replaceCompleteUrl } = useEncodeUrl();
 
   useEffect(() => {
     if (!didMount.current) {
@@ -40,11 +45,14 @@ function GraphQl(): ReactNode {
         dispatch(setSchemaUrl(`${decodedEndpoint}?sdl`));
       }
 
-      const decodedHeaders: IData[] = [];
-      searchParams.forEach((value, key) => {
-        decodedHeaders.push({ id: generateUniqueId(), key, value: decodeURIComponent(value) });
-      });
-      dispatch(setHeaders(decodedHeaders));
+      if (pathname !== `/${locale}${ProtectedPaths.GRAPHQL}`) {
+        const decodedHeaders: IData[] = [];
+
+        searchParams.forEach((value, key) => {
+          decodedHeaders.push({ id: generateUniqueId(), key, value: decodeURIComponent(value) });
+        });
+        dispatch(setHeaders(decodedHeaders));
+      }
 
       if (requestBodyPart) {
         try {
@@ -56,9 +64,11 @@ function GraphQl(): ReactNode {
         }
       }
 
+      replaceCompleteUrl();
+
       didMount.current = true;
     }
-  }, [pathname, searchParams, dispatch]);
+  }, [pathname, searchParams, dispatch, replaceCompleteUrl, locale]);
 
   return (
     <div className={styles.page}>

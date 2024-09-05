@@ -14,6 +14,7 @@ export const useEncodeUrl = (): {
   getEncodedRequestBody: () => string;
   getEncodedHeaders: (headers?: IData[]) => string;
   replaceUrl: (urlEnding: string, urlStart?: string) => void;
+  replaceCompleteUrl: () => void;
 } => {
   const { endpoint, query, variables, headers } = useAppSelector((state: RootState) => state.graphql);
   const locale = useCurrentLocale();
@@ -51,10 +52,22 @@ export const useEncodeUrl = (): {
     [headers],
   );
 
+  const replaceCompleteUrl = useCallback((): void => {
+    if (window.location.pathname === `/${locale}${ProtectedPaths.GRAPHQL}` && !window.location.search) {
+      if (query || variables) {
+        replaceUrl(`${getEncodedEndpoint()}/${getEncodedRequestBody()}${getEncodedHeaders()}`);
+        return;
+      }
+
+      replaceUrl(`${getEncodedEndpoint()}${getEncodedHeaders()}`);
+    }
+  }, [getEncodedEndpoint, getEncodedHeaders, getEncodedRequestBody, query, replaceUrl, variables, locale]);
+
   return {
     getEncodedEndpoint,
     getEncodedRequestBody,
     getEncodedHeaders,
     replaceUrl,
+    replaceCompleteUrl,
   };
 };

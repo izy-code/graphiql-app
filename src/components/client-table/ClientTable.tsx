@@ -50,7 +50,7 @@ export default function ClientTable({ title, tableInfo, onChange }: ITableProps)
 
   const handleDeleteMode = (index: number): void => {
     const newData = tableInfo.filter((_, i) => i !== index);
-    onChange(newData.length === 0 ? [{ id: generateUniqueId(), key: '', value: '' }] : newData);
+    onChange(newData);
   };
 
   return (
