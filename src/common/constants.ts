@@ -4,3 +4,5 @@ export const LOWERCASE_LETTER_REGEX = /\p{Ll}/u;
 export const UPPERCASE_LETTER_REGEX = /\p{Lu}/u;
 export const SPECIAL_CHARACTER_REGEX = /[-+:|/\\%*#@$!?^&]/;
 export const NUMBER_REGEX = /\d/;
+
+export const NO_ENDPOINT = 'no-endpoint-provided';
