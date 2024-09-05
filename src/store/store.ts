@@ -1,11 +1,24 @@
 import type { Store } from '@reduxjs/toolkit';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
+import { USER_LOGOUT } from '@/common/constants';
+
 import graphqlReducer from './graphql-slice/graphql-slice';
 
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
   graphql: graphqlReducer,
 });
+
+const rootReducer: typeof appReducer = (
+  state: RootState | Partial<RootState> | undefined,
+  action: Parameters<typeof appReducer>[1],
+): RootState => {
+  if (action.type === USER_LOGOUT) {
+    return appReducer(undefined, action);
+  }
+
+  return appReducer(state, action);
+};
 
 export const setupStore = (preloadedState?: Partial<RootState>): Store<RootState> =>
   configureStore({

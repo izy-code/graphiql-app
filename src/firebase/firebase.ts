@@ -71,7 +71,8 @@ export const signUp = async (name: string, email: string, password: string): Pro
 export const logOut = async (): Promise<void> => {
   try {
     await auth.signOut();
-    toast.success('You have been signed out');
+    localStorage.clear();
+    toast.success('You have been signed out. Local storage and Redux state cleared!');
   } catch (error) {
     showErrorToast(error);
   }

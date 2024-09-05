@@ -6,3 +6,4 @@ export const SPECIAL_CHARACTER_REGEX = /[-+:|/\\%*#@$!?^&]/;
 export const NUMBER_REGEX = /\d/;
 
 export const NO_ENDPOINT = 'no-endpoint-provided';
+export const USER_LOGOUT = 'user-logout-action';
