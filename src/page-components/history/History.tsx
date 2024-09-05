@@ -40,8 +40,10 @@ function History(): ReactNode {
                 return (
                   <div key={generateUniqueId()} className={styles.requestItem}>
                     <Link className={styles.oneLine} href={request}>
-                      <div>{`[${methodParam}`}</div>
-                      <div>{`${decodedEndpoint}]`}</div>
+                      <p>[</p>
+                      <p className={styles.method}>{`${methodParam}`}</p>
+                      <p className={styles.url}>{`${decodedEndpoint}`}</p>
+                      <p>]</p>
                     </Link>
                   </div>
                 );
