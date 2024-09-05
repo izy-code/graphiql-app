@@ -1,19 +1,8 @@
 'use server';
 
-import { getIntrospectionQuery, type IntrospectionQuery } from 'graphql';
-import { gql, request } from 'graphql-request';
+import { getIntrospectionQuery, type IntrospectionSchema } from 'graphql';
 
 import type { IData } from '@/components/client-table/types.ts';
-
-export interface QueryParams {
-  query: string;
-  variables?: string | null;
-  headers?: string | null;
-}
-
-interface ParsedResponse {
-  data?: object;
-}
 
 export interface GraphQLResponseData {
   status?: number;
@@ -21,24 +10,64 @@ export interface GraphQLResponseData {
   errorMessage?: string;
 }
 
-export const getAPISchema = async (
-  url: string,
-): Promise<{ response: IntrospectionQuery | null; error: string | null }> => {
+export interface SchemaResponseData {
+  data?: IntrospectionSchema;
+  errorMessage?: string;
+}
+
+const createHeadersObject = (headers: IData[] = []): Record<string, string> =>
+  headers.reduce(
+    (acc, header) => {
+      if (header.key.trim() && header.value.trim()) {
+        acc[header.key] = header.value;
+      }
+      return acc;
+    },
+    {} as Record<string, string>,
+  );
+
+export const getSchema = async (endpoint: string, headers: IData[] = []): Promise<SchemaResponseData> => {
   try {
-    const response = await request<IntrospectionQuery>(
-      url,
-      gql`
-        ${getIntrospectionQuery()}
-      `,
-    );
-    return { response, error: null };
-  } catch (error) {
-    if (error instanceof Error) {
-      const { message } = error;
-      return { response: null, error: `During the SDL request to ${url} an error occurred:${message}` };
+    if (!endpoint) {
+      return { errorMessage: 'No schema endpoint provided' };
     }
 
-    throw error;
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...createHeadersObject(headers),
+      },
+      body: JSON.stringify({ query: getIntrospectionQuery() }),
+    });
+
+    const responseBody = (await response.json()) as { data?: object; errors?: object };
+
+    if ('errors' in responseBody && Array.isArray(responseBody.errors) && responseBody.errors.length > 0) {
+      return { errorMessage: 'Response body contains errors' };
+    }
+
+    if (response.ok) {
+      if ('data' in responseBody && responseBody.data && '__schema' in responseBody.data) {
+        return { data: responseBody.data.__schema as IntrospectionSchema };
+      }
+
+      return {
+        errorMessage: 'Unknown response structure: no "data" or "__schema" fields. Check endpoint and headers.',
+      };
+    }
+
+    return { errorMessage: `Fetch failed with status code: ${response.status}` };
+  } catch (error) {
+    if (error instanceof Error) {
+      if (error.message === 'fetch failed') {
+        return { errorMessage: 'Failed to fetch schema' };
+      }
+
+      return { errorMessage: error.message };
+    }
+
+    return { errorMessage: 'Unknown error occurred while making the request' };
   }
 };
 
@@ -61,21 +90,11 @@ export const getResponse = async (
       return { errorMessage: 'Variables field is not valid JSON' };
     }
 
-    const headersObject = headers.reduce(
-      (acc, header) => {
-        if (header.key.trim() && header.value.trim()) {
-          acc[header.key] = header.value;
-        }
-        return acc;
-      },
-      {} as Record<string, string>,
-    );
-
     const response = await fetch(endpoint, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        ...headersObject,
+        ...createHeadersObject(headers),
       },
       body: JSON.stringify({
         query,
@@ -83,19 +102,27 @@ export const getResponse = async (
       }),
     });
 
-    const responseData = (await response.json()) as ParsedResponse;
+    const responseBody = (await response.json()) as { data?: object; errors?: object };
+
+    if ('errors' in responseBody && Array.isArray(responseBody.errors) && responseBody.errors.length > 0) {
+      return { errorMessage: 'Response body contains errors' };
+    }
 
     if (response.ok) {
-      if (!('data' in responseData)) {
+      if (!('data' in responseBody)) {
         return { errorMessage: 'Unknown response structure: no data field. Check endpoint and request params.' };
       }
 
-      return { status: response.status, data: responseData.data };
+      return { status: response.status, data: responseBody.data };
     }
 
-    return { status: response.status, data: responseData };
+    return { status: response.status, data: responseBody };
   } catch (error) {
     if (error instanceof Error) {
+      if (error.message === 'fetch failed') {
+        return { errorMessage: 'Failed to fetch data' };
+      }
+
       return { errorMessage: error.message };
     }
 
