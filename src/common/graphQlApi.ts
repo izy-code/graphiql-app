@@ -42,7 +42,7 @@ export const getAPISchema = async (
   }
 };
 
-export const makeRequest = async (
+export const getResponse = async (
   endpoint: string,
   query: string,
   variables = '{}',
@@ -63,7 +63,7 @@ export const makeRequest = async (
 
     const headersObject = headers.reduce(
       (acc, header) => {
-        if (header.key && header.value) {
+        if (header.key.trim() && header.value.trim()) {
           acc[header.key] = header.value;
         }
         return acc;

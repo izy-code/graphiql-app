@@ -6,7 +6,7 @@ import { type ReactNode } from 'react';
 import { LocalStorageKeys, ProtectedPaths } from '@/common/enums';
 import { AuthRoute } from '@/components/auth-route/AuthRoute';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
-import { decodeBase64 } from '@/utils/utils';
+import { decodeBase64, generateUniqueId } from '@/utils/utils';
 
 import styles from './History.module.scss';
 
@@ -38,7 +38,7 @@ function History(): ReactNode {
                 const decodedEndpoint = decodeBase64(encodedEndpoint);
 
                 return (
-                  <div key={request} className={styles.requestItem}>
+                  <div key={generateUniqueId()} className={styles.requestItem}>
                     <Link className={styles.oneLine} href={request}>
                       <div>{`[${methodParam}`}</div>
                       <div>{`${decodedEndpoint}]`}</div>

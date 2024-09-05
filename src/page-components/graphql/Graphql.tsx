@@ -7,7 +7,7 @@ import { type ReactNode, useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { LocalStorageKeys, ProtectedPaths } from '@/common/enums.ts';
-import { makeRequest } from '@/common/graphQlApi.ts';
+import { getResponse } from '@/common/graphQlApi.ts';
 import { AuthRoute } from '@/components/auth-route/AuthRoute';
 import type { IData } from '@/components/client-table/types.ts';
 import { CustomButton } from '@/components/custom-button/CustomButton.tsx';
@@ -104,7 +104,7 @@ function GraphQl(): ReactNode {
     setStatus('');
     setResponseBody('');
 
-    const { status: statusCode, data, errorMessage } = await makeRequest(endpoint, query, variables, headers);
+    const { status: statusCode, data, errorMessage } = await getResponse(endpoint, query, variables, headers);
 
     if (errorMessage) {
       toast.error(errorMessage);
@@ -116,8 +116,7 @@ function GraphQl(): ReactNode {
     window.history.pushState(null, '', window.location.href);
 
     const requestsArray = (getStoredValue(LocalStorageKeys.URLS_RSS_REQUEST) as string[]) || [];
-    const newRequestsArray = Array.from(new Set([...requestsArray, window.location.href]));
-    setStoredValue(LocalStorageKeys.URLS_RSS_REQUEST, newRequestsArray);
+    setStoredValue(LocalStorageKeys.URLS_RSS_REQUEST, [window.location.href, ...requestsArray]);
   };
 
   const handleEndpointChange = (evt: React.ChangeEvent<HTMLInputElement>): void => {
