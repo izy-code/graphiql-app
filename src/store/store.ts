@@ -1,16 +1,17 @@
 import type { Store } from '@reduxjs/toolkit';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
-import { exampleSlice } from './example/example-slice';
+import graphqlReducer from './graphql-slice/graphql-slice';
 
-const rootReducer = combineReducers({ example: exampleSlice.reducer });
+const rootReducer = combineReducers({
+  graphql: graphqlReducer,
+});
 
-export function setupStore(preloadedState?: Partial<RootState>): Store<RootState> {
-  return configureStore({
+export const setupStore = (preloadedState?: Partial<RootState>): Store<RootState> =>
+  configureStore({
     reducer: rootReducer,
     preloadedState,
   });
-}
 
 export const makeStore = () =>
   configureStore({
