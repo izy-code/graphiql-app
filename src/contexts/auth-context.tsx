@@ -62,7 +62,7 @@ export function AuthProvider({ children }: { children: ReactNode }): ReactNode {
       unsubscribe();
       clearInterval(intervalId);
     };
-  }, [router]);
+  }, [router, dispatch]);
 
   return (
     <AuthContext.Provider value={user}>
