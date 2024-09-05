@@ -64,6 +64,7 @@ export default function GraphqlUrlFieldset(): ReactNode {
 
     dispatch(setStatus(statusCode!.toString()));
     dispatch(setResponseBody(JSON.stringify(data, null, 2)));
+    toast.info('The request has been completed, look at the response body');
     window.history.pushState(null, '', window.location.href);
 
     const requestsArray = (getStoredValue(LocalStorageKeys.URLS_RSS_REQUEST) as string[]) || [];
@@ -83,6 +84,7 @@ export default function GraphqlUrlFieldset(): ReactNode {
 
     dispatch(setCurrentSchema(data as Draft<IntrospectionSchema>));
     dispatch(setIsSchemaShown(true));
+    toast.info('The request has been completed, look at the schema');
   };
 
   return (
