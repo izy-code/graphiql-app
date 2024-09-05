@@ -2,12 +2,13 @@
 
 import Box from '@mui/material/Box';
 import clsx from 'clsx';
+import type { IntrospectionSchema } from 'graphql';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { type ReactNode, useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { LocalStorageKeys, ProtectedPaths } from '@/common/enums.ts';
-import { getResponse } from '@/common/graphQlApi.ts';
+import { getResponse, getSchema } from '@/common/graphQlApi.ts';
 import { AuthRoute } from '@/components/auth-route/AuthRoute';
 import type { IData } from '@/components/client-table/types.ts';
 import { CustomButton } from '@/components/custom-button/CustomButton.tsx';
@@ -38,8 +39,10 @@ function GraphQl(): ReactNode {
   const [status, setStatus] = useState('N/A');
   const [responseBody, setResponseBody] = useState('{}');
   const [endpoint, setEndpoint] = useState('');
-  const [sdl, setSdl] = useState('');
+  const [schemaUrl, setSchemaUrl] = useState('');
   const [headers, setHeaders] = useState<IData[]>([]);
+  const [currentSchema, setCurrentSchema] = useState<IntrospectionSchema | null>(null);
+  const [isSchemaShown, setIsSchemaShown] = useState(false);
   const didMount = useRef(false);
 
   useEffect(() => {
@@ -50,7 +53,7 @@ function GraphQl(): ReactNode {
       if (endpointPart && endpointPart !== NO_ENDPOINT) {
         const decodedEndpoint = decodeBase64(endpointPart);
         setEndpoint(decodedEndpoint);
-        setSdl(`${decodedEndpoint}?sdl`);
+        setSchemaUrl(`${decodedEndpoint}?sdl`);
       }
 
       const decodedHeaders: IData[] = [];
@@ -119,15 +122,30 @@ function GraphQl(): ReactNode {
     setStoredValue(LocalStorageKeys.URLS_RSS_REQUEST, [window.location.href, ...requestsArray]);
   };
 
+  const handleSchemaRequest = async (): Promise<void> => {
+    setCurrentSchema(null);
+    setIsSchemaShown(false);
+
+    const { data, errorMessage } = await getSchema(schemaUrl, headers);
+
+    if (errorMessage) {
+      toast.error(errorMessage);
+      return;
+    }
+
+    setCurrentSchema(data!);
+    setIsSchemaShown(true);
+  };
+
   const handleEndpointChange = (evt: React.ChangeEvent<HTMLInputElement>): void => {
     setEndpoint(evt.target.value);
 
     const encodedEndpoint = evt.target.value ? encodeBase64(evt.target.value) : NO_ENDPOINT;
 
     if (evt.target.value) {
-      setSdl(`${evt.target.value}?sdl`);
+      setSchemaUrl(`${evt.target.value}?sdl`);
     } else {
-      setSdl('');
+      setSchemaUrl('');
     }
 
     if (query || variables) {
@@ -167,16 +185,31 @@ function GraphQl(): ReactNode {
             onChange={handleEndpointChange}
           />
           <CustomInput
-            label="SDL URL"
+            label="Schema URL"
             variant="outlined"
-            value={sdl}
+            value={schemaUrl}
             width="100%"
-            onChange={(e) => setSdl(e.target.value)}
+            onChange={(e) => setSchemaUrl(e.target.value)}
           />
-          <CustomButton className={styles.requestButton} onClick={handleRequest}>
-            Request
-          </CustomButton>
+          <div className={styles.buttonsContainer}>
+            <CustomButton onClick={handleRequest}>Request</CustomButton>
+            <CustomButton onClick={handleSchemaRequest} variant="secondary">
+              Schema request
+            </CustomButton>
+            {currentSchema && (
+              <CustomButton onClick={() => setIsSchemaShown((prev) => !prev)} variant="tertiary">
+                {isSchemaShown ? 'Hide schema' : 'Show schema'}
+              </CustomButton>
+            )}
+          </div>
         </div>
+
+        {isSchemaShown && (
+          <div className={styles.section}>
+            <h2 className={styles.sectionTitle}>Schema docs:</h2>
+          </div>
+        )}
+
         <div className={styles.section}>
           <div className={styles.item}>
             <h4>Query: </h4>
@@ -188,6 +221,7 @@ function GraphQl(): ReactNode {
               onChange={(e) => setQuery(e.target.value)}
             />
           </div>
+
           <h2 className={styles.sectionTitle}>Params</h2>
           <ClientTable title="Headers" tableInfo={headers} onChange={handleHeadersChange} />
           <div className={styles.item}>
@@ -202,6 +236,7 @@ function GraphQl(): ReactNode {
           </div>
         </div>
       </div>
+
       <div className={clsx(styles.section, styles.response)}>
         <h2 className={styles.sectionTitle}>Response</h2>
         <div className={styles.oneLine}>
