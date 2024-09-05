@@ -6,10 +6,10 @@ import { toast } from 'react-toastify';
 
 import { AuthRoute } from '@/components/auth-route/AuthRoute';
 import type { IData } from '@/components/client-table/types.ts';
-import ParamsContainer from '@/components/params-container/ParamsContainer.tsx';
+import GraphqlParamsContainer from '@/components/graphql-params-container/GraphqlParamsContainer';
+import GraphqlUrlFieldset from '@/components/graphql-url-fieldset/GraphqlUrlFieldset.tsx';
 import ResponseContainer from '@/components/response-container/ResponseContainer';
 import SchemaContainer from '@/components/schema-container/SchemaContainer.tsx';
-import UrlFieldset from '@/components/url-fieldset/UrlFieldset.tsx';
 import { useAppDispatch } from '@/hooks/store-hooks';
 import { setEndpoint, setHeaders, setQuery, setSchemaUrl, setVariables } from '@/store/graphql-slice/graphql-slice';
 import { decodeBase64, generateUniqueId } from '@/utils/utils.ts';
@@ -64,9 +64,9 @@ function GraphQl(): ReactNode {
     <div className={styles.page}>
       <div className={styles.container}>
         <h1 className={styles.title}>GraphiQl Client</h1>
-        <UrlFieldset />
+        <GraphqlUrlFieldset />
         <SchemaContainer />
-        <ParamsContainer />
+        <GraphqlParamsContainer />
       </div>
 
       <ResponseContainer />

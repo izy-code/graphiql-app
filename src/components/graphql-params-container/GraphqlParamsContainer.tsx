@@ -9,9 +9,9 @@ import type { RootState } from '@/store/store';
 
 import ClientTable from '../client-table/ClientTable.tsx';
 import type { IData } from '../client-table/types.ts';
-import styles from './ParamsContainer.module.scss';
+import styles from './GraphqlParamsContainer.module.scss';
 
-export default function ParamsContainer(): ReactNode {
+export default function GraphqlParamsContainer(): ReactNode {
   const pathname = usePathname();
   const dispatch = useAppDispatch();
   const { query, variables, headers } = useAppSelector((state: RootState) => state.graphql);

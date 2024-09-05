@@ -22,9 +22,9 @@ import type { RootState } from '@/store/store';
 import { encodeBase64 } from '@/utils/utils.ts';
 
 import CustomInput from '../custom-input/CustomInput.tsx';
-import styles from './UrlFieldset.module.scss';
+import styles from './GraphqlUrlFieldset.module.scss';
 
-export default function UrlFieldset(): ReactNode {
+export default function GraphqlUrlFieldset(): ReactNode {
   const { endpoint, schemaUrl, currentSchema, isSchemaShown, query, variables, headers } = useAppSelector(
     (state: RootState) => state.graphql,
   );
