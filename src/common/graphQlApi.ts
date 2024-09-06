@@ -1,6 +1,6 @@
 'use server';
 
-import { getIntrospectionQuery, type IntrospectionSchema } from 'graphql';
+import { getIntrospectionQuery, type IntrospectionQuery } from 'graphql';
 
 import type { IData } from '@/components/client-table/types.ts';
 
@@ -11,7 +11,7 @@ export interface GraphQLResponseData {
 }
 
 export interface SchemaResponseData {
-  data?: IntrospectionSchema;
+  data?: IntrospectionQuery;
   errorMessage?: string;
 }
 
@@ -49,7 +49,7 @@ export const getSchema = async (endpoint: string, headers: IData[] = []): Promis
 
     if (response.ok) {
       if ('data' in responseBody && responseBody.data && '__schema' in responseBody.data) {
-        return { data: responseBody.data.__schema as IntrospectionSchema };
+        return { data: responseBody.data as IntrospectionQuery };
       }
 
       return {
