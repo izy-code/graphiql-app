@@ -27,7 +27,8 @@ export default function CustomInput({
     <Box
       component="form"
       sx={{
-        '& > :not(style)': { m: 1, width },
+        m: 1,
+        width,
       }}
       noValidate
       autoComplete="off"
@@ -40,6 +41,9 @@ export default function CustomInput({
         value={value}
         onChange={onChange}
         onBlur={onBlur}
+        sx={{
+          width,
+        }}
       />
     </Box>
   );

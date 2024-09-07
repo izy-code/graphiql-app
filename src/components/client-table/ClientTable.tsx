@@ -14,15 +14,15 @@ import TextField from '@mui/material/TextField';
 import type { ReactNode } from 'react';
 import * as React from 'react';
 
-import CustomInput from '../custom-input/CustomInput';
+import { generateUniqueId } from '@/utils/utils.ts';
+
+import CustomInput from '../custom-input/CustomInput.tsx';
 import styles from './ClientTable.module.scss';
 import type { TableProps } from './types.ts';
 
 export default function ClientTable({ title, tableInfo, onChange }: TableProps): ReactNode {
   const [newKey, setNewKey] = React.useState<string>('');
   const [newValue, setNewValue] = React.useState<string>('');
-
-  const generateUniqueId = (): string => `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 
   const handleAddMode = (): void => {
     if (newKey.trim() && newValue.trim()) {
@@ -50,19 +50,13 @@ export default function ClientTable({ title, tableInfo, onChange }: TableProps):
 
   const handleDeleteMode = (index: number): void => {
     const newData = tableInfo.filter((_, i) => i !== index);
-    onChange(newData.length === 0 ? [{ id: generateUniqueId(), key: '', value: '' }] : newData);
+    onChange(newData);
   };
-
-  React.useEffect(() => {
-    if (tableInfo.length === 0) {
-      onChange([{ id: generateUniqueId(), key: '', value: '' }]);
-    }
-  }, [tableInfo, onChange]);
 
   return (
     <div className={styles.container}>
       <div>
-        <h4 className={styles.subtitle}>{title}s:</h4>
+        <h4 className={styles.subtitle}>{title}:</h4>
         <div className={styles.inputContainer}>
           <CustomInput
             label="Key"
@@ -83,46 +77,48 @@ export default function ClientTable({ title, tableInfo, onChange }: TableProps):
           </Button>
         </div>
       </div>
-      <TableContainer component={Paper} sx={{ mt: 2 }} className={styles.table}>
-        <Table sx={{ minWidth: 550 }} aria-label="table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Key</TableCell>
-              <TableCell align="center">Value</TableCell>
-              <TableCell align="right">Delete</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {tableInfo.map((rowData, index) => (
-              <TableRow key={rowData.id}>
-                <TableCell component="th" scope="row">
-                  <TextField
-                    className={styles.input}
-                    placeholder={`${title} Key`}
-                    value={rowData.key}
-                    onChange={(e) => handleChangeMode(index, 'key', e.target.value)}
-                    fullWidth
-                  />
-                </TableCell>
-                <TableCell align="right">
-                  <TextField
-                    className={styles.input}
-                    placeholder={`${title} Value`}
-                    value={rowData.value}
-                    onChange={(e) => handleChangeMode(index, 'value', e.target.value)}
-                    fullWidth
-                  />
-                </TableCell>
-                <TableCell align="right">
-                  <IconButton aria-label="delete" onClick={() => handleDeleteMode(index)} color="secondary">
-                    <DeleteIcon />
-                  </IconButton>
-                </TableCell>
+      {tableInfo.length > 0 && (
+        <TableContainer component={Paper} sx={{ mt: 2 }} className={styles.table}>
+          <Table sx={{ minWidth: 550 }} aria-label="table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Key</TableCell>
+                <TableCell align="center">Value</TableCell>
+                <TableCell align="right">Delete</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {tableInfo.map((rowData, index) => (
+                <TableRow key={rowData.id}>
+                  <TableCell component="th" scope="row">
+                    <TextField
+                      className={styles.input}
+                      placeholder={`${title} Key`}
+                      value={rowData.key}
+                      onChange={(e) => handleChangeMode(index, 'key', e.target.value)}
+                      fullWidth
+                    />
+                  </TableCell>
+                  <TableCell align="right">
+                    <TextField
+                      className={styles.input}
+                      placeholder={`${title} Value`}
+                      value={rowData.value}
+                      onChange={(e) => handleChangeMode(index, 'value', e.target.value)}
+                      fullWidth
+                    />
+                  </TableCell>
+                  <TableCell align="right">
+                    <IconButton aria-label="delete" onClick={() => handleDeleteMode(index)} color="secondary">
+                      <DeleteIcon />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
     </div>
   );
 }

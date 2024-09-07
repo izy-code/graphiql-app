@@ -8,6 +8,8 @@ import {
 } from 'firebase/auth';
 import { toast } from 'react-toastify';
 
+import { LOCAL_STORAGE_KEY } from '@/hooks/useLocalStorage';
+
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
@@ -71,7 +73,8 @@ export const signUp = async (name: string, email: string, password: string): Pro
 export const logOut = async (): Promise<void> => {
   try {
     await auth.signOut();
-    toast.success('You have been signed out');
+    localStorage.removeItem(LOCAL_STORAGE_KEY);
+    toast.success('You have been signed out. Local storage and Redux state cleared!');
   } catch (error) {
     showErrorToast(error);
   }

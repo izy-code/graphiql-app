@@ -9,6 +9,6 @@ export enum NonProtectedPaths {
 
 export enum ProtectedPaths {
   REST = '/GET',
-  GRAPHIQL = '/graphiql',
+  GRAPHQL = '/GRAPHQL',
   HISTORY = '/history',
 }
