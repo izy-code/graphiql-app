@@ -6,7 +6,7 @@ import { type ReactNode } from 'react';
 import { LocalStorageKeys, ProtectedPaths } from '@/common/enums';
 import { AuthRoute } from '@/components/auth-route/AuthRoute';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
-import { decodeBase64, generateUniqueId } from '@/utils/utils';
+import { decodeBase64 } from '@/utils/utils';
 
 import styles from './History.module.scss';
 
@@ -31,14 +31,15 @@ function History(): ReactNode {
           <div className={styles.section}>
             <h2 className={styles.sectionTitle}> Requests:</h2>
             <div className={styles.requestsStrings}>
-              {requests.map((request) => {
+              {requests.map((request, index) => {
                 const pathParts = request.split('/');
                 const methodParam = pathParts[4] || '';
                 const encodedEndpoint = pathParts[5] || '';
                 const decodedEndpoint = decodeBase64(encodedEndpoint);
+                const key = index;
 
                 return (
-                  <div key={generateUniqueId()} className={styles.requestItem}>
+                  <div key={key} className={styles.requestItem}>
                     <Link className={styles.oneLine} href={request}>
                       <p>[</p>
                       <p className={styles.method}>{`${methodParam}`}</p>
