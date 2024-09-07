@@ -34,13 +34,17 @@ const replaceVariables = (text: string, variables: ObjectWithId[]): string => {
   return result.trim();
 };
 
-function Rest(): ReactNode {
+interface RestProps {
+  initialMethod: string;
+}
+
+function Rest({ initialMethod }: RestProps): ReactNode {
   const router = useRouter();
   const pathname = usePathname();
 
   const [body, setBody] = React.useState('');
   const [endpoint, setEndpoint] = React.useState('');
-  const [method, setMethod] = React.useState('GET');
+  const [method, setMethod] = React.useState(initialMethod || 'GET');
   const [headers, setHeaders] = React.useState<ObjectWithId[]>([]);
   const [variables, setVariables] = React.useState<ObjectWithId[]>([]);
   const [status, setStatus] = React.useState<number | null>(null);
