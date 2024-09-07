@@ -1,5 +1,5 @@
 import type { Draft } from '@reduxjs/toolkit';
-import type { IntrospectionSchema } from 'graphql';
+import type { IntrospectionQuery } from 'graphql';
 import type { ReactNode } from 'react';
 import { toast } from 'react-toastify';
 
@@ -59,6 +59,7 @@ export default function GraphqlUrlFieldset(): ReactNode {
 
     if (errorMessage) {
       toast.error(errorMessage);
+      dispatch(setStatus(statusCode!));
       return;
     }
 
@@ -82,7 +83,7 @@ export default function GraphqlUrlFieldset(): ReactNode {
       return;
     }
 
-    dispatch(setCurrentSchema(data as Draft<IntrospectionSchema>));
+    dispatch(setCurrentSchema(data as Draft<IntrospectionQuery>));
     dispatch(setIsSchemaShown(true));
     toast.info('The request has been completed, look at the schema');
   };

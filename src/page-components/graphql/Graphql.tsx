@@ -1,21 +1,21 @@
 'use client';
 
-import { usePathname, useSearchParams } from 'next/navigation';
+import { notFound, usePathname, useSearchParams } from 'next/navigation';
 import { type ReactNode, useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
 
 import { ProtectedPaths } from '@/common/enums';
 import { AuthRoute } from '@/components/auth-route/AuthRoute';
-import type { IData } from '@/components/client-table/types.ts';
+import type { IData } from '@/components/client-table/types';
 import GraphqlParamsContainer from '@/components/graphql-params-container/GraphqlParamsContainer';
-import GraphqlUrlFieldset from '@/components/graphql-url-fieldset/GraphqlUrlFieldset.tsx';
+import GraphqlUrlFieldset from '@/components/graphql-url-fieldset/GraphqlUrlFieldset';
 import ResponseContainer from '@/components/response-container/ResponseContainer';
-import SchemaContainer from '@/components/schema-container/SchemaContainer.tsx';
+import SchemaContainer from '@/components/schema-container/SchemaContainer';
 import { useAppDispatch } from '@/hooks/store-hooks';
 import { useEncodeUrl } from '@/hooks/useEncodeUrl';
 import { useCurrentLocale } from '@/locales/client';
 import { setEndpoint, setHeaders, setQuery, setSchemaUrl, setVariables } from '@/store/graphql-slice/graphql-slice';
-import { decodeBase64, generateUniqueId } from '@/utils/utils.ts';
+import { decodeBase64, generateUniqueId } from '@/utils/utils';
 
 import styles from './Graphql.module.scss';
 
@@ -37,6 +37,11 @@ function GraphQl(): ReactNode {
   useEffect(() => {
     if (!didMount.current) {
       const pathParts: string[] = pathname.split('/').filter((_, index) => index > 2);
+
+      if (pathname.split('/').length > 4) {
+        notFound();
+      }
+
       const [endpointPart, requestBodyPart] = pathParts;
 
       if (endpointPart && endpointPart !== NO_ENDPOINT) {

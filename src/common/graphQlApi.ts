@@ -5,7 +5,7 @@ import { getIntrospectionQuery, type IntrospectionQuery } from 'graphql';
 import type { IData } from '@/components/client-table/types.ts';
 
 export interface GraphQLResponseData {
-  status?: number;
+  status?: string;
   data?: object;
   errorMessage?: string;
 }
@@ -113,19 +113,11 @@ export const getResponse = async (
         return { errorMessage: 'Unknown response structure: no data field. Check endpoint and request params.' };
       }
 
-      return { status: response.status, data: responseBody.data };
+      return { status: response.status.toString(), data: responseBody.data };
     }
 
-    return { status: response.status, data: responseBody };
-  } catch (error) {
-    if (error instanceof Error) {
-      if (error.message === 'fetch failed') {
-        return { errorMessage: 'Failed to fetch data' };
-      }
-
-      return { errorMessage: error.message };
-    }
-
-    return { errorMessage: 'Unknown error occurred while making the request' };
+    return { status: response.status.toString(), data: responseBody };
+  } catch {
+    return { errorMessage: 'Unknown error occurred while making the request', status: 'Fetch error' };
   }
 };
