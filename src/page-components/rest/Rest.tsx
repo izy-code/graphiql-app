@@ -68,6 +68,14 @@ function Rest({ initialMethod }: RestProps): ReactNode {
     }
   }, [pathname]);
 
+  // React.useEffect(() => {
+  //   const encodedEndpoint = encodeBase64(endpoint);
+  //   const encodedBody = encodeBase64(replaceVariables(body, variables));
+  //   const encodedHeaders = encodeBase64(JSON.stringify(headers));
+
+  //   router.push(`/${method}/${encodedEndpoint}/${encodedHeaders}/${encodedBody}`);
+  // }, [method, endpoint, headers, body, variables, router]);
+
   const handleRequest = async (): Promise<void> => {
     try {
       const validHeaders = convertToHeadersObject(headers);
@@ -87,18 +95,11 @@ function Rest({ initialMethod }: RestProps): ReactNode {
       setStatus(500);
       setResponseBody(JSON.stringify({ error }, null, 2));
     }
-    const urlToSave = `/rest/${method}/${encodeBase64(endpoint)}/${encodeBase64(JSON.stringify(headers))}/${encodeBase64(replaceVariables(body, variables))}`;
+    const urlToSave = `/${method}/${encodeBase64(endpoint)}/${encodeBase64(JSON.stringify(headers))}/${encodeBase64(replaceVariables(body, variables))}`;
     const existingUrls = JSON.parse(localStorage.getItem(LocalStorageKeys.URLS_RSS_REQUEST) || '[]') as string[];
     existingUrls.push(urlToSave);
     localStorage.setItem(LocalStorageKeys.URLS_RSS_REQUEST, JSON.stringify(existingUrls));
   };
-
-  // const handleUrlChange = (): void => {
-  //   const encodedEndpoint = encodeBase64(endpoint);
-  //   const encodedBody = encodeBase64(body);
-  //   const encodedHeaders = encodeBase64(JSON.stringify(headers));
-  //   router.push(`/rest/${method}/${encodedEndpoint}/${encodedHeaders}/${encodedBody}`);
-  // };
 
   const handleMethodChange = (newMethod: string): void => {
     setMethod(newMethod);
