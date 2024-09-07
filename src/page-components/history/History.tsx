@@ -6,7 +6,7 @@ import * as React from 'react';
 
 import { LocalStorageKeys, ProtectedPaths } from '@/common/enums';
 import { AuthRoute } from '@/components/auth-route/AuthRoute';
-import { decodeBase64 } from '@/utils/base-code';
+import { decodeBase64 } from '@/utils/utils.ts';
 
 import styles from './History.module.scss';
 
@@ -27,8 +27,8 @@ function History(): ReactNode {
       <h1 className={styles.historyTitle}>History</h1>
       {requests.length === 0 ? (
         <div className={styles.noRequests}>
-          <h2>You haven&apos;t executed any requests</h2>
-          <p>It&apos;s empty here. Try: </p>
+          <h2>You haven’t executed any requests</h2>
+          <p>It’s empty here. Try: </p>
           <div className={styles.buttonGroup}>
             <Link href={ProtectedPaths.REST}>REST Client</Link>
             <Link href={ProtectedPaths.GRAPHIQL}>GraphiQL Client</Link>

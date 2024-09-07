@@ -16,9 +16,9 @@ import * as React from 'react';
 
 import CustomInput from '../custom-input/CustomInput';
 import styles from './ClientTable.module.scss';
-import type { ITableProps } from './types.ts';
+import type { TableProps } from './types.ts';
 
-export default function ClientTable({ title, tableInfo, onChange }: ITableProps): ReactNode {
+export default function ClientTable({ title, tableInfo, onChange }: TableProps): ReactNode {
   const [newKey, setNewKey] = React.useState<string>('');
   const [newValue, setNewValue] = React.useState<string>('');
 

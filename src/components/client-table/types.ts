@@ -1,14 +1,14 @@
-export interface IData {
+export interface ObjectProps {
   key: string;
   value: string;
 }
 
-export interface IDataWithId extends IData {
+export interface ObjectWithId extends ObjectProps {
   id: string;
 }
 
-export interface ITableProps {
+export interface TableProps {
   title: string;
-  tableInfo: IDataWithId[];
-  onChange: (newData: IDataWithId[]) => void;
+  tableInfo: ObjectWithId[];
+  onChange: (newData: ObjectWithId[]) => void;
 }

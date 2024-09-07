@@ -9,18 +9,18 @@ import * as React from 'react';
 import { LocalStorageKeys } from '@/common/enums.ts';
 import { AuthRoute } from '@/components/auth-route/AuthRoute';
 import ClientTable from '@/components/client-table/ClientTable';
-import type { IDataWithId } from '@/components/client-table/types.ts';
+import type { ObjectWithId } from '@/components/client-table/types.ts';
 import CustomInput from '@/components/custom-input/CustomInput';
 import CustomTextarea from '@/components/custom-textarea/CustomTextarea';
 import MethodButtons from '@/components/method-buttons/MethodButtons';
-import { decodeBase64, encodeBase64 } from '@/utils/base-code';
+import { decodeBase64, encodeBase64 } from '@/utils/utils.ts';
 
 import styles from './Rest.module.scss';
 
-const convertToHeadersObject = (data: IDataWithId[]): { [key: string]: string } =>
+const convertToHeadersObject = (data: ObjectWithId[]): { [key: string]: string } =>
   Object.fromEntries(data.filter(({ key, value }) => key.trim() && value.trim()).map(({ key, value }) => [key, value]));
 
-const replaceVariables = (text: string, variables: IDataWithId[]): string => {
+const replaceVariables = (text: string, variables: ObjectWithId[]): string => {
   const variableMap = Object.fromEntries(
     variables.filter(({ key, value }) => key.trim() && value.trim()).map(({ key, value }) => [key, value]),
   );
@@ -41,8 +41,8 @@ function Rest(): ReactNode {
   const [body, setBody] = React.useState('');
   const [endpoint, setEndpoint] = React.useState('');
   const [method, setMethod] = React.useState('GET');
-  const [headers, setHeaders] = React.useState<IDataWithId[]>([]);
-  const [variables, setVariables] = React.useState<IDataWithId[]>([]);
+  const [headers, setHeaders] = React.useState<ObjectWithId[]>([]);
+  const [variables, setVariables] = React.useState<ObjectWithId[]>([]);
   const [status, setStatus] = React.useState<number | null>(null);
   const [responseBody, setResponseBody] = React.useState('');
 
@@ -56,7 +56,7 @@ function Rest(): ReactNode {
       setBody(decodeBase64(bodyParam || '') || '');
       try {
         const decodedHeaders = decodeBase64(headersParam || '');
-        const headersArray: IDataWithId[] = JSON.parse(decodedHeaders) as IDataWithId[];
+        const headersArray: ObjectWithId[] = JSON.parse(decodedHeaders) as ObjectWithId[];
         setHeaders(headersArray);
       } catch (jsonError) {
         setHeaders([]);
@@ -110,17 +110,23 @@ function Rest(): ReactNode {
   //   const encodedEndpoint = encodeBase64(endpoint);
   //   const encodedBody = encodeBase64(replaceVariables(body, variables));
   //   const encodedHeaders = encodeBase64(JSON.stringify(headers));
-  //   router.push(`/rest/${newMethod}/${encodedEndpoint}/${encodedHeaders}/${encodedBody}`);
+  //   router.push(`/rest/${method}/${e.target.value}/${encodedHeaders}/${encodedBody}`);
   // };
 
-  // const handleHeaderChange = (newHeaders: IDataWithId[]): void => {
+  // const handleHeaderChange = (newHeaders: ObjectWithId[]): void => {
   //   setHeaders(newHeaders);
-  //   handleUrlChange();
+  //   const encodedEndpoint = encodeBase64(endpoint);
+  //   const encodedBody = encodeBase64(replaceVariables(body, variables));
+  //   const encodedHeaders = encodeBase64(JSON.stringify(newHeaders));
+  //   router.push(`/rest/${method}/${encodedEndpoint}/${encodedHeaders}/${encodedBody}`);
   // };
 
   // const handleTextareaBlur = (e: React.ChangeEvent<HTMLInputElement>): void => {
   //   setBody(e.target.value);
-  //   handleUrlChange();
+  //   const encodedEndpoint = encodeBase64(endpoint);
+  //   const encodedBody = encodeBase64(replaceVariables(e.target.value, variables));
+  //   const encodedHeaders = encodeBase64(JSON.stringify(headers));
+  //   router.push(`/rest/${method}/${encodedEndpoint}/${encodedHeaders}/${encodedBody}`);
   // };
 
   return (
