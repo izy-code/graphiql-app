@@ -61,8 +61,8 @@ export default function MethodButtons({ method, onMethodChange, onBlur }: Method
           <MenuItem className={styles.option} value="HEAD">
             HEAD
           </MenuItem>
-          <MenuItem className={styles.option} value="OPTION">
-            OPTION
+          <MenuItem className={styles.option} value="OPTIONS">
+            OPTIONS
           </MenuItem>
         </Select>
       </FormControl>

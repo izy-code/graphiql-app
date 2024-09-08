@@ -2,7 +2,7 @@
 
 import { Button } from '@mui/material';
 import Box from '@mui/material/Box';
-import { usePathname, useRouter } from 'next/navigation';
+import { notFound, usePathname, useRouter } from 'next/navigation';
 import type { ReactNode } from 'react';
 import * as React from 'react';
 
@@ -52,6 +52,9 @@ function Rest({ initialMethod }: RestProps): ReactNode {
 
   React.useEffect(() => {
     const pathParts: string[] = pathname.split('/').filter((_, index) => index > 2);
+    if (pathParts.length >= 4) {
+      notFound();
+    }
     if (pathParts.length >= 3) {
       const [methodParam, endpointParam, headersParam, bodyParam] = pathParts;
 
@@ -107,7 +110,7 @@ function Rest({ initialMethod }: RestProps): ReactNode {
     const encodedEndpoint = encodeBase64(endpoint);
     const encodedBody = encodeBase64(replaceVariables(body, variables));
     const encodedHeaders = encodeBase64(JSON.stringify(headers));
-    router.push(`/rest/${newMethod}/${encodedEndpoint}/${encodedHeaders}/${encodedBody}`);
+    router.push(`/${newMethod}/${encodedEndpoint}/${encodedHeaders}/${encodedBody}`);
   };
 
   // const handleEndUrlInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {

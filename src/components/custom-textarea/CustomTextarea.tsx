@@ -1,6 +1,5 @@
 'use client';
 
-import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import type { ReactNode } from 'react';
 
@@ -16,27 +15,17 @@ interface ICustomInput {
 
 export default function CustomTextarea({ label, value, width = '100%', onChange, onBlur }: ICustomInput): ReactNode {
   return (
-    <Box
-      component="form"
-      sx={{
-        '& > :not(style)': { m: 1, width },
-      }}
-      noValidate
-      autoComplete="off"
-      className={styles.inputContainer}
-    >
-      <TextField
-        label={label}
-        fullWidth
-        multiline
-        minRows={1}
-        maxRows={Infinity}
-        sx={{ mt: 2 }}
-        value={value}
-        onChange={onChange}
-        onBlur={onBlur}
-        className={styles.input}
-      />
-    </Box>
+    <TextField
+      label={label}
+      fullWidth
+      multiline
+      minRows={1}
+      maxRows={Infinity}
+      sx={{ mt: 2, width }}
+      value={value}
+      onChange={onChange}
+      onBlur={onBlur}
+      className={styles.input}
+    />
   );
 }
