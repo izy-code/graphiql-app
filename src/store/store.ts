@@ -4,9 +4,11 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { USER_LOGOUT } from '@/common/constants';
 
 import graphqlReducer from './graphql-slice/graphql-slice';
+import restReducer from './rest-slice/rest-slice';
 
 const appReducer = combineReducers({
   graphql: graphqlReducer,
+  rest: restReducer,
 });
 
 const rootReducer: typeof appReducer = (

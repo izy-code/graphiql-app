@@ -84,7 +84,7 @@ function GraphQl(): ReactNode {
         <GraphqlParamsContainer />
       </div>
 
-      <ResponseContainer />
+      <ResponseContainer type="graphql" />
     </div>
   );
 }

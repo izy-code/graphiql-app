@@ -1,193 +1,75 @@
 'use client';
 
-import { Button } from '@mui/material';
-import Box from '@mui/material/Box';
-import { notFound, usePathname, useRouter } from 'next/navigation';
+import { notFound, usePathname, useSearchParams } from 'next/navigation';
 import type { ReactNode } from 'react';
-import * as React from 'react';
+import React, { useEffect, useRef } from 'react';
 
-import { LocalStorageKeys } from '@/common/enums.ts';
+import { ProtectedPaths } from '@/common/enums';
 import { AuthRoute } from '@/components/auth-route/AuthRoute';
-import ClientTable from '@/components/client-table/ClientTable';
-import type { ObjectWithId } from '@/components/client-table/types.ts';
-import CustomInput from '@/components/custom-input/CustomInput';
-import CustomTextarea from '@/components/custom-textarea/CustomTextarea';
-import MethodButtons from '@/components/method-buttons/MethodButtons';
-import { decodeBase64, encodeBase64 } from '@/utils/utils.ts';
+import type { ObjectWithId } from '@/components/client-table/types';
+import ResponseContainer from '@/components/response-container/ResponseContainer';
+import RestFieldset from '@/components/rest-fieldset/RestFieldset';
+import { useAppDispatch } from '@/hooks/store-hooks';
+import { useEncodeUrl } from '@/hooks/useEncodeUrl';
+import { useCurrentLocale } from '@/locales/client';
+import { setBody, setEndpoint, setHeaders, setMethod } from '@/store/rest-slice/rest-slice';
+import { decodeBase64, generateUniqueId } from '@/utils/utils.ts';
 
 import styles from './Rest.module.scss';
 
-const convertToHeadersObject = (data: ObjectWithId[]): { [key: string]: string } =>
-  Object.fromEntries(data.filter(({ key, value }) => key.trim() && value.trim()).map(({ key, value }) => [key, value]));
-
-const replaceVariables = (text: string, variables: ObjectWithId[]): string => {
-  const variableMap = Object.fromEntries(
-    variables.filter(({ key, value }) => key.trim() && value.trim()).map(({ key, value }) => [key, value]),
-  );
-
-  let result = text;
-  Object.entries(variableMap).forEach(([variableKey, variableValue]) => {
-    const variablePlaceholder = `{{${variableKey}}}`;
-    result = result.replace(new RegExp(variablePlaceholder, 'g'), variableValue);
-  });
-
-  return result.trim();
-};
-
-interface RestProps {
-  initialMethod: string;
-}
-
-function Rest({ initialMethod }: RestProps): ReactNode {
-  const router = useRouter();
+function Rest(): ReactNode {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const dispatch = useAppDispatch();
+  const didMount = useRef(false);
+  const locale = useCurrentLocale();
+  const { replaceCompleteUrl } = useEncodeUrl();
 
-  const [body, setBody] = React.useState('');
-  const [endpoint, setEndpoint] = React.useState('');
-  const [method, setMethod] = React.useState(initialMethod || 'GET');
-  const [headers, setHeaders] = React.useState<ObjectWithId[]>([]);
-  const [variables, setVariables] = React.useState<ObjectWithId[]>([]);
-  const [status, setStatus] = React.useState<number | null>(null);
-  const [responseBody, setResponseBody] = React.useState('');
+  useEffect(() => {
+    if (!didMount.current) {
+      const pathParts: string[] = pathname.split('/').filter((_, index) => index > 2);
 
-  React.useEffect(() => {
-    const pathParts: string[] = pathname.split('/').filter((_, index) => index > 2);
-    if (pathParts.length >= 4) {
-      notFound();
-    }
-    if (pathParts.length >= 3) {
-      const [methodParam, endpointParam, headersParam, bodyParam] = pathParts;
-
-      setMethod(methodParam || '');
-      setEndpoint(decodeBase64(endpointParam || '') || '');
-      setBody(decodeBase64(bodyParam || '') || '');
-      try {
-        const decodedHeaders = decodeBase64(headersParam || '');
-        const headersArray: ObjectWithId[] = JSON.parse(decodedHeaders) as ObjectWithId[];
-        setHeaders(headersArray);
-      } catch (jsonError) {
-        setHeaders([]);
+      if (pathParts.length >= 4) {
+        notFound();
       }
-    }
-  }, [pathname]);
 
-  // React.useEffect(() => {
-  //   const encodedEndpoint = encodeBase64(endpoint);
-  //   const encodedBody = encodeBase64(replaceVariables(body, variables));
-  //   const encodedHeaders = encodeBase64(JSON.stringify(headers));
+      if (pathParts.length >= 3) {
+        const [methodParam, endpointParam, headersParam, bodyParam] = pathParts;
 
-  //   router.push(`/${method}/${encodedEndpoint}/${encodedHeaders}/${encodedBody}`);
-  // }, [method, endpoint, headers, body, variables, router]);
-
-  const handleRequest = async (): Promise<void> => {
-    try {
-      const validHeaders = convertToHeadersObject(headers);
-      const options: RequestInit = {
-        method,
-        headers: validHeaders,
-      };
-
-      if (method !== 'GET' && body) {
-        options.body = JSON.stringify(JSON.parse(replaceVariables(body, variables)));
+        dispatch(setMethod(methodParam || 'GET'));
+        dispatch(setEndpoint(decodeBase64(endpointParam || '') || ''));
+        dispatch(setBody(decodeBase64(bodyParam || '') || ''));
+        try {
+          const decodedHeaders = decodeBase64(headersParam || '');
+          const headersArray: ObjectWithId[] = JSON.parse(decodedHeaders) as ObjectWithId[];
+          dispatch(setHeaders(headersArray));
+        } catch (jsonError) {
+          dispatch(setHeaders([]));
+        }
       }
-      const response = await fetch(endpoint, options);
-      const data: unknown = await response.json();
-      setStatus(response.status);
-      setResponseBody(JSON.stringify(data, null, 2));
-    } catch (error) {
-      setStatus(500);
-      setResponseBody(JSON.stringify({ error }, null, 2));
+
+      if (pathname !== `/${locale}${ProtectedPaths.REST}`) {
+        const decodedHeaders: ObjectWithId[] = [];
+
+        searchParams.forEach((value, key) => {
+          decodedHeaders.push({ id: generateUniqueId(), key, value: decodeURIComponent(value) });
+        });
+        dispatch(setHeaders(decodedHeaders));
+      }
+
+      replaceCompleteUrl();
+
+      didMount.current = true;
     }
-    const urlToSave = `/${method}/${encodeBase64(endpoint)}/${encodeBase64(JSON.stringify(headers))}/${encodeBase64(replaceVariables(body, variables))}`;
-    const existingUrls = JSON.parse(localStorage.getItem(LocalStorageKeys.URLS_RSS_REQUEST) || '[]') as string[];
-    existingUrls.push(urlToSave);
-    localStorage.setItem(LocalStorageKeys.URLS_RSS_REQUEST, JSON.stringify(existingUrls));
-  };
-
-  const handleMethodChange = (newMethod: string): void => {
-    setMethod(newMethod);
-    // handleUrlChange();
-    const encodedEndpoint = encodeBase64(endpoint);
-    const encodedBody = encodeBase64(replaceVariables(body, variables));
-    const encodedHeaders = encodeBase64(JSON.stringify(headers));
-    router.push(`/${newMethod}/${encodedEndpoint}/${encodedHeaders}/${encodedBody}`);
-  };
-
-  // const handleEndUrlInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-  //   setEndpoint(e.target.value);
-  //   const encodedEndpoint = encodeBase64(endpoint);
-  //   const encodedBody = encodeBase64(replaceVariables(body, variables));
-  //   const encodedHeaders = encodeBase64(JSON.stringify(headers));
-  //   router.push(`/rest/${method}/${e.target.value}/${encodedHeaders}/${encodedBody}`);
-  // };
-
-  // const handleHeaderChange = (newHeaders: ObjectWithId[]): void => {
-  //   setHeaders(newHeaders);
-  //   const encodedEndpoint = encodeBase64(endpoint);
-  //   const encodedBody = encodeBase64(replaceVariables(body, variables));
-  //   const encodedHeaders = encodeBase64(JSON.stringify(newHeaders));
-  //   router.push(`/rest/${method}/${encodedEndpoint}/${encodedHeaders}/${encodedBody}`);
-  // };
-
-  // const handleTextareaBlur = (e: React.ChangeEvent<HTMLInputElement>): void => {
-  //   setBody(e.target.value);
-  //   const encodedEndpoint = encodeBase64(endpoint);
-  //   const encodedBody = encodeBase64(replaceVariables(e.target.value, variables));
-  //   const encodedHeaders = encodeBase64(JSON.stringify(headers));
-  //   router.push(`/rest/${method}/${encodedEndpoint}/${encodedHeaders}/${encodedBody}`);
-  // };
+  }, [pathname, searchParams, dispatch, replaceCompleteUrl, locale]);
 
   return (
     <div className={styles.page}>
       <div className={styles.container}>
         <h1 className={styles.title}>REST Client</h1>
-        <div className={styles.items}>
-          <h2 className={styles.sectionTitle}>URL</h2>
-          <MethodButtons method={method} onMethodChange={handleMethodChange} />
-          <CustomInput
-            label="Endpoint URL"
-            variant="standard"
-            width="420px"
-            value={endpoint}
-            onChange={(e) => setEndpoint(e.target.value)}
-          />
-        </div>
-        <div className={styles.section}>
-          <h2 className={styles.sectionTitle}>Params</h2>
-          <ClientTable title="Header" tableInfo={headers} onChange={setHeaders} />
-          <ClientTable title="Variable" tableInfo={variables} onChange={setVariables} />
-          <div className={styles.item}>
-            <h4>Body: </h4>
-            <CustomTextarea
-              label="Body"
-              value={body}
-              onChange={(e) => setBody(e.target.value)}
-              // onBlur={handleTextareaBlur}
-            />
-          </div>
-          <div className={styles.center}>
-            <Button className={styles.button} variant="contained" color="primary" onClick={handleRequest}>
-              Send Request
-            </Button>
-          </div>
-        </div>
+        <RestFieldset />
       </div>
-      <div className={styles.section}>
-        <h2 className={styles.sectionTitle}>Response</h2>
-        <div className={styles.oneLine}>
-          <h4>Status:</h4>
-          {status !== null ? status : 'N/A'}
-        </div>
-        <div>
-          <h4>Body:</h4>
-          <Box
-            component="pre"
-            sx={{ backgroundColor: 'inherit', p: 2, mt: 1, maxHeight: 'max-content', overflow: 'auto' }}
-          >
-            {responseBody && <pre>{JSON.stringify(JSON.parse(responseBody), null, 2)}</pre>}
-          </Box>
-        </div>
-      </div>
+      <ResponseContainer type="rest" />
     </div>
   );
 }

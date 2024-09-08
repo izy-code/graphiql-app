@@ -7,9 +7,13 @@ import type { RootState } from '@/store/store';
 
 import styles from './ResponseContainer.module.scss';
 
-export default function ResponseContainer(): ReactNode {
-  const { status, responseBody } = useAppSelector((state: RootState) => state.graphql);
-
+interface ResponseContainerProps {
+  type: 'graphql' | 'rest';
+}
+export default function ResponseContainer({ type }: ResponseContainerProps): ReactNode {
+  const { status, responseBody } = useAppSelector((state: RootState) =>
+    type === 'graphql' ? state.graphql : state.rest,
+  );
   return (
     <div className={clsx(styles.section, styles.response)}>
       <h2 className={styles.sectionTitle}>Response</h2>

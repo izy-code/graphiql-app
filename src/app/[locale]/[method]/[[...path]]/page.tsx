@@ -11,5 +11,6 @@ export default function RestPage({ params }: { params: { method: string } }): Re
     notFound();
   }
 
-  return <Rest initialMethod={method.toUpperCase()} />;
+  return <Rest />;
+  // return <Rest initialMethod={method.toUpperCase()} />;
 }
