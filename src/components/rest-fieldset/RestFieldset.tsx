@@ -2,10 +2,10 @@ import { Button } from '@mui/material';
 import type { ReactNode } from 'react';
 import { toast } from 'react-toastify';
 
-import { NO_ENDPOINT } from '@/common/constants.ts';
 import { LocalStorageKeys } from '@/common/enums.ts';
 import { getResponse } from '@/common/restApi.ts';
 import ClientTable from '@/components/client-table/ClientTable';
+import type { ObjectWithId } from '@/components/client-table/types.ts';
 import CustomInput from '@/components/custom-input/CustomInput';
 import CustomTextarea from '@/components/custom-textarea/CustomTextarea';
 import MethodButtons from '@/components/method-buttons/MethodButtons';
@@ -27,22 +27,38 @@ import { encodeBase64 } from '@/utils/utils.ts';
 
 import styles from './RestFieldset.module.scss';
 
+const replaceVariables = (text: string, variables: ObjectWithId[]): string => {
+  const variableMap = Object.fromEntries(
+    variables.filter(({ key, value }) => key.trim() && value.trim()).map(({ key, value }) => [key, value]),
+  );
+
+  let result = text;
+  Object.entries(variableMap).forEach(([variableKey, variableValue]) => {
+    const variablePlaceholder = `{{${variableKey}}}`;
+    result = result.replace(new RegExp(variablePlaceholder, 'g'), variableValue);
+  });
+
+  return result.trim();
+};
+
 export default function RestFieldset(): ReactNode {
   const { endpoint, method, body, headers, variables } = useAppSelector((state: RootState) => state.rest);
   const dispatch = useAppDispatch();
   const { getStoredValue, setStoredValue } = useLocalStorage();
-  const { getEncodedHeaders, getEncodedRequestBody } = useEncodeUrl();
+  const { getEncodedHeaders } = useEncodeUrl();
   const locale = useCurrentLocale();
 
   const handleEndpointChange = (evt: React.ChangeEvent<HTMLInputElement>): void => {
     dispatch(setEndpoint(evt.target.value));
 
-    const encodedEndpoint = evt.target.value ? encodeBase64(evt.target.value) : NO_ENDPOINT;
+    const encodedEndpoint = evt.target.value ? encodeBase64(evt.target.value) : encodeBase64(' ');
+
+    const bodyWithVariables = encodeBase64(replaceVariables(body, variables) || ' ');
 
     window.history.replaceState(
       null,
       '',
-      `/${locale}/${method}/${encodedEndpoint}/${getEncodedRequestBody()}${getEncodedHeaders()}`,
+      `/${locale}/${method}/${encodedEndpoint}/${bodyWithVariables}${getEncodedHeaders()}`,
     );
   };
 
@@ -65,11 +81,35 @@ export default function RestFieldset(): ReactNode {
     setStoredValue(LocalStorageKeys.URLS_RSS_REQUEST, [window.location.href, ...requestsArray]);
   };
 
+  const handleMethodChange = (newMethod: string): void => {
+    dispatch(setMethod(newMethod));
+    const bodyWithVariables = encodeBase64(replaceVariables(body, variables) || ' ');
+
+    const encodedEndpoint = endpoint ? encodeBase64(endpoint) : encodeBase64(' ');
+    window.history.replaceState(
+      null,
+      '',
+      `/${locale}/${newMethod}/${encodedEndpoint}/${bodyWithVariables}${getEncodedHeaders()}`,
+    );
+  };
+
+  const handleBodyBlur = (e: React.FocusEvent<HTMLInputElement>): void => {
+    dispatch(setBody(e.target.value));
+    const bodyWithVariables = encodeBase64(replaceVariables(e.target.value, variables) || ' ');
+
+    const encodedEndpoint = endpoint ? encodeBase64(endpoint) : encodeBase64('');
+    window.history.replaceState(
+      null,
+      '',
+      `/${locale}/${method}/${encodedEndpoint}/${bodyWithVariables}${getEncodedHeaders()}`,
+    );
+  };
+
   return (
     <>
       <div className={styles.items}>
         <h2 className={styles.sectionTitle}>URL</h2>
-        <MethodButtons method={method} onMethodChange={setMethod} />
+        <MethodButtons method={method} onMethodChange={handleMethodChange} />
         <CustomInput
           label="Endpoint URL"
           variant="standard"
@@ -88,7 +128,12 @@ export default function RestFieldset(): ReactNode {
         />
         <div className={styles.item}>
           <h4>Body: </h4>
-          <CustomTextarea label="Body" value={body} onChange={(e) => dispatch(setBody(e.target.value))} />
+          <CustomTextarea
+            label="Body"
+            value={body}
+            onChange={(e) => dispatch(setBody(e.target.value))}
+            onBlur={handleBodyBlur}
+          />
         </div>
         <div className={styles.center}>
           <Button className={styles.button} variant="contained" color="primary" onClick={handleRequest}>

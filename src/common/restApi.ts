@@ -11,7 +11,7 @@ export interface RestResponseData {
 const convertToHeadersObject = (data: ObjectWithId[]): { [key: string]: string } =>
   Object.fromEntries(data.filter(({ key, value }) => key.trim() && value.trim()).map(({ key, value }) => [key, value]));
 
-const replaceVariables = (text: string, variables: ObjectWithId[]): string => {
+export const replaceVariables = (text: string, variables: ObjectWithId[]): string => {
   const variableMap = Object.fromEntries(
     variables.filter(({ key, value }) => key.trim() && value.trim()).map(({ key, value }) => [key, value]),
   );

@@ -12,5 +12,4 @@ export default function RestPage({ params }: { params: { method: string } }): Re
   }
 
   return <Rest />;
-  // return <Rest initialMethod={method.toUpperCase()} />;
 }

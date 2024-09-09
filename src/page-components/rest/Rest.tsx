@@ -27,15 +27,14 @@ function Rest(): ReactNode {
 
   useEffect(() => {
     if (!didMount.current) {
-      const pathParts: string[] = pathname.split('/').filter((_, index) => index > 2);
+      const pathParts: string[] = pathname.split('/').filter((_, index) => index > 1);
 
       if (pathParts.length >= 4) {
         notFound();
       }
 
-      if (pathParts.length >= 3) {
-        const [methodParam, endpointParam, headersParam, bodyParam] = pathParts;
-
+      if (pathParts.length >= 2) {
+        const [methodParam, endpointParam, bodyParam, headersParam] = pathParts;
         dispatch(setMethod(methodParam || 'GET'));
         dispatch(setEndpoint(decodeBase64(endpointParam || '') || ''));
         dispatch(setBody(decodeBase64(bodyParam || '') || ''));

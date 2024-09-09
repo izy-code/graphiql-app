@@ -13,10 +13,9 @@ import styles from './MethodButtons.module.scss';
 interface MethodButtonsProps {
   method: string;
   onMethodChange: (newMethod: string) => void;
-  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
 }
 
-export default function MethodButtons({ method, onMethodChange, onBlur }: MethodButtonsProps): ReactNode {
+export default function MethodButtons({ method, onMethodChange }: MethodButtonsProps): ReactNode {
   const handleChange = (event: SelectChangeEvent): void => {
     onMethodChange(event.target.value);
   };
@@ -32,7 +31,6 @@ export default function MethodButtons({ method, onMethodChange, onBlur }: Method
           id="demo-simple-select"
           value={method}
           onChange={handleChange}
-          onBlur={onBlur}
           label="Method"
           className={styles.select}
           MenuProps={{
