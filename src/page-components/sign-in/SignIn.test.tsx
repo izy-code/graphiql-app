@@ -3,6 +3,7 @@ import mockRouter from 'next-router-mock';
 
 import SignInPage from '@/app/[locale]/sign-in/page';
 import { NonProtectedPaths } from '@/common/enums';
+import { Toast } from '@/components/toast/Toast';
 import { AuthProvider } from '@/contexts/auth-context';
 import { renderWithProvidersAndUser } from '@/utils/test-utils';
 
@@ -41,6 +42,7 @@ describe('Sign in page', () => {
     const { user } = renderWithProvidersAndUser(
       <AuthProvider>
         <SignInPage />
+        <Toast />
       </AuthProvider>,
     );
 
@@ -53,5 +55,6 @@ describe('Sign in page', () => {
     await user.click(submit);
 
     expect(mockRouter.asPath).toEqual('/');
+    expect(screen.getByText(`Successfully signed in with test@test.com!`)).toBeInTheDocument();
   });
 });
