@@ -10,7 +10,6 @@ import CustomInput from '@/components/custom-input/CustomInput';
 import CustomTextarea from '@/components/custom-textarea/CustomTextarea';
 import MethodButtons from '@/components/method-buttons/MethodButtons';
 import { useAppDispatch, useAppSelector } from '@/hooks/store-hooks.ts';
-import { useEncodeUrl } from '@/hooks/useEncodeUrl.ts';
 import { useLocalStorage } from '@/hooks/useLocalStorage.ts';
 import { useCurrentLocale } from '@/locales/client';
 import {
@@ -41,11 +40,22 @@ const replaceVariables = (text: string, variables: ObjectWithId[]): string => {
   return result.trim();
 };
 
+const getEncodedHeaders = (headersParameter: ObjectWithId[]): string => {
+  if (!headersParameter || headersParameter.length === 0) {
+    return '';
+  }
+
+  const encodedHeaders = headersParameter
+    .filter(({ key, value }) => key.trim() && value.trim())
+    .map(({ key, value }) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`);
+
+  return `?${encodedHeaders.join('&')}`;
+};
+
 export default function RestFieldset(): ReactNode {
   const { endpoint, method, body, headers, variables } = useAppSelector((state: RootState) => state.rest);
   const dispatch = useAppDispatch();
   const { getStoredValue, setStoredValue } = useLocalStorage();
-  const { getEncodedHeaders } = useEncodeUrl();
   const locale = useCurrentLocale();
 
   const handleEndpointChange = (evt: React.ChangeEvent<HTMLInputElement>): void => {
@@ -58,7 +68,7 @@ export default function RestFieldset(): ReactNode {
     window.history.replaceState(
       null,
       '',
-      `/${locale}/${method}/${encodedEndpoint}/${bodyWithVariables}${getEncodedHeaders()}`,
+      `/${locale}/${method}/${encodedEndpoint}/${bodyWithVariables}${getEncodedHeaders(headers)}`,
     );
   };
 
@@ -89,7 +99,7 @@ export default function RestFieldset(): ReactNode {
     window.history.replaceState(
       null,
       '',
-      `/${locale}/${newMethod}/${encodedEndpoint}/${bodyWithVariables}${getEncodedHeaders()}`,
+      `/${locale}/${newMethod}/${encodedEndpoint}/${bodyWithVariables}${getEncodedHeaders(headers)}`,
     );
   };
 
@@ -101,7 +111,19 @@ export default function RestFieldset(): ReactNode {
     window.history.replaceState(
       null,
       '',
-      `/${locale}/${method}/${encodedEndpoint}/${bodyWithVariables}${getEncodedHeaders()}`,
+      `/${locale}/${method}/${encodedEndpoint}/${bodyWithVariables}${getEncodedHeaders(headers)}`,
+    );
+  };
+
+  const handleHeaderChange = (newHeaders: ObjectWithId[]): void => {
+    dispatch(setHeaders(newHeaders));
+    const bodyWithVariables = encodeBase64(replaceVariables(body, variables) || ' ');
+
+    const encodedEndpoint = endpoint ? encodeBase64(endpoint) : encodeBase64('');
+    window.history.replaceState(
+      null,
+      '',
+      `/${locale}/${method}/${encodedEndpoint}/${bodyWithVariables}${getEncodedHeaders(newHeaders)}`,
     );
   };
 
@@ -120,7 +142,7 @@ export default function RestFieldset(): ReactNode {
       </div>
       <div className={styles.section}>
         <h2 className={styles.sectionTitle}>Params</h2>
-        <ClientTable title="Header" tableInfo={headers} onChange={(newHeaders) => dispatch(setHeaders(newHeaders))} />
+        <ClientTable title="Header" tableInfo={headers} onChange={handleHeaderChange} />
         <ClientTable
           title="Variable"
           tableInfo={variables}

@@ -23,6 +23,7 @@ import type { TableProps } from './types.ts';
 export default function ClientTable({ title, tableInfo, onChange }: TableProps): ReactNode {
   const [newKey, setNewKey] = React.useState<string>('');
   const [newValue, setNewValue] = React.useState<string>('');
+  const [isTableVisible, setIsTableVisible] = React.useState<boolean>(true);
 
   const handleAddMode = (): void => {
     if (newKey.trim() && newValue.trim()) {
@@ -53,10 +54,27 @@ export default function ClientTable({ title, tableInfo, onChange }: TableProps):
     onChange(newData);
   };
 
+  const toggleTableVisibility = (): void => {
+    setIsTableVisible((prev) => !prev);
+  };
+
   return (
     <div className={styles.container}>
       <div>
-        <h4 className={styles.subtitle}>{title}:</h4>
+        <h4 className={styles.subtitle}>
+          {title}:
+          {tableInfo.length > 0 && (
+            <Button
+              className={styles.toggleButton}
+              variant="text"
+              color="primary"
+              onClick={toggleTableVisibility}
+              sx={{ ml: 2 }}
+            >
+              {isTableVisible ? 'Hide' : 'Show'} Table
+            </Button>
+          )}
+        </h4>
         <div className={styles.inputContainer}>
           <CustomInput
             label="Key"
@@ -77,7 +95,7 @@ export default function ClientTable({ title, tableInfo, onChange }: TableProps):
           </Button>
         </div>
       </div>
-      {tableInfo.length > 0 && (
+      {tableInfo.length > 0 && isTableVisible && (
         <TableContainer component={Paper} sx={{ mt: 2 }} className={styles.table}>
           <Table sx={{ minWidth: 550 }} aria-label="table">
             <TableHead>
