@@ -95,6 +95,10 @@ export default {
   'error.desc': 'Error message:',
   'error.recommendation': 'Please try to refresh the page.',
   'error.refresh': 'Refresh the page',
+
+  '404.message': 'The page you requested was not found.',
+  '404.back': 'Previous page',
+  '404.main': 'Main page',
   // auth. success
   // auth-error. error-mesages
 } as const;
