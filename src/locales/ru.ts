@@ -55,4 +55,19 @@ export default {
   'sign-up.password': 'Введите пароль',
   'sign-up.password.confirm': 'Подтвердите пароль',
   'sign-up.submit': 'Зарегистрироваться',
+
+  'rest.title': 'REST Клиент',
+  'rest.endpoint': 'Эндпоинт URL',
+  'rest.params': 'Параметры',
+  'rest.body.title': 'Тело: ',
+  'rest.body': 'Тело',
+  'rest.response': 'Ответ',
+  'rest.status': 'Статус:',
+
+  method: 'Метод',
+
+  'headers.subtitle': 'Заголовки:',
+  'headers.row': '+ строка',
+  'headers.key': 'Ключ',
+  'headers.value': 'Значение',
 } as const;

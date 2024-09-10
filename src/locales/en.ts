@@ -55,6 +55,21 @@ export default {
   'sign-up.password': 'Enter password',
   'sign-up.password.confirm': 'Confirm password',
   'sign-up.submit': 'Sign up',
+
+  'rest.title': 'REST Client',
+  'rest.endpoint': 'Endpoint URL',
+  'rest.params': 'Params',
+  'rest.body.title': 'Body: ',
+  'rest.body': 'Body',
+  'rest.response': 'Response',
+  'rest.status': 'Status:',
+
+  method: 'Method',
+
+  'headers.subtitle': 'Headers:',
+  'headers.row': '+ row',
+  'headers.key': 'Key',
+  'headers.value': 'Value',
   // auth. success
   // auth-error. error-mesages
 } as const;

@@ -5,13 +5,15 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import type { SelectChangeEvent } from '@mui/material/Select';
 import Select from '@mui/material/Select';
-import type { ReactNode } from 'react';
-import * as React from 'react';
+import { type ReactNode, useState } from 'react';
+
+import { useI18n } from '@/locales/client';
 
 import styles from './MethodButtons.module.scss';
 
 export default function MethodButtons(): ReactNode {
-  const [method, setMethod] = React.useState('get');
+  const [method, setMethod] = useState('get');
+  const translate = useI18n();
 
   const handleChange = (event: SelectChangeEvent): void => {
     setMethod(event.target.value);
@@ -21,7 +23,7 @@ export default function MethodButtons(): ReactNode {
     <div>
       <FormControl variant="standard" sx={{ m: 1, minWidth: 0 }} className={styles.selectContainer}>
         <InputLabel id="demo-simple-select-label" className={styles.selectLabel}>
-          Method
+          {translate('method')}
         </InputLabel>
         <Select
           labelId="demo-simple-select-label"
