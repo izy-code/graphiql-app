@@ -42,24 +42,24 @@ export default function GraphqlUrlFieldset(): ReactNode {
   };
 
   const handleRequest = async (): Promise<void> => {
+    const requestsArray = (getStoredValue(LocalStorageKeys.URLS_RSS_REQUEST) as string[]) || [];
+    requestsArray.push(window.location.href);
+    setStoredValue(LocalStorageKeys.URLS_RSS_REQUEST, requestsArray);
+    window.history.pushState(null, '', window.location.href);
     dispatch(setStatus(''));
     dispatch(setResponseBody(''));
 
     const { status: statusCode, data, errorMessage } = await getResponse(endpoint, query, variables, headers);
 
+    dispatch(setStatus(statusCode!));
+
     if (errorMessage) {
       toast.error(errorMessage);
-      dispatch(setStatus(statusCode!));
       return;
     }
 
-    dispatch(setStatus(statusCode!.toString()));
     dispatch(setResponseBody(JSON.stringify(data, null, 2)));
     toast.info('The request has been completed, look at the response body');
-    window.history.pushState(null, '', window.location.href);
-
-    const requestsArray = (getStoredValue(LocalStorageKeys.URLS_RSS_REQUEST) as string[]) || [];
-    setStoredValue(LocalStorageKeys.URLS_RSS_REQUEST, [window.location.href, ...requestsArray]);
   };
 
   const handleSchemaRequest = async (): Promise<void> => {

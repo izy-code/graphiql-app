@@ -30,21 +30,20 @@ function History(): ReactNode {
         <div className={styles.requests}>
           <div className={styles.section}>
             <h2 className={styles.sectionTitle}> Requests:</h2>
-            <div className={styles.requestsStrings}>
+            <div className={styles.requestRows}>
               {requests.map((request, index) => {
-                const pathParts = request.split('/');
-                const methodParam = pathParts[4] || '';
-                const encodedEndpoint = pathParts[5] || '';
+                const url = new URL(request);
+                const pathParts = url.pathname.split('/');
+                const methodParam = pathParts[2] || '';
+                const encodedEndpoint = pathParts[3] || '';
                 const decodedEndpoint = decodeBase64(encodedEndpoint);
                 const key = index;
 
                 return (
                   <div key={key} className={styles.requestItem}>
                     <Link className={styles.oneLine} href={request}>
-                      <p>[</p>
                       <p className={styles.method}>{`${methodParam}`}</p>
                       <p className={styles.url}>{`${decodedEndpoint}`}</p>
-                      <p>]</p>
                     </Link>
                   </div>
                 );
