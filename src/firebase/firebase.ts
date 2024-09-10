@@ -37,6 +37,9 @@ const showErrorToast = (error: unknown): void => {
       case AuthErrorCodes.TOO_MANY_ATTEMPTS_TRY_LATER:
         toast.error('Too many authentication requests');
         break;
+      case AuthErrorCodes.NETWORK_REQUEST_FAILED:
+        toast.error('Network request failed');
+        break;
       default:
         toast.error(error.code);
     }
