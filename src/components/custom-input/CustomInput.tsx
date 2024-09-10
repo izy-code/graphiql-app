@@ -6,7 +6,7 @@ import type { ChangeEvent, FocusEvent, ReactNode } from 'react';
 
 import styles from './CustomInput.module.scss';
 
-interface ICustomInput {
+interface CustomInputProps {
   label: string;
   variant: 'standard' | 'filled' | 'outlined';
   width?: string;
@@ -22,7 +22,7 @@ export default function CustomInput({
   value = '',
   onChange,
   onBlur,
-}: ICustomInput): ReactNode {
+}: CustomInputProps): ReactNode {
   return (
     <Box
       component="form"

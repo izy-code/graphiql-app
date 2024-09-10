@@ -6,7 +6,7 @@ import type { ChangeEvent, FocusEvent, ReactNode } from 'react';
 
 import styles from './CustomTextarea.module.scss';
 
-interface ICustomInput {
+interface CustomTextareaProps {
   label: string;
   value: string;
   width?: string;
@@ -14,7 +14,13 @@ interface ICustomInput {
   onBlur?: (event: FocusEvent<HTMLInputElement>) => void;
 }
 
-export default function CustomTextarea({ label, value, width = '100%', onChange, onBlur }: ICustomInput): ReactNode {
+export default function CustomTextarea({
+  label,
+  value,
+  width = '100%',
+  onChange,
+  onBlur,
+}: CustomTextareaProps): ReactNode {
   return (
     <Box
       component="form"
