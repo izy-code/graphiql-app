@@ -17,9 +17,15 @@ export const metadata: Metadata = {
   description: 'REST/GraphiQL client as final team project at Rolling Scopes school React course',
 };
 
-export default function RootLayout({ children }: { children: ReactNode }): ReactNode {
+export default function RootLayout({
+  params: { locale },
+  children,
+}: {
+  params: { locale: string };
+  children: ReactNode;
+}): ReactNode {
   return (
-    <html lang="en">
+    <html lang={locale}>
       <body>
         <StoreProvider>
           <AppRouterCacheProvider>

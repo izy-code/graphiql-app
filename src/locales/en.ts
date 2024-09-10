@@ -89,6 +89,12 @@ export default {
   'history.links.rest': 'REST Client',
   'history.links.graphiql': 'GraphiQL Client',
   'history.subtitle': 'Requests:',
+
+  'error.title': 'Oops!',
+  'error.text': 'Sorry, an unexpected error has occurred.',
+  'error.desc': 'Error message:',
+  'error.recommendation': 'Please try to refresh the page.',
+  'error.refresh': 'Refresh the page',
   // auth. success
   // auth-error. error-mesages
 } as const;

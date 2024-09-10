@@ -89,4 +89,10 @@ export default {
   'history.links.rest': 'REST Клиент',
   'history.links.graphiql': 'GraphiQL Клиент',
   'history.subtitle': 'Запросы:',
+
+  'error.title': 'Упс!',
+  'error.text': 'Извините, произошла непредвиденная ошибка.',
+  'error.desc': 'Сообщение об ошибке:',
+  'error.recommendation': 'Пожалуйста, попробуйте обновить страницу.',
+  'error.refresh': 'Обновить страницу',
 } as const;
