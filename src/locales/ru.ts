@@ -40,4 +40,10 @@ export default {
   'teamMember.contributions': 'Вклад',
   'teamMember.bio': 'Краткая биография',
   'teamMember.techStack': 'Стек технологий: ',
+
+  'sign-in.loader': 'Входим...',
+  'sign-in.title': 'Вход',
+  'sign-in.email': 'Почта',
+  'sign-in.password': 'Пароль',
+  'sign-in.submit': 'Войти',
 } as const;

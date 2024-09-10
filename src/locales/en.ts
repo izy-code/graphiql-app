@@ -40,6 +40,12 @@ export default {
   'teamMember.contributions': 'Contributions',
   'teamMember.bio': 'Short bio',
   'teamMember.techStack': 'Tech stack: ',
+
+  'sign-in.loader': 'Signing in...',
+  'sign-in.title': 'Sign in',
+  'sign-in.email': 'Email',
+  'sign-in.password': 'Password',
+  'sign-in.submit': 'Sign in',
   // auth. success
   // auth-error. error-mesages
 } as const;

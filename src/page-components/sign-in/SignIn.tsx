@@ -11,11 +11,13 @@ import { CustomButton } from '@/components/custom-button/CustomButton';
 import { FormInputField } from '@/components/form-input-field/FormInputField';
 import { Loader } from '@/components/loader/Loader';
 import { signIn } from '@/firebase/firebase';
+import { useScopedI18n } from '@/locales/client';
 
 import styles from './SignIn.module.scss';
 
 function SignIn(): ReactNode {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const translate = useScopedI18n('sign-in');
 
   const {
     formState: { errors, isDirty, isSubmitting, isValid },
@@ -26,14 +28,14 @@ function SignIn(): ReactNode {
     resolver: yupResolver(loginSchema),
   });
 
-  const onValid: SubmitHandler<LoginSchemaType> = async (data) => {
+  const onValid: SubmitHandler<LoginSchemaType> = async ({ email, password }) => {
     if (!isValid) {
       return;
     }
 
     setIsLoading(true);
 
-    const isSuccess = await signIn(data.email, data.password);
+    const isSuccess = await signIn(email, password);
 
     if (!isSuccess) {
       setIsLoading(false);
@@ -41,26 +43,26 @@ function SignIn(): ReactNode {
   };
 
   if (isLoading) {
-    return <Loader loaderText="Signing in..." />;
+    return <Loader loaderText={translate('loader')} />;
   }
 
   return (
     <div className={styles.page}>
-      <h1 className={styles.title}>Sign in</h1>
+      <h1 className={styles.title}>{translate('title')}</h1>
       <form className={styles.form} name="react-hook-form" noValidate onSubmit={handleSubmit(onValid)}>
         <FormInputField
-          label="Email"
+          label={translate('email')}
           inputProps={{ ...register('email'), type: 'email', autoComplete: 'email' }}
           error={errors.email?.message}
         />
         <FormInputField
-          label="Password"
+          label={translate('password')}
           inputProps={{ ...register('password'), type: 'password', autoComplete: 'current-password' }}
           error={errors.password?.message}
         />
 
         <CustomButton className={styles.submitButton} type="submit" disabled={isSubmitting || !isDirty || !isValid}>
-          Sign in
+          {translate('submit')}
         </CustomButton>
       </form>
     </div>
