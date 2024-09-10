@@ -102,6 +102,12 @@ export default {
 
   'auth.loading': 'Loading Firebase...',
   'auth.expired': 'Your token has expired, please sign in again',
-  // auth. success
-  // auth-error. error-mesages
+
+  'firebase.sign-out.success': 'You have been signed out',
+  'firebase.sign-in.success': 'Successfully signed in with {email}!',
+  'firebase.sign-up.success': 'Successfully signed up {name}!',
+  'firebase.errors.USER_DISABLED': 'User disabled',
+  'firebase.errors.INVALID_LOGIN_CREDENTIALS': 'Invalid credentials',
+  'firebase.errors.EMAIL_EXISTS': 'Email already in use',
+  'firebase.errors.TOO_MANY_ATTEMPTS_TRY_LATER': 'Too many authentication requests',
 } as const;

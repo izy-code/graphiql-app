@@ -3,10 +3,11 @@
 import { Button } from '@mui/material';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { type ReactNode } from 'react';
+import { type ReactNode, useMemo } from 'react';
 import { useEffect, useState } from 'react';
 
 import { NonProtectedPaths } from '@/common/enums';
+import { type ErrorsFirebase } from '@/contexts/auth-context';
 import { logOut } from '@/firebase/firebase';
 import { useAuth } from '@/hooks/useAuth';
 import { useScopedI18n } from '@/locales/client';
@@ -19,6 +20,17 @@ export function Header(): ReactNode {
   const [isSticky, setIsSticky] = useState(false);
   const pathname = usePathname();
   const translate = useScopedI18n('header');
+  const translateFirebase = useScopedI18n('firebase');
+
+  const errors: ErrorsFirebase = useMemo(
+    () => ({
+      USER_DISABLED: translateFirebase('errors.USER_DISABLED'),
+      INVALID_LOGIN_CREDENTIALS: translateFirebase('errors.INVALID_LOGIN_CREDENTIALS'),
+      EMAIL_EXISTS: translateFirebase('errors.EMAIL_EXISTS'),
+      TOO_MANY_ATTEMPTS_TRY_LATER: translateFirebase('errors.TOO_MANY_ATTEMPTS_TRY_LATER'),
+    }),
+    [translateFirebase],
+  );
 
   useEffect(() => {
     const handleScroll = (): void => {
@@ -49,7 +61,9 @@ export function Header(): ReactNode {
         <div className={styles.right}>
           <FlagButtons />
           {user ? (
-            <Button onClick={logOut}>{translate('button.sign-out')}</Button>
+            <Button onClick={() => logOut(translateFirebase('sign-out.success'), errors)}>
+              {translate('button.sign-out')}
+            </Button>
           ) : (
             <>
               {!pathname.includes(NonProtectedPaths.SIGN_IN) && (

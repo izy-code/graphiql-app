@@ -1,7 +1,7 @@
 'use client';
 
 import { yupResolver } from '@hookform/resolvers/yup';
-import { type ReactNode, useState } from 'react';
+import { type ReactNode, useMemo, useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 
@@ -10,6 +10,7 @@ import { AuthRoute } from '@/components/auth-route/AuthRoute';
 import { CustomButton } from '@/components/custom-button/CustomButton';
 import { FormInputField } from '@/components/form-input-field/FormInputField';
 import { Loader } from '@/components/loader/Loader';
+import { type ErrorsFirebase } from '@/contexts/auth-context';
 import { signIn } from '@/firebase/firebase';
 import { useScopedI18n } from '@/locales/client';
 
@@ -18,6 +19,7 @@ import styles from './SignIn.module.scss';
 function SignIn(): ReactNode {
   const [isLoading, setIsLoading] = useState(false);
   const translate = useScopedI18n('sign-in');
+  const translateFirebase = useScopedI18n('firebase');
 
   const {
     formState: { errors, isDirty, isSubmitting, isValid },
@@ -28,6 +30,16 @@ function SignIn(): ReactNode {
     resolver: yupResolver(loginSchema),
   });
 
+  const errorsFirebase: ErrorsFirebase = useMemo(
+    () => ({
+      USER_DISABLED: translateFirebase('errors.USER_DISABLED'),
+      INVALID_LOGIN_CREDENTIALS: translateFirebase('errors.INVALID_LOGIN_CREDENTIALS'),
+      EMAIL_EXISTS: translateFirebase('errors.EMAIL_EXISTS'),
+      TOO_MANY_ATTEMPTS_TRY_LATER: translateFirebase('errors.TOO_MANY_ATTEMPTS_TRY_LATER'),
+    }),
+    [translateFirebase],
+  );
+
   const onValid: SubmitHandler<LoginSchemaType> = async ({ email, password }) => {
     if (!isValid) {
       return;
@@ -35,7 +47,7 @@ function SignIn(): ReactNode {
 
     setIsLoading(true);
 
-    const isSuccess = await signIn(email, password);
+    const isSuccess = await signIn(email, password, translateFirebase('sign-in.success', { email }), errorsFirebase);
 
     if (!isSuccess) {
       setIsLoading(false);

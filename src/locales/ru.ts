@@ -102,4 +102,12 @@ export default {
 
   'auth.loading': 'Загружаем Firebase...',
   'auth.expired': 'Срок действия вашего токена истек, пожалуйста, войдите снова',
+
+  'firebase.sign-out.success': 'Вы вышли из системы',
+  'firebase.sign-in.success': 'Успешный вход с помощью {email}!',
+  'firebase.sign-up.success': '{name} успешно зарегистрирован!',
+  'firebase.errors.USER_DISABLED': 'Пользователь заблокирован',
+  'firebase.errors.INVALID_LOGIN_CREDENTIALS': 'Неверные учетные данные',
+  'firebase.errors.EMAIL_EXISTS': 'Почта уже используется',
+  'firebase.errors.TOO_MANY_ATTEMPTS_TRY_LATER': 'Слишком много попыток входа',
 } as const;

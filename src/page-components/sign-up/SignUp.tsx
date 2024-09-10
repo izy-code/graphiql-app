@@ -2,7 +2,7 @@
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/navigation';
-import { type ReactNode, useEffect, useState } from 'react';
+import { type ReactNode, useEffect, useMemo, useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 
@@ -11,6 +11,7 @@ import { CustomButton } from '@/components/custom-button/CustomButton';
 import { FormInputField } from '@/components/form-input-field/FormInputField';
 import { FormPasswordField } from '@/components/form-password-field/FormPasswordField';
 import { Loader } from '@/components/loader/Loader';
+import { type ErrorsFirebase } from '@/contexts/auth-context';
 import { signUp } from '@/firebase/firebase';
 import { useAuth } from '@/hooks/useAuth';
 import { useScopedI18n } from '@/locales/client';
@@ -22,6 +23,7 @@ export default function SignUp(): ReactNode {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const translate = useScopedI18n('sign-up');
+  const translateFirebase = useScopedI18n('firebase');
 
   const {
     formState: { errors, isDirty, isSubmitting, isValid, touchedFields },
@@ -35,6 +37,15 @@ export default function SignUp(): ReactNode {
   });
 
   const passwordWatch = watch('password');
+  const errorsFirebase: ErrorsFirebase = useMemo(
+    () => ({
+      USER_DISABLED: translateFirebase('errors.USER_DISABLED'),
+      INVALID_LOGIN_CREDENTIALS: translateFirebase('errors.INVALID_LOGIN_CREDENTIALS'),
+      EMAIL_EXISTS: translateFirebase('errors.EMAIL_EXISTS'),
+      TOO_MANY_ATTEMPTS_TRY_LATER: translateFirebase('errors.TOO_MANY_ATTEMPTS_TRY_LATER'),
+    }),
+    [translateFirebase],
+  );
 
   useEffect(() => {
     const asyncTrigger = async (): Promise<void> => {
@@ -53,7 +64,13 @@ export default function SignUp(): ReactNode {
 
     setIsLoading(true);
 
-    const isSuccess = await signUp(name, email, password);
+    const isSuccess = await signUp(
+      name,
+      email,
+      password,
+      translateFirebase('sign-up.success', { name }),
+      errorsFirebase,
+    );
 
     if (isSuccess) {
       router.push('/');

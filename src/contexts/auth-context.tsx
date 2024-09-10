@@ -3,7 +3,7 @@
 import { type User } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 import type { ReactNode } from 'react';
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { Loader } from '@/components/loader/Loader';
@@ -18,6 +18,13 @@ export interface UserImpl {
 
 export type AuthContextType = User | null;
 
+export interface ErrorsFirebase {
+  USER_DISABLED: string;
+  INVALID_LOGIN_CREDENTIALS: string;
+  EMAIL_EXISTS: string;
+  TOO_MANY_ATTEMPTS_TRY_LATER: string;
+}
+
 const TOKEN_CHECK_INTERVAL_MS = 60 * 1000;
 
 export const AuthContext = createContext<AuthContextType>(null);
@@ -27,6 +34,16 @@ export function AuthProvider({ children }: { children: ReactNode }): ReactNode {
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   const translate = useScopedI18n('auth');
+  const translateFirebase = useScopedI18n('firebase');
+  const errors: ErrorsFirebase = useMemo(
+    () => ({
+      USER_DISABLED: translateFirebase('errors.USER_DISABLED'),
+      INVALID_LOGIN_CREDENTIALS: translateFirebase('errors.INVALID_LOGIN_CREDENTIALS'),
+      EMAIL_EXISTS: translateFirebase('errors.EMAIL_EXISTS'),
+      TOO_MANY_ATTEMPTS_TRY_LATER: translateFirebase('errors.TOO_MANY_ATTEMPTS_TRY_LATER'),
+    }),
+    [translateFirebase],
+  );
 
   useEffect(() => {
     const checkTokenExpiration = async (currentUser: User): Promise<void> => {
@@ -35,7 +52,7 @@ export function AuthProvider({ children }: { children: ReactNode }): ReactNode {
       const currentTime = new Date().getTime();
 
       if (currentTime >= expirationTime) {
-        await logOut();
+        await logOut(translateFirebase('sign-out.success'), errors);
         toast.info(translate('expired'));
         router.push('/');
       }
@@ -60,7 +77,7 @@ export function AuthProvider({ children }: { children: ReactNode }): ReactNode {
       unsubscribe();
       clearInterval(intervalId);
     };
-  }, [router, translate]);
+  }, [router, translate, translateFirebase, errors]);
 
   return (
     <AuthContext.Provider value={user}>

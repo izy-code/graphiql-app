@@ -8,6 +8,8 @@ import {
 } from 'firebase/auth';
 import { toast } from 'react-toastify';
 
+import { type ErrorsFirebase } from '@/contexts/auth-context';
+
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
@@ -20,20 +22,20 @@ const firebaseConfig = {
 const firebaseApp = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 export const auth = getAuth(firebaseApp);
 
-const showErrorToast = (error: unknown): void => {
+const showErrorToast = (error: unknown, errors: ErrorsFirebase): void => {
   if (error instanceof FirebaseError) {
     switch (error.code) {
       case AuthErrorCodes.USER_DISABLED:
-        toast.error('User disabled');
+        toast.error(errors.USER_DISABLED);
         break;
       case AuthErrorCodes.INVALID_LOGIN_CREDENTIALS:
-        toast.error('Invalid credentials');
+        toast.error(errors.INVALID_LOGIN_CREDENTIALS);
         break;
       case AuthErrorCodes.EMAIL_EXISTS:
-        toast.error('Email already in use');
+        toast.error(errors.EMAIL_EXISTS);
         break;
       case AuthErrorCodes.TOO_MANY_ATTEMPTS_TRY_LATER:
-        toast.error('Too many authentication requests');
+        toast.error(errors.TOO_MANY_ATTEMPTS_TRY_LATER);
         break;
       default:
         toast.error(error.code);
@@ -41,38 +43,49 @@ const showErrorToast = (error: unknown): void => {
   }
 };
 
-export const signIn = async (email: string, password: string): Promise<boolean> => {
+export const signIn = async (
+  email: string,
+  password: string,
+  success: string,
+  errors: ErrorsFirebase,
+): Promise<boolean> => {
   try {
     await signInWithEmailAndPassword(auth, email, password);
-    toast.success(`Successfully signed in with ${email}!`);
+    toast.success(success);
 
     return true;
   } catch (error) {
-    showErrorToast(error);
+    showErrorToast(error, errors);
 
     return false;
   }
 };
 
-export const signUp = async (name: string, email: string, password: string): Promise<boolean> => {
+export const signUp = async (
+  name: string,
+  email: string,
+  password: string,
+  success: string,
+  errors: ErrorsFirebase,
+): Promise<boolean> => {
   try {
     const { user } = await createUserWithEmailAndPassword(auth, email, password);
     await updateProfile(user, { displayName: name });
-    toast.success(`Successfully signed up ${name}!`);
+    toast.success(success);
 
     return true;
   } catch (error) {
-    showErrorToast(error);
+    showErrorToast(error, errors);
 
     return false;
   }
 };
 
-export const logOut = async (): Promise<void> => {
+export const logOut = async (success: string, errors: ErrorsFirebase): Promise<void> => {
   try {
     await auth.signOut();
-    toast.success('You have been signed out');
+    toast.success(success);
   } catch (error) {
-    showErrorToast(error);
+    showErrorToast(error, errors);
   }
 };
