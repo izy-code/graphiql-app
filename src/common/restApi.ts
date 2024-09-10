@@ -29,8 +29,8 @@ export const getResponse = async (
   method: string,
   endpoint: string,
   headers: ObjectWithId[] = [],
-  variables: ObjectWithId[] = [],
   body?: string,
+  variables?: ObjectWithId[],
 ): Promise<RestResponseData> => {
   try {
     if (!endpoint) {
@@ -42,9 +42,15 @@ export const getResponse = async (
       method,
       headers: validHeaders,
     };
+    let bodyReplace = '';
 
-    if (method !== 'GET' && body) {
-      options.body = JSON.stringify(JSON.parse(replaceVariables(body, variables)));
+    if (method !== 'GET' && variables && body) {
+      bodyReplace = replaceVariables(body, variables);
+      options.body = JSON.stringify(JSON.parse(bodyReplace));
+    }
+
+    if (method !== 'GET' && body && bodyReplace !== '') {
+      options.body = JSON.stringify(JSON.parse(body));
     }
 
     const response = await fetch(endpoint, options);

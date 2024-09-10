@@ -52,30 +52,31 @@ const getEncodedHeaders = (headersParameter: ObjectWithId[]): string => {
   return `?${encodedHeaders.join('&')}`;
 };
 
+const updateHistory = (
+  locale: string,
+  method: string,
+  endpoint: string,
+  body: string,
+  headers: ObjectWithId[],
+  variables: ObjectWithId[],
+): void => {
+  const encodedEndpoint = endpoint ? encodeBase64(endpoint) : encodeBase64(' ');
+  const encodedBody = encodeBase64(replaceVariables(body, variables) || ' ');
+  const encodedHeaders = getEncodedHeaders(headers);
+
+  window.history.replaceState(null, '', `/${locale}/${method}/${encodedEndpoint}/${encodedBody}${encodedHeaders}`);
+};
+
 export default function RestFieldset(): ReactNode {
   const { endpoint, method, body, headers, variables } = useAppSelector((state: RootState) => state.rest);
   const dispatch = useAppDispatch();
   const { getStoredValue, setStoredValue } = useLocalStorage();
   const locale = useCurrentLocale();
 
-  const handleEndpointChange = (evt: React.ChangeEvent<HTMLInputElement>): void => {
-    dispatch(setEndpoint(evt.target.value));
-
-    const encodedEndpoint = evt.target.value ? encodeBase64(evt.target.value) : encodeBase64(' ');
-
-    const bodyWithVariables = encodeBase64(replaceVariables(body, variables) || ' ');
-
-    window.history.replaceState(
-      null,
-      '',
-      `/${locale}/${method}/${encodedEndpoint}/${bodyWithVariables}${getEncodedHeaders(headers)}`,
-    );
-  };
-
   const handleRequest = async (): Promise<void> => {
     dispatch(setStatus(''));
     dispatch(setResponseBody(''));
-    const { status: statusCode, data, errorMessage } = await getResponse(method, endpoint, headers, variables, body);
+    const { status: statusCode, data, errorMessage } = await getResponse(method, endpoint, headers, body, variables);
     if (errorMessage) {
       toast.error(errorMessage);
       dispatch(setStatus(statusCode!));
@@ -91,40 +92,30 @@ export default function RestFieldset(): ReactNode {
     setStoredValue(LocalStorageKeys.URLS_RSS_REQUEST, [window.location.href, ...requestsArray]);
   };
 
+  const handleEndpointChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const newEndpoint = e.target.value;
+    dispatch(setEndpoint(newEndpoint));
+    updateHistory(locale, method, newEndpoint, body, headers, variables);
+  };
+
   const handleMethodChange = (newMethod: string): void => {
     dispatch(setMethod(newMethod));
-    const bodyWithVariables = encodeBase64(replaceVariables(body, variables) || ' ');
-
-    const encodedEndpoint = endpoint ? encodeBase64(endpoint) : encodeBase64(' ');
-    window.history.replaceState(
-      null,
-      '',
-      `/${locale}/${newMethod}/${encodedEndpoint}/${bodyWithVariables}${getEncodedHeaders(headers)}`,
-    );
+    updateHistory(locale, newMethod, endpoint, body, headers, variables);
   };
 
   const handleBodyBlur = (e: React.FocusEvent<HTMLInputElement>): void => {
     dispatch(setBody(e.target.value));
-    const bodyWithVariables = encodeBase64(replaceVariables(e.target.value, variables) || ' ');
-
-    const encodedEndpoint = endpoint ? encodeBase64(endpoint) : encodeBase64('');
-    window.history.replaceState(
-      null,
-      '',
-      `/${locale}/${method}/${encodedEndpoint}/${bodyWithVariables}${getEncodedHeaders(headers)}`,
-    );
+    updateHistory(locale, method, endpoint, e.target.value, headers, variables);
   };
 
   const handleHeaderChange = (newHeaders: ObjectWithId[]): void => {
     dispatch(setHeaders(newHeaders));
-    const bodyWithVariables = encodeBase64(replaceVariables(body, variables) || ' ');
+    updateHistory(locale, method, endpoint, body, newHeaders, variables);
+  };
 
-    const encodedEndpoint = endpoint ? encodeBase64(endpoint) : encodeBase64('');
-    window.history.replaceState(
-      null,
-      '',
-      `/${locale}/${method}/${encodedEndpoint}/${bodyWithVariables}${getEncodedHeaders(newHeaders)}`,
-    );
+  const handleVariablesChange = (newVariables: ObjectWithId[]): void => {
+    dispatch(setVariables(newVariables));
+    updateHistory(locale, method, endpoint, body, headers, newVariables);
   };
 
   return (
@@ -143,11 +134,7 @@ export default function RestFieldset(): ReactNode {
       <div className={styles.section}>
         <h2 className={styles.sectionTitle}>Params</h2>
         <ClientTable title="Header" tableInfo={headers} onChange={handleHeaderChange} />
-        <ClientTable
-          title="Variable"
-          tableInfo={variables}
-          onChange={(newVariables) => dispatch(setVariables(newVariables))}
-        />
+        <ClientTable title="Variable" tableInfo={variables} onChange={handleVariablesChange} />
         <div className={styles.item}>
           <h4>Body: </h4>
           <CustomTextarea

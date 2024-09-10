@@ -33,6 +33,15 @@ function Rest(): ReactNode {
         notFound();
       }
 
+      if (pathParts.length < 2) {
+        const [methodParam] = pathParts;
+        dispatch(setMethod(methodParam || 'GET'));
+
+        dispatch(setEndpoint(decodeBase64('')));
+        dispatch(setBody(decodeBase64('')));
+        dispatch(setHeaders([{ id: generateUniqueId(), key: 'Content-Type', value: 'application/json' }]));
+      }
+
       if (pathParts.length >= 2) {
         const [methodParam, endpointParam, bodyParam, headersParam] = pathParts;
         dispatch(setMethod(methodParam || 'GET'));
