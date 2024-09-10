@@ -1,5 +1,5 @@
 export enum LocalStorageKeys {
-  URLS_RSS_REQUEST = 'urls_rss_request',
+  REQUEST_LIST = 'request_list',
 }
 
 export enum NonProtectedPaths {

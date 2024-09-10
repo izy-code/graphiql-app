@@ -42,9 +42,9 @@ export default function GraphqlUrlFieldset(): ReactNode {
   };
 
   const handleRequest = async (): Promise<void> => {
-    const requestsArray = (getStoredValue(LocalStorageKeys.URLS_RSS_REQUEST) as string[]) || [];
+    const requestsArray = (getStoredValue(LocalStorageKeys.REQUEST_LIST) as string[]) || [];
     requestsArray.push(window.location.href);
-    setStoredValue(LocalStorageKeys.URLS_RSS_REQUEST, requestsArray);
+    setStoredValue(LocalStorageKeys.REQUEST_LIST, requestsArray);
     window.history.pushState(null, '', window.location.href);
     dispatch(setStatus(''));
     dispatch(setResponseBody(''));
