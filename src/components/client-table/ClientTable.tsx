@@ -11,8 +11,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TextField from '@mui/material/TextField';
-import type { ReactNode } from 'react';
-import * as React from 'react';
+import { type ReactNode, useState } from 'react';
 
 import { generateUniqueId } from '@/utils/utils.ts';
 
@@ -21,8 +20,8 @@ import styles from './ClientTable.module.scss';
 import type { ITableProps } from './types.ts';
 
 export default function ClientTable({ title, tableInfo, onChange }: ITableProps): ReactNode {
-  const [newKey, setNewKey] = React.useState<string>('');
-  const [newValue, setNewValue] = React.useState<string>('');
+  const [newKey, setNewKey] = useState<string>('');
+  const [newValue, setNewValue] = useState<string>('');
 
   const handleAddMode = (): void => {
     if (newKey.trim() && newValue.trim()) {

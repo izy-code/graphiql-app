@@ -2,7 +2,7 @@
 
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import type { ReactNode } from 'react';
+import type { ChangeEvent, FocusEvent, ReactNode } from 'react';
 
 import styles from './CustomTextarea.module.scss';
 
@@ -10,8 +10,8 @@ interface ICustomInput {
   label: string;
   value: string;
   width?: string;
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (event: FocusEvent<HTMLInputElement>) => void;
 }
 
 export default function CustomTextarea({ label, value, width = '100%', onChange, onBlur }: ICustomInput): ReactNode {

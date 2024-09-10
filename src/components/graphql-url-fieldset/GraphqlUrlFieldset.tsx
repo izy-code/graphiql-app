@@ -1,6 +1,6 @@
 import type { Draft } from '@reduxjs/toolkit';
 import type { IntrospectionQuery } from 'graphql';
-import type { ReactNode } from 'react';
+import type { ChangeEvent, ReactNode } from 'react';
 import { toast } from 'react-toastify';
 
 import { LocalStorageKeys } from '@/common/enums.ts';
@@ -30,7 +30,7 @@ export default function GraphqlUrlFieldset(): ReactNode {
   const { getStoredValue, setStoredValue } = useLocalStorage();
   const { replaceUrl } = useEncodeUrl();
 
-  const handleEndpointChange = (evt: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleEndpointChange = (evt: ChangeEvent<HTMLInputElement>): void => {
     dispatch(setEndpoint(evt.target.value));
     replaceUrl({ endpointParam: evt.target.value });
 

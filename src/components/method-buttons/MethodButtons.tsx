@@ -5,13 +5,12 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import type { SelectChangeEvent } from '@mui/material/Select';
 import Select from '@mui/material/Select';
-import type { ReactNode } from 'react';
-import * as React from 'react';
+import { type ReactNode, useState } from 'react';
 
 import styles from './MethodButtons.module.scss';
 
 export default function MethodButtons(): ReactNode {
-  const [method, setMethod] = React.useState('get');
+  const [method, setMethod] = useState('get');
 
   const handleChange = (event: SelectChangeEvent): void => {
     setMethod(event.target.value);
