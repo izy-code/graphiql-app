@@ -1,5 +1,7 @@
 import Link from 'next/link';
 
+import { useScopedI18n } from '@/locales/client';
+
 import styles from './TeamMember.module.scss';
 import type { BlockInfoProps, BlockParagraph } from './types.ts';
 
@@ -22,6 +24,7 @@ export function TeamMember({
   isEvenBlock,
 }: BlockInfoProps): JSX.Element {
   const softStackItems = textInfo['Tech stack']?.split(',').map((item) => item.trim()) || [];
+  const translate = useScopedI18n('teamMember');
 
   return (
     <div className={`${styles.blockInfo} ${isEvenBlock ? styles.rotate : ''}`}>
@@ -40,12 +43,12 @@ export function TeamMember({
             </Link>
           </div>
         )}
-        {textInfo.role && <InfoItem title="Role" content={textInfo.role} />}
-        {textInfo.contributions && <InfoItem title="Contributions" content={textInfo.contributions} />}
-        {textInfo['Short bio'] && <InfoItem title="Short bio" content={textInfo['Short bio']} />}
+        {textInfo.role && <InfoItem title={translate('role')} content={textInfo.role} />}
+        {textInfo.contributions && <InfoItem title={translate('contributions')} content={textInfo.contributions} />}
+        {textInfo['Short bio'] && <InfoItem title={translate('bio')} content={textInfo['Short bio']} />}
         {textInfo['Tech stack'] && (
           <div>
-            <span className={styles.infoTitle}>Tech stack: </span>
+            <span className={styles.infoTitle}>{translate('techStack')}</span>
             {softStackItems.map((item) => (
               <span key={item} className={styles.softStackItem}>
                 {item}
@@ -58,5 +61,3 @@ export function TeamMember({
     </div>
   );
 }
-
-export default TeamMember;

@@ -1,20 +1,73 @@
 'use client';
 
 import Link from 'next/link';
-import type { ReactNode } from 'react';
-import * as React from 'react';
+import { type ReactNode, useMemo } from 'react';
 
 import { NonProtectedPaths, ProtectedPaths } from '@/common/enums';
 import { TeamMember } from '@/components/team-member/TeamMember.tsx';
 import { useAuth } from '@/hooks/useAuth';
 import { useScopedI18n } from '@/locales/client';
 
-import { teamInfo, teamText } from './data.ts';
 import styles from './Main.module.scss';
 
 export default function Main(): ReactNode {
   const user = useAuth();
   const translate = useScopedI18n('main');
+
+  const teamInfo = useMemo(
+    () => [
+      {
+        title: translate('team.name-1'),
+        classPhoto: 'imageIzy',
+        link: 'https://github.com/izy-code',
+        textInfo: {
+          role: translate('team.role-1'),
+          contributions: translate('team.contributions-1'),
+          'Short bio': translate('team.bio-1'),
+          'Tech stack':
+            'CSS, Sass, HTML, JavaScript, Java, TypeScript, Webpack, Vite, Jest, Vitest, React, Next, Redux, Remix',
+        },
+        github: 'izy-code',
+        simpleText: [],
+      },
+      {
+        title: translate('team.name-2'),
+        classPhoto: 'imageVadim',
+        link: 'https://github.com/VadimKol',
+        textInfo: {
+          role: translate('team.role-2'),
+          contributions: translate('team.contributions-2'),
+          'Short bio': translate('team.bio-2'),
+          'Tech stack': 'CSS, Sass, SQL, HTML, JavaScript, TypeScript, Webpack, Vite, Jest, Vitest, React, Next, Redux',
+        },
+        github: 'vadimkol',
+        simpleText: [],
+      },
+      {
+        title: translate('team.name-3'),
+        classPhoto: 'imageAlex',
+        link: 'https://github.com/BodnarAlex',
+        textInfo: {
+          role: translate('team.role-3'),
+          contributions: translate('team.contributions-3'),
+          'Short bio': translate('team.bio-3'),
+          'Tech stack':
+            'PHP, C++, Python, Wordpress, CSS, Sass, HTML, JavaScript, TypeScript, Webpack, Vite, React, Next, Redux',
+        },
+        github: 'bodnaralex',
+        simpleText: [],
+      },
+      {
+        title: 'Rolling Scopes School',
+        classPhoto: 'imageRss',
+        link: 'https://rs.school',
+        textInfo: {},
+        simpleText: [translate('rs-1'), translate('rs-2'), translate('rs-3')],
+        github: '',
+      },
+    ],
+    [translate],
+  );
 
   return (
     <div className={styles.page}>
@@ -36,17 +89,9 @@ export default function Main(): ReactNode {
           )}
         </div>
       </div>
-
       <div className={styles.container}>
         <h2 className={styles.sectionTitle}>{translate('project')}</h2>
-
-        {teamText &&
-          teamText.map((texts) => (
-            <div className={styles.introParagraph} key={texts.key}>
-              {texts.text}
-            </div>
-          ))}
-
+        <p className={styles.project_info}>{translate('project-info')}</p>
         {teamInfo.map((info, index) => (
           <TeamMember
             key={info.classPhoto}
