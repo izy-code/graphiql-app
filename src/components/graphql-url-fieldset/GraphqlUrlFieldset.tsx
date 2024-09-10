@@ -3,7 +3,6 @@ import type { IntrospectionQuery } from 'graphql';
 import type { ReactNode } from 'react';
 import { toast } from 'react-toastify';
 
-import { NO_ENDPOINT } from '@/common/constants.ts';
 import { LocalStorageKeys } from '@/common/enums.ts';
 import { getResponse, getSchema } from '@/common/graphQlApi.ts';
 import { CustomButton } from '@/components/custom-button/CustomButton.tsx';
@@ -19,7 +18,6 @@ import {
   setStatus,
 } from '@/store/graphql-slice/graphql-slice.ts';
 import type { RootState } from '@/store/store';
-import { encodeBase64 } from '@/utils/utils.ts';
 
 import CustomInput from '../custom-input/CustomInput.tsx';
 import styles from './GraphqlUrlFieldset.module.scss';
@@ -30,25 +28,17 @@ export default function GraphqlUrlFieldset(): ReactNode {
   );
   const dispatch = useAppDispatch();
   const { getStoredValue, setStoredValue } = useLocalStorage();
-  const { replaceUrl, getEncodedHeaders, getEncodedRequestBody } = useEncodeUrl();
+  const { replaceUrl } = useEncodeUrl();
 
   const handleEndpointChange = (evt: React.ChangeEvent<HTMLInputElement>): void => {
     dispatch(setEndpoint(evt.target.value));
-
-    const encodedEndpoint = evt.target.value ? encodeBase64(evt.target.value) : NO_ENDPOINT;
+    replaceUrl({ endpointParam: evt.target.value });
 
     if (evt.target.value) {
       dispatch(setSchemaUrl(`${evt.target.value}?sdl`));
     } else {
       dispatch(setSchemaUrl(''));
     }
-
-    if (query || variables) {
-      replaceUrl(`${encodedEndpoint}/${getEncodedRequestBody()}${getEncodedHeaders()}`);
-      return;
-    }
-
-    replaceUrl(`${encodedEndpoint}${getEncodedHeaders()}`);
   };
 
   const handleRequest = async (): Promise<void> => {

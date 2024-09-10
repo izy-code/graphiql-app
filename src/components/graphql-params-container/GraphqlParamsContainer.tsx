@@ -1,4 +1,3 @@
-import { usePathname } from 'next/navigation';
 import type { ReactNode } from 'react';
 
 import CustomTextarea from '@/components/custom-textarea/CustomTextarea.tsx';
@@ -12,24 +11,13 @@ import type { IData } from '../client-table/types.ts';
 import styles from './GraphqlParamsContainer.module.scss';
 
 export default function GraphqlParamsContainer(): ReactNode {
-  const pathname = usePathname();
   const dispatch = useAppDispatch();
   const { query, variables, headers } = useAppSelector((state: RootState) => state.graphql);
-  const { replaceUrl, getEncodedHeaders, getEncodedRequestBody, getEncodedEndpoint } = useEncodeUrl();
-
-  const handleJsonEditorBlur = (): void => {
-    if (!query && !variables) {
-      replaceUrl(`${getEncodedEndpoint()}${getEncodedHeaders()}`);
-      return;
-    }
-
-    replaceUrl(`${getEncodedEndpoint()}/${getEncodedRequestBody()}${getEncodedHeaders()}`);
-  };
+  const { replaceUrl } = useEncodeUrl();
 
   const handleHeadersChange = (changedHeaders: IData[]): void => {
     dispatch(setHeaders(changedHeaders));
-
-    replaceUrl(getEncodedHeaders(changedHeaders), pathname);
+    replaceUrl({ headersParam: changedHeaders });
   };
 
   return (
@@ -40,7 +28,7 @@ export default function GraphqlParamsContainer(): ReactNode {
           label="Query"
           value={query}
           width="100%"
-          onBlur={handleJsonEditorBlur}
+          onBlur={() => replaceUrl()}
           onChange={(e) => dispatch(setQuery(e.target.value))}
         />
       </div>
@@ -53,7 +41,7 @@ export default function GraphqlParamsContainer(): ReactNode {
           label="Variables"
           value={variables}
           width="100%"
-          onBlur={handleJsonEditorBlur}
+          onBlur={() => replaceUrl()}
           onChange={(e) => dispatch(setVariables(e.target.value))}
         />
       </div>
