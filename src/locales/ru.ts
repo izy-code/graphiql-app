@@ -82,4 +82,11 @@ export default {
   'graphiql.response': 'Ответ',
   'graphiql.status': 'Статус:',
   'graphiql.body.title': 'Тело:',
+
+  'history.title': 'История',
+  'history.empty.title': 'Вы не выполняли никаких запросов.',
+  'history.empty': 'Здесь пусто. Попробуйте: ',
+  'history.links.rest': 'REST Клиент',
+  'history.links.graphiql': 'GraphiQL Клиент',
+  'history.subtitle': 'Запросы:',
 } as const;

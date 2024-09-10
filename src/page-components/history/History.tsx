@@ -1,10 +1,10 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import type { ReactNode } from 'react';
-import * as React from 'react';
+import { type ReactNode, useState } from 'react';
 
 import { AuthRoute } from '@/components/auth-route/AuthRoute';
+import { useScopedI18n } from '@/locales/client';
 
 import { CustomMuiButton } from '../../components/custom-mui-button/CustomMuiButton.tsx';
 import styles from './History.module.scss';
@@ -12,24 +12,25 @@ import styles from './History.module.scss';
 function History(): ReactNode {
   const example = ['http://localhost:3000/GET', 'http://localhost:3000/POST', 'http://localhost:3000/DELETE'];
   const router = useRouter();
-  const [requests] = React.useState<string[]>(example);
+  const [requests] = useState(example);
+  const translate = useScopedI18n('history');
 
   return (
     <div className={styles.historyPage}>
-      <h1 className={styles.historyTitle}>History</h1>
+      <h1 className={styles.historyTitle}>{translate('title')}</h1>
       {requests.length === 0 ? (
         <div className={styles.noRequests}>
-          <h2>You haven&apos;t executed any requests</h2>
-          <p>It&apos;s empty here. Try: </p>
+          <h2>{translate('empty.title')}</h2>
+          <p>{translate('empty')}</p>
           <div className={styles.buttonGroup}>
-            <CustomMuiButton onClick={() => router.push('/rest')}>REST Client</CustomMuiButton>
-            <CustomMuiButton onClick={() => router.push('/graph')}>GraphiQL Client</CustomMuiButton>
+            <CustomMuiButton onClick={() => router.push('/rest')}>{translate('links.rest')}</CustomMuiButton>
+            <CustomMuiButton onClick={() => router.push('/graph')}>{translate('links.graphiql')}</CustomMuiButton>
           </div>
         </div>
       ) : (
         <div className={styles.requests}>
           <div className={styles.section}>
-            <h2 className={styles.sectionTitle}> Requests:</h2>
+            <h2 className={styles.sectionTitle}>{translate('subtitle')}</h2>
             <div className={styles.requestsStrings}>
               {requests.map((request) => (
                 <div key={request} className={styles.requestItem}>

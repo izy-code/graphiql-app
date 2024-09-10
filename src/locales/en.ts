@@ -82,6 +82,13 @@ export default {
   'graphiql.response': 'Response',
   'graphiql.status': 'Status:',
   'graphiql.body.title': 'Body:',
+
+  'history.title': 'History',
+  'history.empty.title': 'You haven’t executed any requests',
+  'history.empty': 'It’s empty here. Try: ',
+  'history.links.rest': 'REST Client',
+  'history.links.graphiql': 'GraphiQL Client',
+  'history.subtitle': 'Requests:',
   // auth. success
   // auth-error. error-mesages
 } as const;
