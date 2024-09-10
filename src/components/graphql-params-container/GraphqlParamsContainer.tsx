@@ -7,7 +7,7 @@ import { setHeaders, setQuery, setVariables } from '@/store/graphql-slice/graphq
 import type { RootState } from '@/store/store';
 
 import ClientTable from '../client-table/ClientTable.tsx';
-import type { IData } from '../client-table/types.ts';
+import type { TableRow } from '../client-table/types.ts';
 import styles from './GraphqlParamsContainer.module.scss';
 
 export default function GraphqlParamsContainer(): ReactNode {
@@ -15,7 +15,7 @@ export default function GraphqlParamsContainer(): ReactNode {
   const { query, variables, headers } = useAppSelector((state: RootState) => state.graphql);
   const { replaceUrl } = useEncodeUrl();
 
-  const handleHeadersChange = (changedHeaders: IData[]): void => {
+  const handleHeadersChange = (changedHeaders: TableRow[]): void => {
     dispatch(setHeaders(changedHeaders));
     replaceUrl({ headersParam: changedHeaders });
   };

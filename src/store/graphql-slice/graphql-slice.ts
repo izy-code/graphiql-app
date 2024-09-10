@@ -2,7 +2,7 @@ import type { Draft, PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 import type { IntrospectionQuery } from 'graphql';
 
-import type { IData } from '@/components/client-table/types';
+import type { TableRow } from '@/components/client-table/types';
 
 interface GraphQlState {
   query: string;
@@ -11,7 +11,7 @@ interface GraphQlState {
   responseBody: string;
   endpoint: string;
   schemaUrl: string;
-  headers: IData[];
+  headers: TableRow[];
   currentSchema: IntrospectionQuery | null;
   isSchemaShown: boolean;
 }
@@ -50,7 +50,7 @@ const graphqlSlice = createSlice({
     setSchemaUrl(state, action: PayloadAction<string>) {
       state.schemaUrl = action.payload;
     },
-    setHeaders(state, action: PayloadAction<IData[]>) {
+    setHeaders(state, action: PayloadAction<TableRow[]>) {
       state.headers = action.payload;
     },
     setCurrentSchema(state, action: PayloadAction<Draft<IntrospectionQuery> | null>) {

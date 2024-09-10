@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 
 import { NO_ENDPOINT } from '@/common/constants';
 import { ProtectedPaths } from '@/common/enums';
-import type { IData } from '@/components/client-table/types';
+import type { TableRow } from '@/components/client-table/types';
 import { useCurrentLocale } from '@/locales/client';
 import type { RootState } from '@/store/store';
 import { encodeBase64 } from '@/utils/utils';
@@ -13,7 +13,7 @@ interface EndpointParams {
   endpointParam?: string;
   queryParam?: string;
   variablesParam?: string;
-  headersParam?: IData[];
+  headersParam?: TableRow[];
 }
 
 export const useEncodeUrl = (): {
@@ -60,7 +60,7 @@ export const useEncodeUrl = (): {
   }, [query, variables]);
 
   const getEncodedHeaders = useCallback(
-    (headersParameter: IData[] = headers): string => {
+    (headersParameter: TableRow[] = headers): string => {
       if (!headersParameter.length) {
         return '';
       }

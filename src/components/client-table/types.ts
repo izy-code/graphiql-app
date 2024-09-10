@@ -1,11 +1,11 @@
-export interface IData {
+export interface TableRow {
   id: string;
   key: string;
   value: string;
 }
 
-export interface ITableProps {
+export interface TableProps {
   title: string;
-  tableInfo: IData[];
-  onChange: (newData: IData[]) => void;
+  tableInfo: TableRow[];
+  onChange: (newData: TableRow[]) => void;
 }

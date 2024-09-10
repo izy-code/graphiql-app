@@ -17,9 +17,9 @@ import { generateUniqueId } from '@/utils/utils.ts';
 
 import CustomInput from '../custom-input/CustomInput.tsx';
 import styles from './ClientTable.module.scss';
-import type { ITableProps } from './types.ts';
+import type { TableProps } from './types.ts';
 
-export default function ClientTable({ title, tableInfo, onChange }: ITableProps): ReactNode {
+export default function ClientTable({ title, tableInfo, onChange }: TableProps): ReactNode {
   const [newKey, setNewKey] = useState<string>('');
   const [newValue, setNewValue] = useState<string>('');
 

@@ -2,7 +2,7 @@
 
 import { getIntrospectionQuery, type IntrospectionQuery } from 'graphql';
 
-import type { IData } from '@/components/client-table/types.ts';
+import type { TableRow } from '@/components/client-table/types.ts';
 
 export interface GraphQLResponseData {
   status?: string;
@@ -15,7 +15,7 @@ export interface SchemaResponseData {
   errorMessage?: string;
 }
 
-const createHeadersObject = (headers: IData[] = []): Record<string, string> =>
+const createHeadersObject = (headers: TableRow[] = []): Record<string, string> =>
   headers.reduce(
     (acc, header) => {
       if (header.key.trim() && header.value.trim()) {
@@ -26,7 +26,7 @@ const createHeadersObject = (headers: IData[] = []): Record<string, string> =>
     {} as Record<string, string>,
   );
 
-export const getSchema = async (endpoint: string, headers: IData[] = []): Promise<SchemaResponseData> => {
+export const getSchema = async (endpoint: string, headers: TableRow[] = []): Promise<SchemaResponseData> => {
   try {
     if (!endpoint) {
       return { errorMessage: 'No schema endpoint provided' };
@@ -75,7 +75,7 @@ export const getResponse = async (
   endpoint: string,
   query: string,
   variables = '{}',
-  headers: IData[] = [],
+  headers: TableRow[] = [],
 ): Promise<GraphQLResponseData> => {
   try {
     if (!endpoint || !query) {

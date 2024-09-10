@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import { STORE_RESET } from '@/common/constants';
 import { ProtectedPaths } from '@/common/enums';
 import { AuthRoute } from '@/components/auth-route/AuthRoute';
-import type { IData } from '@/components/client-table/types';
+import type { TableRow } from '@/components/client-table/types';
 import GraphqlParamsContainer from '@/components/graphql-params-container/GraphqlParamsContainer';
 import GraphqlUrlFieldset from '@/components/graphql-url-fieldset/GraphqlUrlFieldset';
 import ResponseContainer from '@/components/response-container/ResponseContainer';
@@ -69,7 +69,7 @@ function GraphQl(): ReactNode {
         }
       }
 
-      const decodedHeaders: IData[] = [];
+      const decodedHeaders: TableRow[] = [];
 
       searchParams.forEach((value, key) => {
         decodedHeaders.push({ id: generateUniqueId(), key, value: decodeURIComponent(value) });
