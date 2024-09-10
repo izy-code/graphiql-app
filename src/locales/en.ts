@@ -99,6 +99,9 @@ export default {
   '404.message': 'The page you requested was not found.',
   '404.back': 'Previous page',
   '404.main': 'Main page',
+
+  'auth.loading': 'Loading Firebase...',
+  'auth.expired': 'Your token has expired, please sign in again',
   // auth. success
   // auth-error. error-mesages
 } as const;

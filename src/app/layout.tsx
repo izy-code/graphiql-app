@@ -8,7 +8,6 @@ import type { ReactNode } from 'react';
 
 import customButtonStyles from '@/components/custom-button/CustomButton.module.scss';
 import { Toast } from '@/components/toast/Toast';
-import { AuthProvider } from '@/contexts/auth-context';
 import errorPageStyles from '@/page-components/error-page/ErrorPage.module.scss';
 import { StoreProvider } from '@/store/store-provider';
 
@@ -29,10 +28,8 @@ export default function RootLayout({
       <body>
         <StoreProvider>
           <AppRouterCacheProvider>
-            <AuthProvider>
-              {children}
-              <Toast />
-            </AuthProvider>
+            {children}
+            <Toast />
           </AppRouterCacheProvider>
         </StoreProvider>
         {/* Allows to apply styles in global-error.tsx */}
