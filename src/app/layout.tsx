@@ -1,5 +1,5 @@
 import './global.scss';
-import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.min.css';
 
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import clsx from 'clsx';
