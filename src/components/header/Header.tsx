@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation';
 import { type ReactNode } from 'react';
 import { useEffect, useState } from 'react';
 
-import { USER_LOGOUT } from '@/common/constants';
+import { STORE_RESET } from '@/common/constants';
 import { NonProtectedPaths } from '@/common/enums';
 import { logOut } from '@/firebase/firebase';
 import { useAppDispatch } from '@/hooks/store-hooks';
@@ -54,7 +54,7 @@ export function Header(): ReactNode {
               className={styles.signElement}
               onClick={() => {
                 void logOut();
-                dispatch({ type: USER_LOGOUT });
+                dispatch({ type: STORE_RESET });
               }}
             >
               Sign out
