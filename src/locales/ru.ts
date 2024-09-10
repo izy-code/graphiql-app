@@ -70,4 +70,16 @@ export default {
   'headers.row': '+ строка',
   'headers.key': 'Ключ',
   'headers.value': 'Значение',
+
+  'graphiql.title': 'GraphiQL Клиент',
+  'graphiql.endpoint': 'Эндпоинт URL',
+  'graphiql.sdl': 'SDL URL',
+  'graphiql.params': 'Параметры',
+  'graphiql.query.title': 'Query: ',
+  'graphiql.query': 'Query',
+  'graphiql.variables.title': 'Переменные: ',
+  'graphiql.variables': 'Переменные',
+  'graphiql.response': 'Ответ',
+  'graphiql.status': 'Статус:',
+  'graphiql.body.title': 'Тело:',
 } as const;

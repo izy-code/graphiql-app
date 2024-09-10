@@ -70,6 +70,18 @@ export default {
   'headers.row': '+ row',
   'headers.key': 'Key',
   'headers.value': 'Value',
+
+  'graphiql.title': 'GraphiQL Client',
+  'graphiql.endpoint': 'Endpoint URL',
+  'graphiql.sdl': 'SDL URL',
+  'graphiql.params': 'Params',
+  'graphiql.query.title': 'Query: ',
+  'graphiql.query': 'Query',
+  'graphiql.variables.title': 'Variables: ',
+  'graphiql.variables': 'Variables',
+  'graphiql.response': 'Response',
+  'graphiql.status': 'Status:',
+  'graphiql.body.title': 'Body:',
   // auth. success
   // auth-error. error-mesages
 } as const;
