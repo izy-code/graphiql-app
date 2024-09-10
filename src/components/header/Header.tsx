@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import { NonProtectedPaths } from '@/common/enums';
 import { logOut } from '@/firebase/firebase';
 import { useAuth } from '@/hooks/useAuth';
+import { useScopedI18n } from '@/locales/client';
 
 import FlagButtons from '../flag-buttons/FlagButtons';
 import styles from './Header.module.scss';
@@ -17,6 +18,7 @@ export function Header(): ReactNode {
   const user = useAuth();
   const [isSticky, setIsSticky] = useState(false);
   const pathname = usePathname();
+  const translate = useScopedI18n('header');
 
   useEffect(() => {
     const handleScroll = (): void => {
@@ -47,17 +49,17 @@ export function Header(): ReactNode {
         <div className={styles.right}>
           <FlagButtons />
           {user ? (
-            <Button onClick={logOut}>Sign out</Button>
+            <Button onClick={logOut}>{translate('button.sign-out')}</Button>
           ) : (
             <>
               {!pathname.includes(NonProtectedPaths.SIGN_IN) && (
                 <Link className={styles.footer_items} href={NonProtectedPaths.SIGN_IN}>
-                  Sign in
+                  {translate('links.sign-in')}
                 </Link>
               )}
               {!pathname.includes(NonProtectedPaths.SIGN_UP) && (
                 <Link className={styles.footer_items} href={NonProtectedPaths.SIGN_UP}>
-                  Sign up
+                  {translate('links.sign-up')}
                 </Link>
               )}
             </>

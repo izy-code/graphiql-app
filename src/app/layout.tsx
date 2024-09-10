@@ -7,8 +7,6 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 
 import customButtonStyles from '@/components/custom-button/CustomButton.module.scss';
-import { Footer } from '@/components/footer/Footer';
-import { Header } from '@/components/header/Header';
 import { Toast } from '@/components/toast/Toast';
 import { AuthProvider } from '@/contexts/auth-context';
 import errorPageStyles from '@/page-components/error-page/ErrorPage.module.scss';
@@ -26,9 +24,7 @@ export default function RootLayout({ children }: { children: ReactNode }): React
         <StoreProvider>
           <AppRouterCacheProvider>
             <AuthProvider>
-              <Header />
-              <main className="main">{children}</main>
-              <Footer />
+              {children}
               <Toast />
             </AuthProvider>
           </AppRouterCacheProvider>
