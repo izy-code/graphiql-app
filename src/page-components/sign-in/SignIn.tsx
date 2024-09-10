@@ -16,7 +16,7 @@ import { useScopedI18n } from '@/locales/client';
 import styles from './SignIn.module.scss';
 
 function SignIn(): ReactNode {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(false);
   const translate = useScopedI18n('sign-in');
 
   const {

@@ -46,4 +46,13 @@ export default {
   'sign-in.email': 'Почта',
   'sign-in.password': 'Пароль',
   'sign-in.submit': 'Войти',
+
+  'sign-up.loader': 'Регистрируем...',
+  'sign-up.title': 'Регистрация',
+  'sign-up.name': 'Имя',
+  'sign-up.email': 'Почта',
+  'sign-up.password.title': 'Пароль',
+  'sign-up.password': 'Введите пароль',
+  'sign-up.password.confirm': 'Подтвердите пароль',
+  'sign-up.submit': 'Зарегистрироваться',
 } as const;

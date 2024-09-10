@@ -46,6 +46,15 @@ export default {
   'sign-in.email': 'Email',
   'sign-in.password': 'Password',
   'sign-in.submit': 'Sign in',
+
+  'sign-up.loader': 'Signing up...',
+  'sign-up.title': 'Sign up',
+  'sign-up.name': 'Name',
+  'sign-up.email': 'Email',
+  'sign-up.password.title': 'Password',
+  'sign-up.password': 'Enter password',
+  'sign-up.password.confirm': 'Confirm password',
+  'sign-up.submit': 'Sign up',
   // auth. success
   // auth-error. error-mesages
 } as const;
