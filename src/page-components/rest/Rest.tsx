@@ -12,18 +12,37 @@ import RestFieldset from '@/components/rest-fieldset/RestFieldset';
 import { useAppDispatch } from '@/hooks/store-hooks';
 import { useEncodeUrl } from '@/hooks/useEncodeUrl';
 import { useCurrentLocale } from '@/locales/client';
-import { setBody, setEndpoint, setHeaders, setMethod } from '@/store/rest-slice/rest-slice';
+import { setBody, setEndpoint, setHeaders, setMethod, setResponseBody, setStatus } from '@/store/rest-slice/rest-slice';
 import { decodeBase64, generateUniqueId } from '@/utils/utils.ts';
 
 import styles from './Rest.module.scss';
 
-function Rest(): ReactNode {
+interface RestProps {
+  responseData: {
+    status?: string;
+    data?: object;
+    errorMessage?: string;
+  } | null;
+}
+
+function Rest({ responseData }: RestProps): ReactNode {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const dispatch = useAppDispatch();
   const didMount = useRef(false);
   const locale = useCurrentLocale();
   const { replaceCompleteUrl } = useEncodeUrl();
+  console.log(responseData);
+  useEffect(() => {
+    if (responseData) {
+      dispatch(setStatus(responseData.status || ''));
+      if (responseData.errorMessage) {
+        dispatch(setResponseBody(responseData.errorMessage));
+      } else {
+        dispatch(setResponseBody(JSON.stringify(responseData.data, null, 2)));
+      }
+    }
+  }, [responseData, dispatch]);
 
   useEffect(() => {
     if (!didMount.current) {
@@ -33,18 +52,16 @@ function Rest(): ReactNode {
         notFound();
       }
 
-      if (pathParts.length < 2) {
-        const [methodParam] = pathParts;
-        dispatch(setMethod(methodParam || 'GET'));
+      const [methodParam, endpointParam, bodyParam, headersParam] = pathParts;
+      dispatch(setMethod(methodParam || 'GET'));
 
+      if (pathParts.length < 2) {
         dispatch(setEndpoint(decodeBase64('')));
         dispatch(setBody(decodeBase64('')));
         dispatch(setHeaders([{ id: generateUniqueId(), key: 'Content-Type', value: 'application/json' }]));
       }
 
       if (pathParts.length >= 2) {
-        const [methodParam, endpointParam, bodyParam, headersParam] = pathParts;
-        dispatch(setMethod(methodParam || 'GET'));
         dispatch(setEndpoint(decodeBase64(endpointParam || '') || ''));
         dispatch(setBody(decodeBase64(bodyParam || '') || ''));
         try {

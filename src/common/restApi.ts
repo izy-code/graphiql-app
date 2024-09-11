@@ -9,7 +9,11 @@ export interface RestResponseData {
 }
 
 const convertToHeadersObject = (data: ObjectWithId[]): { [key: string]: string } =>
-  Object.fromEntries(data.filter(({ key, value }) => key.trim() && value.trim()).map(({ key, value }) => [key, value]));
+  Object.fromEntries(
+    data
+      .filter(({ key, value }) => encodeURIComponent(key.trim()) && encodeURIComponent(value.trim()))
+      .map(({ key, value }) => [key, value]),
+  );
 
 export const replaceVariables = (text: string, variables: ObjectWithId[]): string => {
   const variableMap = Object.fromEntries(

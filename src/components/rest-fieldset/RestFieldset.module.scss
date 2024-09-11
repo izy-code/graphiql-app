@@ -52,19 +52,3 @@
   align-items: baseline;
 }
 
-.center {
-  width: 100%;
-  margin: 0 auto;
-  margin-top: 20px;
-  text-align: center;
-}
-
-.button {
-  background-color: var(--color-accent) !important;
-  transition: background-color 0.3s ease;
-
-
-  &:hover {
-    background-color: var(--color-accent-hover) !important;
-  }
-}
