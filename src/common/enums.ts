@@ -1,5 +1,5 @@
 export enum LocalStorageKeys {
-  REQUEST_LIST = 'request_list',
+  REQUEST_LIST = 'request-list',
 }
 
 export enum NonProtectedPaths {
