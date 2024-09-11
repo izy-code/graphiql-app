@@ -1,6 +1,5 @@
 'use client';
 
-import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import babelPlugin from 'prettier/plugins/babel';
 import estreePlugin from 'prettier/plugins/estree';
@@ -52,28 +51,19 @@ export default function CustomTextarea({
   return (
     <>
       <CustomButton onClick={handlePrettify}>Prettify</CustomButton>
-      <Box
-        component="form"
-        sx={{
-          '& > :not(style)': { m: 1, width },
-        }}
-        noValidate
-        autoComplete="off"
-        className={styles.inputContainer}
-      >
-        <TextField
-          label={label}
-          fullWidth
-          multiline
-          minRows={1}
-          maxRows={Infinity}
-          sx={{ mt: 2 }}
-          value={text}
-          onChange={handleChange}
-          onBlur={onBlur}
-          className={styles.input}
-        />
-      </Box>
+
+      <TextField
+        label={label}
+        fullWidth
+        multiline
+        minRows={1}
+        maxRows={Infinity}
+        sx={{ mt: 2, width }}
+        value={text}
+        onChange={handleChange}
+        onBlur={onBlur}
+        className={styles.input}
+      />
     </>
   );
 }

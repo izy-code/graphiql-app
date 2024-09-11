@@ -1,6 +1,5 @@
 'use client';
 
-import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import type { ChangeEvent, FocusEvent, ReactNode } from 'react';
 
@@ -24,27 +23,16 @@ export default function CustomInput({
   onBlur,
 }: CustomInputProps): ReactNode {
   return (
-    <Box
-      component="form"
+    <TextField
+      label={label}
+      variant={variant}
+      className={styles.input}
+      value={value}
+      onChange={onChange}
+      onBlur={onBlur}
       sx={{
-        m: 1,
         width,
       }}
-      noValidate
-      autoComplete="off"
-      className={styles.inputContainer}
-    >
-      <TextField
-        label={label}
-        variant={variant}
-        className={styles.input}
-        value={value}
-        onChange={onChange}
-        onBlur={onBlur}
-        sx={{
-          width,
-        }}
-      />
-    </Box>
+    />
   );
 }
