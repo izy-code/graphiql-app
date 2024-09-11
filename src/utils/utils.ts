@@ -5,7 +5,6 @@ import {
   SPECIAL_CHARACTER_REGEX,
   UPPERCASE_LETTER_REGEX,
 } from '@/common/constants';
-// import { getScopedI18n } from '@/locales/server';
 import en from '@/locales/en';
 import ru from '@/locales/ru';
 
@@ -17,11 +16,6 @@ export const getPasswordStrength = (password: string): number => {
 
   return strength;
 };
-
-/* export const translateText = async (key: Parameters<typeof getScopedI18n>[0], value: string): Promise<string> => {
-  const translate = await getScopedI18n(key);
-  return translate(value as never);
-}; */
 
 export const translateText = (key: string): string =>
   window.location.pathname.split('/').includes('en') ? en[key as never] : ru[key as never];
