@@ -11,14 +11,3 @@
   border: 1px solid var(--color-border);
   border-radius: 50px;
 }
-
-.sectionTitle {
-  position: absolute;
-  top: -52px;
-  left: 50%;
-  width: fit-content;
-  padding-inline: 20px;
-  text-align: center;
-  background-color: var(--color-bg-page);
-  transform: translateX(-50%);
-}

@@ -1,4 +1,5 @@
 import 'graphiql/graphiql.min.css';
+import './doc-explorer.scss';
 
 import { DocExplorer, GraphiQLProvider, useTheme as useSchemaTheme } from '@graphiql/react';
 import { createGraphiQLFetcher } from '@graphiql/toolkit';
@@ -18,18 +19,11 @@ export default function SchemaContainer(): ReactNode {
     setTheme('dark');
   }, [setTheme]);
 
-  const fetcher = useMemo(
-    () =>
-      createGraphiQLFetcher({
-        url: 'http://stub.com',
-      }),
-    [],
-  );
+  const fetcher = useMemo(() => createGraphiQLFetcher({ url: '' }), []);
 
   return (
     isSchemaShown && (
       <div className={clsx(styles.section, 'graphiql-container')}>
-        <h2 className={styles.sectionTitle}>Schema docs:</h2>
         <GraphiQLProvider fetcher={fetcher} schema={currentSchema}>
           <DocExplorer />
         </GraphiQLProvider>

@@ -1,0 +1,43 @@
+body.graphiql-dark .main {
+  & .graphiql-container {
+    color: var(--color-text-dark);
+    background-color: var(--color-bg-page);
+  }
+
+  & .graphiql-doc-explorer {
+    color: var(--color-text-dark);
+  }
+
+  & .graphiql-doc-explorer-section-title {
+    font-size: 14px;
+    color: var(--color-text-dark);
+  }
+
+  & .graphiql-markdown-description {
+    color: var(--color-text-dark);
+  }
+
+  & .graphiql-doc-explorer-type-name {
+    color: var(--color-primary-active);
+
+    &:hover {
+      color: var(--color-accent);
+    }
+  }
+
+  & .graphiql-doc-explorer-root-type {
+    color: var(--color-second-active);
+  }
+
+  & .graphiql-doc-explorer-field-name {
+    color: var(--color-second-active);
+
+    &:hover {
+      color: var(--color-accent);
+    }
+  }
+
+  & .graphiql-doc-explorer-argument-name {
+    color: var(--color-third-active);
+  }
+}
