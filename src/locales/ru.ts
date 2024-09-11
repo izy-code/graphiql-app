@@ -1,3 +1,5 @@
+import { MIN_PASSWORD_LENGTH } from '@/common/constants';
+
 export default {
   'header.links.sign-in': 'Войти',
   'header.links.sign-up': 'Зарегистрироваться',
@@ -102,6 +104,7 @@ export default {
 
   'auth.loading': 'Загружаем Firebase...',
   'auth.expired': 'Срок действия вашего токена истек, пожалуйста, войдите снова',
+  'auth.redirect': 'Перенаправляем...',
 
   'firebase.sign-out.success': 'Вы вышли из системы',
   'firebase.sign-in.success': 'Успешный вход с помощью {email}!',
@@ -110,4 +113,17 @@ export default {
   'firebase.errors.INVALID_LOGIN_CREDENTIALS': 'Неверные учетные данные',
   'firebase.errors.EMAIL_EXISTS': 'Почта уже используется',
   'firebase.errors.TOO_MANY_ATTEMPTS_TRY_LATER': 'Слишком много попыток входа',
+
+  'validation.email.required': 'Почта обязательна',
+  'validation.email.format': 'Почта должна иметь допустимый формат',
+  'validation.password.required': 'Пароль обязателен',
+  'validation.password.number': 'Пароль должен содержать цифру',
+  'validation.password.uppercase': 'Пароль должен содержать заглавную букву',
+  'validation.password.lowercase': 'Пароль должен содержать строчную букву',
+  'validation.password.special': 'Пароль должен содержать один из: -+/%*:#@\\$!?|^&',
+  'validation.password.min': `Пароль должен быть не менее ${MIN_PASSWORD_LENGTH} символов`,
+  'validation.name.required': 'Имя обязательно',
+  'validation.name.capital': 'Имя должно начинаться с заглавной буквы',
+  'validation.confirm.required': 'Пожалуйста, подтвердите свой пароль',
+  'validation.confirm.match': 'Пароли не совпадают',
 } as const;

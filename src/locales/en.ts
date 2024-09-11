@@ -1,3 +1,5 @@
+import { MIN_PASSWORD_LENGTH } from '@/common/constants';
+
 export default {
   'header.links.sign-in': 'Sign in',
   'header.links.sign-up': 'Sign up',
@@ -102,6 +104,7 @@ export default {
 
   'auth.loading': 'Loading Firebase...',
   'auth.expired': 'Your token has expired, please sign in again',
+  'auth.redirect': 'Redirecting...',
 
   'firebase.sign-out.success': 'You have been signed out',
   'firebase.sign-in.success': 'Successfully signed in with {email}!',
@@ -110,4 +113,17 @@ export default {
   'firebase.errors.INVALID_LOGIN_CREDENTIALS': 'Invalid credentials',
   'firebase.errors.EMAIL_EXISTS': 'Email already in use',
   'firebase.errors.TOO_MANY_ATTEMPTS_TRY_LATER': 'Too many authentication requests',
+
+  'validation.email.required': 'Email is required',
+  'validation.email.format': 'Email must have valid format',
+  'validation.password.required': 'Password is required',
+  'validation.password.number': 'Password must contain a number',
+  'validation.password.uppercase': 'Password must contain an uppercase letter',
+  'validation.password.lowercase': 'Password must contain a lowercase letter',
+  'validation.password.special': 'Password must contain one of: -+/%*:#@\\$!?|^&',
+  'validation.password.min': `Password must be at least ${MIN_PASSWORD_LENGTH} characters`,
+  'validation.name.required': 'Name is required',
+  'validation.name.capital': 'Name must start with a capital letter',
+  'validation.confirm.required': 'Please confirm your password',
+  'validation.confirm.match': 'Passwords do not match',
 } as const;

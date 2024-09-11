@@ -20,6 +20,7 @@ function SignIn(): ReactNode {
   const [isLoading, setIsLoading] = useState(false);
   const translate = useScopedI18n('sign-in');
   const translateFirebase = useScopedI18n('firebase');
+  const translateValidation = useScopedI18n('validation');
 
   const {
     formState: { errors, isDirty, isSubmitting, isValid },
@@ -65,12 +66,12 @@ function SignIn(): ReactNode {
         <FormInputField
           label={translate('email')}
           inputProps={{ ...register('email'), type: 'email', autoComplete: 'email' }}
-          error={errors.email?.message}
+          error={errors.email?.message && translateValidation(errors.email?.message as never)}
         />
         <FormInputField
           label={translate('password')}
           inputProps={{ ...register('password'), type: 'password', autoComplete: 'current-password' }}
-          error={errors.password?.message}
+          error={errors.password?.message && translateValidation(errors.password?.message as never)}
         />
 
         <CustomButton className={styles.submitButton} type="submit" disabled={isSubmitting || !isDirty || !isValid}>

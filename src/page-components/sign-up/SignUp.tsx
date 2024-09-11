@@ -24,6 +24,7 @@ export default function SignUp(): ReactNode {
   const [isLoading, setIsLoading] = useState(false);
   const translate = useScopedI18n('sign-up');
   const translateFirebase = useScopedI18n('firebase');
+  const translateValidation = useScopedI18n('validation');
 
   const {
     formState: { errors, isDirty, isSubmitting, isValid, touchedFields },
@@ -92,11 +93,15 @@ export default function SignUp(): ReactNode {
     <div className={styles.page}>
       <h1 className={styles.title}>{translate('title')}</h1>
       <form className={styles.form} name="react-hook-form" noValidate onSubmit={handleSubmit(onValid)}>
-        <FormInputField label={translate('name')} inputProps={{ ...register('name') }} error={errors.name?.message} />
+        <FormInputField
+          label={translate('name')}
+          inputProps={{ ...register('name') }}
+          error={errors.name?.message && translateValidation(errors.name?.message as never)}
+        />
         <FormInputField
           label={translate('email')}
           inputProps={{ ...register('email'), type: 'email', autoComplete: 'email' }}
-          error={errors.email?.message}
+          error={errors.email?.message && translateValidation(errors.email?.message as never)}
         />
 
         <fieldset className={styles.fieldset}>
@@ -104,12 +109,12 @@ export default function SignUp(): ReactNode {
           <FormPasswordField
             label={translate('password')}
             inputProps={{ ...register('password') }}
-            error={errors.password?.message}
+            error={errors.password?.message && translateValidation(errors.password?.message as never)}
           />
           <FormInputField
             label={translate('password.confirm')}
             inputProps={{ ...register('passwordConfirm'), type: 'password', autoComplete: 'new-password' }}
-            error={errors.passwordConfirm?.message}
+            error={errors.passwordConfirm?.message && translateValidation(errors.passwordConfirm?.message as never)}
           />
         </fieldset>
 

@@ -6,6 +6,8 @@ import {
   UPPERCASE_LETTER_REGEX,
 } from '@/common/constants';
 // import { getScopedI18n } from '@/locales/server';
+import en from '@/locales/en';
+import ru from '@/locales/ru';
 
 const regexArray = [NUMBER_REGEX, UPPERCASE_LETTER_REGEX, LOWERCASE_LETTER_REGEX, SPECIAL_CHARACTER_REGEX];
 export const MAX_STRENGTH = regexArray.length + 1;
@@ -20,3 +22,6 @@ export const getPasswordStrength = (password: string): number => {
   const translate = await getScopedI18n(key);
   return translate(value as never);
 }; */
+
+export const translateText = (key: string): string =>
+  window.location.pathname.split('/').includes('en') ? en[key as never] : ru[key as never];
