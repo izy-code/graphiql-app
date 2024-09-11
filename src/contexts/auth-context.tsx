@@ -6,8 +6,10 @@ import type { ReactNode } from 'react';
 import { createContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
+import { USER_LOGOUT } from '@/common/constants';
 import { Loader } from '@/components/loader/Loader';
 import { auth, logOut } from '@/firebase/firebase';
+import { useAppDispatch } from '@/hooks/store-hooks';
 
 export interface UserImpl {
   stsTokenManager: {
@@ -25,6 +27,7 @@ export function AuthProvider({ children }: { children: ReactNode }): ReactNode {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const checkTokenExpiration = async (currentUser: User): Promise<void> => {
@@ -34,6 +37,7 @@ export function AuthProvider({ children }: { children: ReactNode }): ReactNode {
 
       if (currentTime >= expirationTime) {
         await logOut();
+        dispatch({ type: USER_LOGOUT });
         toast.info('Your token has expired, please sign in again');
         router.push('/');
       }
@@ -58,7 +62,7 @@ export function AuthProvider({ children }: { children: ReactNode }): ReactNode {
       unsubscribe();
       clearInterval(intervalId);
     };
-  }, [router]);
+  }, [router, dispatch]);
 
   return (
     <AuthContext.Provider value={user}>

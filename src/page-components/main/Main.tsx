@@ -25,7 +25,7 @@ export default function Main(): ReactNode {
           {user ? (
             <>
               <Link href={ProtectedPaths.REST}>REST Client</Link>
-              <Link href={ProtectedPaths.GRAPHIQL}>GraphiQL Client</Link>
+              <Link href={ProtectedPaths.GRAPHQL}>GraphiQL Client</Link>
               <Link href={ProtectedPaths.HISTORY}>History</Link>
             </>
           ) : (
