@@ -39,6 +39,7 @@ export const getSchema = async (endpoint: string, headers: TableRow[] = []): Pro
         ...createHeadersObject(headers),
       },
       body: JSON.stringify({ query: getIntrospectionQuery() }),
+      cache: 'no-store',
     });
 
     const responseBody = (await response.json()) as { data?: object; errors?: object };
@@ -57,17 +58,9 @@ export const getSchema = async (endpoint: string, headers: TableRow[] = []): Pro
       };
     }
 
-    return { errorMessage: `Fetch failed with status code: ${response.status}` };
-  } catch (error) {
-    if (error instanceof Error) {
-      if (error.message === 'fetch failed') {
-        return { errorMessage: 'Failed to fetch schema' };
-      }
-
-      return { errorMessage: error.message };
-    }
-
-    return { errorMessage: 'Unknown error occurred while making the request' };
+    return { errorMessage: `Schema docs fetch failed with status code: ${response.status}` };
+  } catch {
+    return { errorMessage: 'Unknown error occurred while making the request, change schema docs URL' };
   }
 };
 
@@ -100,6 +93,7 @@ export const getResponse = async (
         query,
         variables: parsedVariables,
       }),
+      cache: 'no-store',
     });
 
     const responseBody = (await response.json()) as { data?: object; errors?: object };
