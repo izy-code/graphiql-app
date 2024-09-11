@@ -72,7 +72,7 @@ function GraphQl(): ReactNode {
       const decodedHeaders: TableRow[] = [];
 
       searchParams.forEach((value, key) => {
-        decodedHeaders.push({ id: generateUniqueId(), key, value: decodeURIComponent(value) });
+        decodedHeaders.push({ id: generateUniqueId(), key: decodeURIComponent(key), value: decodeURIComponent(value) });
       });
       dispatch(setHeaders(decodedHeaders));
 

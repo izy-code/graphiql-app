@@ -67,7 +67,7 @@ export const useEncodeUrl = (): {
 
       const encodedHeaders: string[] = [];
       headersParameter.forEach((header) => {
-        encodedHeaders.push(`${header.key}=${encodeURIComponent(header.value)}`);
+        encodedHeaders.push(`${encodeURIComponent(header.key)}=${encodeURIComponent(header.value)}`);
       });
 
       return `?${encodedHeaders.join('&')}`;
