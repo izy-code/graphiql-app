@@ -7,7 +7,7 @@ export interface RestResponseData {
 export async function getResponse(
   method: string,
   endpoint: string,
-  headers: { [key: string]: string } = {},
+  headers: Record<string, string> = {},
   body?: string,
 ): Promise<RestResponseData> {
   try {
@@ -18,6 +18,7 @@ export async function getResponse(
     const options: RequestInit = {
       method,
       headers,
+      cache: 'no-store',
     };
 
     if (method !== 'GET' && body) {

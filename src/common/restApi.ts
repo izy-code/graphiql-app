@@ -2,19 +2,6 @@
 
 import type { ObjectWithId } from '@/components/client-table/types.ts';
 
-export interface RestResponseData {
-  status?: string;
-  data?: object;
-  errorMessage?: string;
-}
-
-const convertToHeadersObject = (data: ObjectWithId[]): { [key: string]: string } =>
-  Object.fromEntries(
-    data
-      .filter(({ key, value }) => encodeURIComponent(key.trim()) && encodeURIComponent(value.trim()))
-      .map(({ key, value }) => [key, value]),
-  );
-
 export const replaceVariables = (text: string, variables: ObjectWithId[]): string => {
   const variableMap = Object.fromEntries(
     variables.filter(({ key, value }) => key.trim() && value.trim()).map(({ key, value }) => [key, value]),
@@ -27,45 +14,4 @@ export const replaceVariables = (text: string, variables: ObjectWithId[]): strin
   });
 
   return result.trim();
-};
-
-export const getResponse = async (
-  method: string,
-  endpoint: string,
-  headers: ObjectWithId[] = [],
-  body?: string,
-  variables?: ObjectWithId[],
-): Promise<RestResponseData> => {
-  try {
-    if (!endpoint) {
-      return { errorMessage: 'No endpoint or query provided' };
-    }
-    const validHeaders = convertToHeadersObject(headers);
-
-    const options: RequestInit = {
-      method,
-      headers: validHeaders,
-    };
-    let bodyReplace = '';
-
-    if (method !== 'GET' && variables && body) {
-      bodyReplace = replaceVariables(body, variables);
-      options.body = JSON.stringify(JSON.parse(bodyReplace));
-    }
-
-    if (method !== 'GET' && body && bodyReplace !== '') {
-      options.body = JSON.stringify(JSON.parse(body));
-    }
-
-    const response = await fetch(endpoint, options);
-    const responseBody = (await response.json()) as { data?: object; errors?: object };
-
-    if ('errors' in responseBody && Array.isArray(responseBody.errors) && responseBody.errors.length > 0) {
-      return { errorMessage: 'Response body contains errors' };
-    }
-
-    return { status: response.status.toString(), data: responseBody };
-  } catch {
-    return { errorMessage: 'Unknown error occurred while making the request', status: 'Fetch error' };
-  }
 };

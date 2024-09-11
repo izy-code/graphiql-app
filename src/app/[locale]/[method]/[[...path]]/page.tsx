@@ -14,10 +14,6 @@ interface RestPageProps {
   searchParams: Record<string, string>;
 }
 
-const convertSearchParamsToHeaders = (searchParams: Record<string, string>): { [key: string]: string } => ({
-  ...searchParams,
-});
-
 export default async function RestPage({ params, searchParams }: RestPageProps): Promise<ReactNode> {
   const { method } = params;
   const validMethods = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS', 'HEAD'];
@@ -32,7 +28,7 @@ export default async function RestPage({ params, searchParams }: RestPageProps):
 
   const endpoint = endpointPath ? decodeBase64(endpointPath) : '';
   const body = bodyPath ? decodeBase64(bodyPath) : '';
-  const headersArray = convertSearchParamsToHeaders(searchParams);
+  const headersArray = searchParams;
   let responseData = null;
 
   if (endpoint) {
@@ -42,6 +38,7 @@ export default async function RestPage({ params, searchParams }: RestPageProps):
       responseData = { errorMessage: 'Failed to fetch the response' };
     }
   }
+  console.log('responseData', responseData);
 
   return <Rest responseData={responseData} />;
 }
