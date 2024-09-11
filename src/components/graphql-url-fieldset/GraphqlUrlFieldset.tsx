@@ -74,8 +74,7 @@ export default function GraphqlUrlFieldset(): ReactNode {
     }
 
     dispatch(setCurrentSchema(data as Draft<IntrospectionQuery>));
-    dispatch(setIsSchemaShown(true));
-    toast.info('The request has been completed, look at the schema');
+    toast.info('The schema docs have been loaded, now you can open docs explorer');
   };
 
   return (
@@ -89,7 +88,7 @@ export default function GraphqlUrlFieldset(): ReactNode {
         onChange={handleEndpointChange}
       />
       <CustomInput
-        label="Schema URL"
+        label="Schema docs URL"
         variant="outlined"
         value={schemaUrl}
         width="100%"
@@ -98,11 +97,11 @@ export default function GraphqlUrlFieldset(): ReactNode {
       <div className={styles.buttonsContainer}>
         <CustomButton onClick={handleRequest}>Request</CustomButton>
         <CustomButton onClick={handleSchemaRequest} variant="secondary">
-          Schema request
+          Docs request
         </CustomButton>
         {currentSchema && (
           <CustomButton onClick={() => dispatch(setIsSchemaShown(!isSchemaShown))} variant="tertiary">
-            {isSchemaShown ? 'Hide schema' : 'Show schema'}
+            {isSchemaShown ? 'Hide schema docs' : 'Show schema docs'}
           </CustomButton>
         )}
       </div>
