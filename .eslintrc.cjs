@@ -46,7 +46,6 @@ module.exports = {
     'no-void': ['error', { allowAsStatement: true }],
     'react-refresh/only-export-components': ['off'],
     'no-param-reassign': ['error', { props: false }],
-    'no-underscore-dangle': ["error", { "allow": ["__schema"] }],
     'jsx-a11y/no-static-element-interactions': 'off',
     'jsx-a11y/click-events-have-key-events': 'off',
     'jsx-a11y/no-noninteractive-element-interactions': 'off',

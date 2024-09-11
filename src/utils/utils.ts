@@ -23,8 +23,6 @@ export const decodeBase64 = (str: string): string => {
   return Buffer.from(str + pad, 'base64').toString('utf-8');
 };
 
-export const sanitizeUrl = (url: string): string => url.replace(/[^a-zA-Z0-9/._-]/g, '');
-
 export const generateUniqueId = (): string => `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 
 export const replaceVariables = (text: string, variables: ObjectWithId[]): string => {

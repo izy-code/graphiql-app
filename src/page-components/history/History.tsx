@@ -12,7 +12,7 @@ import styles from './History.module.scss';
 
 function History(): ReactNode {
   const { getStoredValue } = useLocalStorage();
-  const requests = (getStoredValue(LocalStorageKeys.URLS_RSS_REQUEST) as string[]) || [];
+  const requests = (getStoredValue(LocalStorageKeys.REQUEST_LIST) as string[]) || [];
 
   return (
     <div className={styles.historyPage}>

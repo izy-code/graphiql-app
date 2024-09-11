@@ -14,10 +14,8 @@ function RequestButton(): ReactNode {
   const { getStoredValue, setStoredValue } = useLocalStorage();
 
   const handleRequest = (): void => {
-    // window.location.reload();
-
-    const requestsArray = (getStoredValue(LocalStorageKeys.URLS_RSS_REQUEST) as string[]) || [];
-    setStoredValue(LocalStorageKeys.URLS_RSS_REQUEST, [window.location.href, ...requestsArray]);
+    const requestsArray = (getStoredValue(LocalStorageKeys.REQUEST_LIST) as string[]) || [];
+    setStoredValue(LocalStorageKeys.REQUEST_LIST, [window.location.href, ...requestsArray]);
     void router.refresh();
   };
 

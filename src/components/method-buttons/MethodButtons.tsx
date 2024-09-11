@@ -5,8 +5,9 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import type { SelectChangeEvent } from '@mui/material/Select';
 import Select from '@mui/material/Select';
-import type { ReactNode } from 'react';
-import type * as React from 'react';
+import React, { type ReactNode } from 'react';
+
+import { VALID_METHODS } from '@/common/constants';
 
 import styles from './MethodButtons.module.scss';
 
@@ -41,27 +42,11 @@ export default function MethodButtons({ method, onMethodChange }: MethodButtonsP
             },
           }}
         >
-          <MenuItem className={styles.option} value="GET">
-            GET
-          </MenuItem>
-          <MenuItem className={styles.option} value="POST">
-            POST
-          </MenuItem>
-          <MenuItem className={styles.option} value="PUT">
-            PUT
-          </MenuItem>
-          <MenuItem className={styles.option} value="PATCH">
-            PATCH
-          </MenuItem>
-          <MenuItem className={styles.option} value="DELETE">
-            DELETE
-          </MenuItem>
-          <MenuItem className={styles.option} value="HEAD">
-            HEAD
-          </MenuItem>
-          <MenuItem className={styles.option} value="OPTIONS">
-            OPTIONS
-          </MenuItem>
+          {VALID_METHODS.map((methodName) => (
+            <MenuItem key={methodName} className={styles.option} value={methodName}>
+              {methodName}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
     </div>

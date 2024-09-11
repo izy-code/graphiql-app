@@ -1,17 +1,38 @@
-'use server';
+export interface RestResponseData {
+  status?: string;
+  data?: object;
+  errorMessage?: string;
+}
 
-import type { ObjectWithId } from '@/components/client-table/types.ts';
+export async function getResponse(
+  method: string,
+  endpoint: string,
+  headers: Record<string, string> = {},
+  body?: string,
+): Promise<RestResponseData> {
+  try {
+    if (!endpoint) {
+      return { errorMessage: 'No endpoint provided' };
+    }
 
-export const replaceVariables = (text: string, variables: ObjectWithId[]): string => {
-  const variableMap = Object.fromEntries(
-    variables.filter(({ key, value }) => key.trim() && value.trim()).map(({ key, value }) => [key, value]),
-  );
+    const options: RequestInit = {
+      method,
+      headers,
+      cache: 'no-store',
+    };
 
-  let result = text;
-  Object.entries(variableMap).forEach(([variableKey, variableValue]) => {
-    const variablePlaceholder = `{{${variableKey}}}`;
-    result = result.replace(new RegExp(variablePlaceholder, 'g'), variableValue);
-  });
+    if (method !== 'GET' && body) {
+      options.body = JSON.stringify(JSON.parse(body));
+    }
+    const response = await fetch(endpoint, options);
+    const responseBody = (await response.json()) as { data?: object; errors?: object };
 
-  return result.trim();
-};
+    if ('errors' in responseBody && Array.isArray(responseBody.errors) && responseBody.errors.length > 0) {
+      return { errorMessage: 'Response body contains errors' };
+    }
+
+    return { status: response.status.toString(), data: responseBody };
+  } catch {
+    return { errorMessage: 'Unknown error occurred while making the request', status: 'Fetch error' };
+  }
+}

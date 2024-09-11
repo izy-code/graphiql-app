@@ -7,3 +7,4 @@ export const NUMBER_REGEX = /\d/;
 
 export const NO_ENDPOINT = 'no-endpoint-provided';
 export const USER_LOGOUT = 'user-logout-action';
+export const VALID_METHODS = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS', 'HEAD'];

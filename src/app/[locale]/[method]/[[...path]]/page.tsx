@@ -1,7 +1,8 @@
 import { notFound } from 'next/navigation';
 import React, { type ReactNode } from 'react';
 
-import { getResponse } from '@/app/api/getResponse';
+import { VALID_METHODS } from '@/common/constants';
+import { getResponse } from '@/common/restApi.ts';
 import { decodeBase64 } from '@/utils/utils';
 
 import Rest from '../../../../page-components/rest/Rest';
@@ -16,10 +17,9 @@ interface RestPageProps {
 
 export default async function RestPage({ params, searchParams }: RestPageProps): Promise<ReactNode> {
   const { method } = params;
-  const validMethods = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS', 'HEAD'];
 
-  if (!validMethods.includes(method.toUpperCase())) {
-    return notFound();
+  if (!VALID_METHODS.includes(method.toUpperCase())) {
+    notFound();
   }
 
   const pathArray = params.path || [];
@@ -38,7 +38,5 @@ export default async function RestPage({ params, searchParams }: RestPageProps):
       responseData = { errorMessage: 'Failed to fetch the response' };
     }
   }
-  console.log('responseData', responseData);
-
   return <Rest responseData={responseData} />;
 }
