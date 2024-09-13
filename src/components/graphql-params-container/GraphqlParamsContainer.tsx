@@ -23,26 +23,27 @@ export default function GraphqlParamsContainer(): ReactNode {
   return (
     <div className={styles.section}>
       <div className={styles.item}>
-        <h4>Query: </h4>
         <CustomTextarea
-          label="Query"
+          editorMode="graphql"
+          titleText="Query: "
           value={query}
           width="100%"
+          hasHideBtn={false}
           onBlur={() => replaceUrl()}
-          onChange={(e) => dispatch(setQuery(e.target.value))}
+          onChange={(value) => dispatch(setQuery(value))}
         />
       </div>
 
       <h2 className={styles.sectionTitle}>Params</h2>
       <ClientTable title="Headers" tableInfo={headers} onChange={handleHeadersChange} />
       <div className={styles.item}>
-        <h4>Variables: </h4>
         <CustomTextarea
-          label="Variables"
+          editorMode="json-with-linter"
+          titleText="Variables: "
           value={variables}
           width="100%"
           onBlur={() => replaceUrl()}
-          onChange={(e) => dispatch(setVariables(e.target.value))}
+          onChange={(value) => dispatch(setVariables(value))}
         />
       </div>
     </div>
