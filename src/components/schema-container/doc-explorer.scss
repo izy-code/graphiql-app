@@ -1,5 +1,7 @@
 body.graphiql-dark .main {
   & .graphiql-container {
+    font-family: var(--primary-font);
+    font-size: 18px;
     color: var(--color-text-dark);
     background-color: var(--color-bg-page);
   }
@@ -9,7 +11,7 @@ body.graphiql-dark .main {
   }
 
   & .graphiql-doc-explorer-section-title {
-    font-size: 14px;
+    font-size: 18px;
     color: var(--color-text-dark);
   }
 
