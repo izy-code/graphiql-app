@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { type ReactNode } from 'react';
 
+import { NO_ENDPOINT } from '@/common/constants';
 import { LocalStorageKeys, ProtectedPaths } from '@/common/enums';
 import { AuthRoute } from '@/components/auth-route/AuthRoute';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
@@ -36,7 +37,7 @@ function History(): ReactNode {
                 const pathParts = url.pathname.split('/');
                 const methodParam = pathParts[2] || '';
                 const encodedEndpoint = pathParts[3] || '';
-                const decodedEndpoint = decodeBase64(encodedEndpoint);
+                const decodedEndpoint = encodedEndpoint === NO_ENDPOINT ? NO_ENDPOINT : decodeBase64(encodedEndpoint);
                 const key = index;
 
                 return (
