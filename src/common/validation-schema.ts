@@ -11,22 +11,24 @@ import {
   UPPERCASE_LETTER_REGEX,
 } from './constants';
 
-const emailStringSchema = string().required('Email is required').matches(EMAIL_REGEX, 'Email must have valid format');
+const emailStringSchema = string().required('email.required').matches(EMAIL_REGEX, 'email.format');
 const passwordStringSchema = string()
-  .required('Password is required')
-  .matches(NUMBER_REGEX, 'Password must contain a number')
-  .matches(UPPERCASE_LETTER_REGEX, 'Password must contain an uppercase letter')
-  .matches(LOWERCASE_LETTER_REGEX, 'Password must contain a lowercase letter')
-  .matches(SPECIAL_CHARACTER_REGEX, 'Password must contain one of: -+/%*:#@\\$!?|^&')
-  .min(MIN_PASSWORD_LENGTH, `Password must be at least ${MIN_PASSWORD_LENGTH} characters`);
+  .required('password.required')
+  .matches(NUMBER_REGEX, 'password.number')
+  .matches(UPPERCASE_LETTER_REGEX, 'password.uppercase')
+  .matches(LOWERCASE_LETTER_REGEX, 'password.lowercase')
+  .matches(SPECIAL_CHARACTER_REGEX, 'password.special')
+  .min(MIN_PASSWORD_LENGTH, 'password.min');
 
 export const registrationSchema = object().shape({
-  name: string().required('Name is required').matches(NAME_REGEX, 'Name must start with a capital letter'),
+  name: string()
+    .required('name.required')
+    .matches(NAME_REGEX, 'name.capital'),
   email: emailStringSchema,
   password: passwordStringSchema,
   passwordConfirm: string()
-    .required('Please confirm your password')
-    .oneOf([ref('password')], 'Passwords do not match'),
+    .required('confirm.required')
+    .oneOf([ref('password')], 'confirm.match'),
 });
 
 export const loginSchema = object().shape({

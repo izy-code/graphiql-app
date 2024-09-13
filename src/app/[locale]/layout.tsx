@@ -1,6 +1,9 @@
 import { type ReactNode } from 'react';
 
+import { Footer } from '@/components/footer/Footer';
+import { Header } from '@/components/header/Header';
 import { Loader } from '@/components/loader/Loader';
+import { AuthProvider } from '@/contexts/auth-context';
 import { I18nProviderClient } from '@/locales/client';
 
 export default function LocaleLayout({
@@ -12,7 +15,11 @@ export default function LocaleLayout({
 }): ReactNode {
   return (
     <I18nProviderClient locale={locale} fallback={<Loader />}>
-      {children}
+      <AuthProvider>
+        <Header />
+        <main className="main">{children}</main>
+        <Footer />
+      </AuthProvider>
     </I18nProviderClient>
   );
 }

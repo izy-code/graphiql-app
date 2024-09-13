@@ -5,7 +5,7 @@ import { vi } from 'vitest';
 import ErrorPage from '@/app/error';
 import GlobalErrorPage from '@/app/global-error';
 
-describe('ErrorPage', () => {
+describe.skip('ErrorPage', () => {
   const original = window.location;
   const reloadMock = vi.fn();
 

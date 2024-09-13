@@ -6,8 +6,12 @@ import type { ReactNode } from 'react';
 import { createContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
+import { USER_LOGOUT } from '@/common/constants';
 import { Loader } from '@/components/loader/Loader';
 import { auth, logOut } from '@/firebase/firebase';
+import { useAppDispatch } from '@/hooks/store-hooks';
+import { useScopedI18n } from '@/locales/client';
+import { translateText } from '@/utils/utils';
 
 export interface UserImpl {
   stsTokenManager: {
@@ -23,8 +27,10 @@ export const AuthContext = createContext<AuthContextType>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }): ReactNode {
   const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
+  const translate = useScopedI18n('auth');
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const checkTokenExpiration = async (currentUser: User): Promise<void> => {
@@ -34,7 +40,8 @@ export function AuthProvider({ children }: { children: ReactNode }): ReactNode {
 
       if (currentTime >= expirationTime) {
         await logOut();
-        toast.info('Your token has expired, please sign in again');
+        dispatch({ type: USER_LOGOUT });
+        toast.info(translateText('auth.expired'));
         router.push('/');
       }
     };
@@ -58,11 +65,11 @@ export function AuthProvider({ children }: { children: ReactNode }): ReactNode {
       unsubscribe();
       clearInterval(intervalId);
     };
-  }, [router]);
+  }, [router, dispatch]);
 
   return (
     <AuthContext.Provider value={user}>
-      {isLoading ? <Loader loaderText="Loading Firebase..." /> : children}
+      {isLoading ? <Loader loaderText={translate('loading')} /> : children}
     </AuthContext.Provider>
   );
 }

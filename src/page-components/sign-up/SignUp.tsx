@@ -13,6 +13,7 @@ import { FormPasswordField } from '@/components/form-password-field/FormPassword
 import { Loader } from '@/components/loader/Loader';
 import { signUp } from '@/firebase/firebase';
 import { useAuth } from '@/hooks/useAuth';
+import { useScopedI18n } from '@/locales/client';
 
 import styles from './SignUp.module.scss';
 
@@ -20,6 +21,8 @@ export default function SignUp(): ReactNode {
   const user = useAuth();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const translate = useScopedI18n('sign-up');
+  const translateValidation = useScopedI18n('validation');
 
   const {
     formState: { errors, isDirty, isSubmitting, isValid, touchedFields },
@@ -32,7 +35,7 @@ export default function SignUp(): ReactNode {
     resolver: yupResolver(registrationSchema),
   });
 
-  const password = watch('password');
+  const passwordWatch = watch('password');
 
   useEffect(() => {
     const asyncTrigger = async (): Promise<void> => {
@@ -42,16 +45,16 @@ export default function SignUp(): ReactNode {
     };
 
     void asyncTrigger();
-  }, [password, trigger, touchedFields]);
+  }, [passwordWatch, trigger, touchedFields]);
 
-  const onValid: SubmitHandler<RegistrationSchemaType> = async (data) => {
+  const onValid: SubmitHandler<RegistrationSchemaType> = async ({ name, email, password }) => {
     if (!isValid) {
       return;
     }
 
     setIsLoading(true);
 
-    const isSuccess = await signUp(data.name, data.email, data.password);
+    const isSuccess = await signUp(name, email, password);
 
     if (isSuccess) {
       router.push('/');
@@ -67,7 +70,7 @@ export default function SignUp(): ReactNode {
   }, [router, user]);
 
   if (isLoading) {
-    return <Loader loaderText="Signing up..." />;
+    return <Loader loaderText={translate('loader')} />;
   }
 
   if (user) {
@@ -76,31 +79,35 @@ export default function SignUp(): ReactNode {
 
   return (
     <div className={styles.page}>
-      <h1 className={styles.title}>Sign up</h1>
+      <h1 className={styles.title}>{translate('title')}</h1>
       <form className={styles.form} name="react-hook-form" noValidate onSubmit={handleSubmit(onValid)}>
-        <FormInputField label="Name" inputProps={{ ...register('name') }} error={errors.name?.message} />
         <FormInputField
-          label="Email"
-          inputProps={{ ...register('email'), type: 'text', autoComplete: 'email' }}
-          error={errors.email?.message}
+          label={translate('name')}
+          inputProps={{ ...register('name') }}
+          error={errors.name?.message && translateValidation(errors.name?.message as never)}
+        />
+        <FormInputField
+          label={translate('email')}
+          inputProps={{ ...register('email'), type: 'text, autoComplete: 'email' }}
+          error={errors.email?.message && translateValidation(errors.email?.message as never)}
         />
 
         <fieldset className={styles.fieldset}>
-          <legend className={styles.legend}>Password</legend>
+          <legend className={styles.legend}>{translate('password.title')}</legend>
           <FormPasswordField
-            label="Enter password"
+            label={translate('password')}
             inputProps={{ ...register('password') }}
-            error={errors.password?.message}
+            error={errors.password?.message && translateValidation(errors.password?.message as never)}
           />
           <FormInputField
-            label="Confirm password"
+            label={translate('password.confirm')}
             inputProps={{ ...register('passwordConfirm'), type: 'password', autoComplete: 'new-password' }}
-            error={errors.passwordConfirm?.message}
+            error={errors.passwordConfirm?.message && translateValidation(errors.passwordConfirm?.message as never)}
           />
         </fieldset>
 
         <CustomButton className={styles.submitButton} type="submit" disabled={isSubmitting || !isDirty || !isValid}>
-          Sign up
+          {translate('submit')}
         </CustomButton>
       </form>
     </div>

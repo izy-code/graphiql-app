@@ -42,9 +42,11 @@
 .right {
   display: flex;
   flex-flow: row nowrap;
-  gap: 2rem;
-  justify-content: center;
+  gap: 20px;
+  justify-content: space-around;
   align-items: center;
-  width: 25%;
 }
 
+.signElement {
+  text-align: center;
+}

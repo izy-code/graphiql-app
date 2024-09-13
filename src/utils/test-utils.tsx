@@ -9,7 +9,7 @@ import { Provider } from 'react-redux';
 
 import type * as FirebaseModule from '@/firebase/firebase';
 import type { AppStore, RootState } from '@/store/store';
-import { makeStore, setupStore } from '@/store/store';
+import { setupStore } from '@/store/store';
 
 type Callback = (changedUser: object | null) => Promise<void>;
 
@@ -31,7 +31,7 @@ export function renderWithProvidersAndUser(
     const storeRef = useRef<AppStore>();
 
     if (!storeRef.current) {
-      storeRef.current = makeStore();
+      storeRef.current = setupStore(preloadedState);
     }
 
     return (

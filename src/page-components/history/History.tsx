@@ -1,39 +1,56 @@
 'use client';
 
 import Link from 'next/link';
-import { type ReactNode, useState } from 'react';
+import { type ReactNode } from 'react';
 
-import { ProtectedPaths } from '@/common/enums.ts';
+import { LocalStorageKeys, ProtectedPaths } from '@/common/enums';
 import { AuthRoute } from '@/components/auth-route/AuthRoute';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { useScopedI18n } from '@/locales/client';
+import { decodeBase64 } from '@/utils/utils';
 
 import styles from './History.module.scss';
 
 function History(): ReactNode {
-  const example = ['http://localhost:3000/GET', 'http://localhost:3000/POST', 'http://localhost:3000/DELETE'];
-  const [requests] = useState(example);
+  const { getStoredValue } = useLocalStorage();
+  const requests = (getStoredValue(LocalStorageKeys.REQUEST_LIST) as string[]) || [];
+  const translate = useScopedI18n('history');
 
   return (
     <div className={styles.historyPage}>
-      <h1 className={styles.historyTitle}>History</h1>
+      <h1 className={styles.historyTitle}>{translate('title')}</h1>
       {requests.length === 0 ? (
         <div className={styles.noRequests}>
-          <h2>You haven’t executed any requests</h2>
-          <p>It’s empty here. Try: </p>
+          <h2>{translate('empty.title')}</h2>
+          <p>{translate('empty')}</p>
           <div className={styles.buttonGroup}>
-            <Link href={ProtectedPaths.REST}>REST Client</Link>
-            <Link href={ProtectedPaths.GRAPHIQL}>GraphiQL Client</Link>
+            <Link href={ProtectedPaths.REST}>{translate('links.rest')}</Link>
+            <Link href={ProtectedPaths.GRAPHQL}>{translate('links.graphql')}</Link>
           </div>
         </div>
       ) : (
         <div className={styles.requests}>
           <div className={styles.section}>
-            <h2 className={styles.sectionTitle}> Requests:</h2>
+            <h2 className={styles.sectionTitle}>{translate('subtitle')}</h2>
             <div className={styles.requestsStrings}>
-              {requests.map((request) => (
-                <div key={request} className={styles.requestItem}>
-                  {request}
-                </div>
-              ))}
+              {requests.map((request, index) => {
+                const pathParts = request.split('/');
+                const methodParam = pathParts[4] || '';
+                const encodedEndpoint = pathParts[5] || '';
+                const decodedEndpoint = decodeBase64(encodedEndpoint);
+                const key = index;
+
+                return (
+                  <div key={key} className={styles.requestItem}>
+                    <Link className={styles.oneLine} href={request}>
+                      <p>[</p>
+                      <p className={styles.method}>{`${methodParam}`}</p>
+                      <p className={styles.url}>{`${decodedEndpoint}`}</p>
+                      <p>]</p>
+                    </Link>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

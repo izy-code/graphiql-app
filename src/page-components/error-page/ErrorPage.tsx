@@ -1,6 +1,7 @@
 import { type ReactNode } from 'react';
 
 import { CustomButton } from '@/components/custom-button/CustomButton';
+import { useScopedI18n } from '@/locales/client';
 
 import styles from './ErrorPage.module.scss';
 
@@ -9,21 +10,23 @@ interface Props {
 }
 
 export function ErrorPage({ errorMessage }: Props): ReactNode {
+  const translate = useScopedI18n('error');
+
   const handleRefresh = (): void => window.location.reload();
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.header}>Oops!</h1>
-      <p className={styles.text}>Sorry, an unexpected error has occurred.</p>
+      <h1 className={styles.header}>{translate('title')}</h1>
+      <p className={styles.text}>{translate('text')}</p>
       {errorMessage && (
         <>
-          <p className={styles.errorDesc}>Error message:</p>
+          <p className={styles.errorDesc}>{translate('desc')}</p>
           <p className={styles.error}>{errorMessage}</p>
         </>
       )}
-      <p className={styles.text}>Please try to refresh the page.</p>
+      <p className={styles.text}>{translate('recommendation')}</p>
       <CustomButton className={styles.refreshBtn} type="button" onClick={handleRefresh}>
-        Refresh the page
+        {translate('refresh')}
       </CustomButton>
     </div>
   );

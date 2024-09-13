@@ -1,53 +1,92 @@
 'use client';
 
-import Box from '@mui/material/Box';
-import type { ReactNode } from 'react';
-import * as React from 'react';
+import { notFound, usePathname, useSearchParams } from 'next/navigation';
+import { type ReactNode, useEffect, useRef } from 'react';
 
+import { USER_LOGOUT } from '@/common/constants';
 import { AuthRoute } from '@/components/auth-route/AuthRoute';
-import CustomInput from '@/components/custom-input/CustomInput';
-import CustomTextarea from '@/components/custom-textarea/CustomTextarea';
-import MethodButtons from '@/components/method-buttons/MethodButtons';
-import TableHeaders from '@/components/table-headers/TableHeaders';
+import type { ObjectWithId } from '@/components/client-table/types';
+import { ResponseContainer } from '@/components/response-container/ResponseContainer';
+import { RestFieldset } from '@/components/rest-fieldset/RestFieldset';
+import { useAppDispatch } from '@/hooks/store-hooks';
+import { useCurrentLocale, useScopedI18n } from '@/locales/client';
+import { setBody, setEndpoint, setHeaders, setMethod, setResponseBody, setStatus } from '@/store/rest-slice/rest-slice';
+import { decodeBase64, generateUniqueId, translateText } from '@/utils/utils';
 
 import styles from './Rest.module.scss';
 
-function Rest(): ReactNode {
-  const [body, setBody] = React.useState('');
-  const [status] = React.useState(200);
-  const [responseBody] = React.useState('{}');
+interface RestProps {
+  responseData: {
+    status?: string;
+    data?: object;
+    errorMessage?: string;
+  } | null;
+}
+
+function Rest({ responseData }: RestProps): ReactNode {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const dispatch = useAppDispatch();
+  const didMount = useRef(false);
+  const locale = useCurrentLocale();
+  const translate = useScopedI18n('rest');
+
+  useEffect(() => {
+    if (responseData) {
+      dispatch(
+        setStatus(
+          responseData.status === 'restApi.errors.status'
+            ? translateText(responseData.status as never)
+            : responseData.status || '',
+        ),
+      );
+      if (responseData.errorMessage) {
+        dispatch(setResponseBody(translateText(responseData.errorMessage as never)));
+      } else {
+        dispatch(setResponseBody(JSON.stringify(responseData.data, null, 2)));
+      }
+    }
+  }, [responseData, dispatch]);
+
+  useEffect(() => {
+    if (!didMount.current) {
+      const pathParts: string[] = pathname.split('/').filter((_, index) => index > 1);
+
+      if (pathParts.length >= 4) {
+        notFound();
+      }
+
+      const [methodParam, endpointParam, bodyParam] = pathParts;
+      dispatch(setMethod(methodParam || 'GET'));
+
+      if (pathParts.length < 2) {
+        dispatch({ type: USER_LOGOUT });
+        dispatch(setHeaders([{ id: generateUniqueId(), key: 'Content-Type', value: 'application/json' }]));
+      }
+
+      if (pathParts.length >= 2) {
+        dispatch(setEndpoint(decodeBase64(endpointParam || '') || ''));
+        dispatch(setBody(decodeBase64(bodyParam || '') || ''));
+      }
+
+      const decodedHeaders: ObjectWithId[] = [];
+
+      searchParams.forEach((value, key) => {
+        decodedHeaders.push({ id: generateUniqueId(), key: decodeURIComponent(key), value: decodeURIComponent(value) });
+      });
+      dispatch(setHeaders(decodedHeaders));
+
+      didMount.current = true;
+    }
+  }, [pathname, searchParams, dispatch, locale]);
 
   return (
     <div className={styles.page}>
       <div className={styles.container}>
-        <h1 className={styles.title}>REST Client</h1>
-        <div className={styles.items}>
-          <h2 className={styles.sectionTitle}>URL</h2>
-          <MethodButtons />
-          <CustomInput label="Endpoint URL" variant="standard" width="420px" />
-        </div>
-        <div className={styles.section}>
-          <h2 className={styles.sectionTitle}>Params</h2>
-          <TableHeaders />
-          <div className={styles.item}>
-            <h4>Body: </h4>
-            <CustomTextarea label="Body" value={body} width="500px" onChange={(e) => setBody(e.target.value)} />
-          </div>
-        </div>
+        <h1 className={styles.title}>{translate('title')}</h1>
+        <RestFieldset />
       </div>
-      <div className={styles.section}>
-        <h2 className={styles.sectionTitle}>Response</h2>
-        <div className={styles.oneLine}>
-          <h4>Status:</h4>
-          {status}
-        </div>
-        <div>
-          <h4>Body:</h4>
-          <Box component="pre" sx={{ backgroundColor: 'inherit', p: 2, mt: 1, maxHeight: '200px', overflow: 'auto' }}>
-            {responseBody}
-          </Box>
-        </div>
-      </div>
+      <ResponseContainer type="rest" />
     </div>
   );
 }

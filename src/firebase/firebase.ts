@@ -8,6 +8,9 @@ import {
 } from 'firebase/auth';
 import { toast } from 'react-toastify';
 
+import { LOCAL_STORAGE_KEY } from '@/hooks/useLocalStorage';
+import { translateText } from '@/utils/utils';
+
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
@@ -24,16 +27,16 @@ const showErrorToast = (error: unknown): void => {
   if (error instanceof FirebaseError) {
     switch (error.code) {
       case AuthErrorCodes.USER_DISABLED:
-        toast.error('User disabled');
+        toast.error(translateText('firebase.errors.USER_DISABLED'));
         break;
       case AuthErrorCodes.INVALID_LOGIN_CREDENTIALS:
-        toast.error('Invalid credentials');
+        toast.error(translateText('firebase.errors.INVALID_LOGIN_CREDENTIALS'));
         break;
       case AuthErrorCodes.EMAIL_EXISTS:
-        toast.error('Email already in use');
+        toast.error(translateText('firebase.errors.EMAIL_EXISTS'));
         break;
       case AuthErrorCodes.TOO_MANY_ATTEMPTS_TRY_LATER:
-        toast.error('Too many authentication requests');
+        toast.error(translateText('firebase.errors.TOO_MANY_ATTEMPTS_TRY_LATER'));
         break;
       default:
         toast.error(error.code);
@@ -44,7 +47,7 @@ const showErrorToast = (error: unknown): void => {
 export const signIn = async (email: string, password: string): Promise<boolean> => {
   try {
     await signInWithEmailAndPassword(auth, email, password);
-    toast.success(`Successfully signed in with ${email}!`);
+    toast.success(translateText('firebase.sign-in.success').replace('{email}', email));
 
     return true;
   } catch (error) {
@@ -58,7 +61,7 @@ export const signUp = async (name: string, email: string, password: string): Pro
   try {
     const { user } = await createUserWithEmailAndPassword(auth, email, password);
     await updateProfile(user, { displayName: name });
-    toast.success(`Successfully signed up ${name}!`);
+    toast.success(translateText('firebase.sign-up.success').replace('{name}', name));
 
     return true;
   } catch (error) {
@@ -71,7 +74,8 @@ export const signUp = async (name: string, email: string, password: string): Pro
 export const logOut = async (): Promise<void> => {
   try {
     await auth.signOut();
-    toast.success('You have been signed out');
+    localStorage.removeItem(LOCAL_STORAGE_KEY);
+    toast.success(translateText('firebase.sign-out.success'));
   } catch (error) {
     showErrorToast(error);
   }
