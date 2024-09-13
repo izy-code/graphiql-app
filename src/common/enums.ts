@@ -1,4 +1,6 @@
-export enum LocalStorageKeys {}
+export enum LocalStorageKeys {
+  REQUEST_LIST = 'request-list',
+}
 
 export enum NonProtectedPaths {
   SIGN_UP = '/sign-up',
@@ -6,7 +8,7 @@ export enum NonProtectedPaths {
 }
 
 export enum ProtectedPaths {
-  REST = '/rest',
-  GRAPHIQL = '/graphiql',
+  REST = '/GET',
+  GRAPHQL = '/GRAPHQL',
   HISTORY = '/history',
 }

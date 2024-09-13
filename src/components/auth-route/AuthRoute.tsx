@@ -1,15 +1,16 @@
-'use client';
-
 import { useRouter } from 'next/navigation';
-import { type ElementType, type ReactNode, useEffect } from 'react';
+import { type ReactNode, useEffect } from 'react';
 
 import { useAuth } from '@/hooks/useAuth';
 import { useScopedI18n } from '@/locales/client';
 
 import { Loader } from '../loader/Loader';
 
-export const AuthRoute = (WrappedComponent: ElementType, isNonAuth = false) =>
-  function WithAuthControl(props: object): ReactNode {
+export const AuthRoute = <P extends object>(
+  WrappedComponent: React.ComponentType<P>,
+  isNonAuth = false,
+): React.FC<P> => {
+  function WithAuthControl(props: P): ReactNode {
     const user = useAuth();
     const router = useRouter();
     const translate = useScopedI18n('auth');
@@ -25,4 +26,7 @@ export const AuthRoute = (WrappedComponent: ElementType, isNonAuth = false) =>
     ) : (
       <Loader loaderText={translate('redirect')} />
     );
-  };
+  }
+
+  return WithAuthControl;
+};

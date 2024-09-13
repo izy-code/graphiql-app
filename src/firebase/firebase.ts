@@ -8,6 +8,7 @@ import {
 } from 'firebase/auth';
 import { toast } from 'react-toastify';
 
+import { LOCAL_STORAGE_KEY } from '@/hooks/useLocalStorage';
 import { translateText } from '@/utils/utils';
 
 const firebaseConfig = {
@@ -73,6 +74,7 @@ export const signUp = async (name: string, email: string, password: string): Pro
 export const logOut = async (): Promise<void> => {
   try {
     await auth.signOut();
+    localStorage.removeItem(LOCAL_STORAGE_KEY);
     toast.success(translateText('firebase.sign-out.success'));
   } catch (error) {
     showErrorToast(error);

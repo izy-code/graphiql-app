@@ -1,18 +1,19 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { type ReactNode, useState } from 'react';
+import Link from 'next/link';
+import { type ReactNode } from 'react';
 
+import { LocalStorageKeys, ProtectedPaths } from '@/common/enums';
 import { AuthRoute } from '@/components/auth-route/AuthRoute';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { useScopedI18n } from '@/locales/client';
+import { decodeBase64 } from '@/utils/utils';
 
-import { CustomMuiButton } from '../../components/custom-mui-button/CustomMuiButton.tsx';
 import styles from './History.module.scss';
 
 function History(): ReactNode {
-  const example = ['http://localhost:3000/GET', 'http://localhost:3000/POST', 'http://localhost:3000/DELETE'];
-  const router = useRouter();
-  const [requests] = useState(example);
+  const { getStoredValue } = useLocalStorage();
+  const requests = (getStoredValue(LocalStorageKeys.REQUEST_LIST) as string[]) || [];
   const translate = useScopedI18n('history');
 
   return (
@@ -23,8 +24,8 @@ function History(): ReactNode {
           <h2>{translate('empty.title')}</h2>
           <p>{translate('empty')}</p>
           <div className={styles.buttonGroup}>
-            <CustomMuiButton onClick={() => router.push('/rest')}>{translate('links.rest')}</CustomMuiButton>
-            <CustomMuiButton onClick={() => router.push('/graph')}>{translate('links.graphiql')}</CustomMuiButton>
+            <Link href={ProtectedPaths.REST}>{translate('links.rest')}</Link>
+            <Link href={ProtectedPaths.GRAPHQL}>{translate('links.graphql')}</Link>
           </div>
         </div>
       ) : (
@@ -32,11 +33,24 @@ function History(): ReactNode {
           <div className={styles.section}>
             <h2 className={styles.sectionTitle}>{translate('subtitle')}</h2>
             <div className={styles.requestsStrings}>
-              {requests.map((request) => (
-                <div key={request} className={styles.requestItem}>
-                  {request}
-                </div>
-              ))}
+              {requests.map((request, index) => {
+                const pathParts = request.split('/');
+                const methodParam = pathParts[4] || '';
+                const encodedEndpoint = pathParts[5] || '';
+                const decodedEndpoint = decodeBase64(encodedEndpoint);
+                const key = index;
+
+                return (
+                  <div key={key} className={styles.requestItem}>
+                    <Link className={styles.oneLine} href={request}>
+                      <p>[</p>
+                      <p className={styles.method}>{`${methodParam}`}</p>
+                      <p className={styles.url}>{`${decodedEndpoint}`}</p>
+                      <p>]</p>
+                    </Link>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

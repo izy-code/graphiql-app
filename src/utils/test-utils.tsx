@@ -5,7 +5,7 @@ import { type PropsWithChildren, type ReactElement, useRef } from 'react';
 import { Provider } from 'react-redux';
 
 import type { AppStore, RootState } from '@/store/store';
-import { makeStore, setupStore } from '@/store/store';
+import { setupStore } from '@/store/store';
 
 interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
   preloadedState?: Partial<RootState>;
@@ -20,7 +20,7 @@ export function renderWithProvidersAndUser(
     const storeRef = useRef<AppStore>();
 
     if (!storeRef.current) {
-      storeRef.current = makeStore();
+      storeRef.current = setupStore(preloadedState);
     }
 
     return <Provider store={storeRef.current}>{children}</Provider>;

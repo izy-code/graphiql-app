@@ -78,7 +78,7 @@ export default function Main(): ReactNode {
           {user ? (
             <>
               <Link href={ProtectedPaths.REST}>{translate('links.rest')}</Link>
-              <Link href={ProtectedPaths.GRAPHIQL}>{translate('links.graphiql')}</Link>
+              <Link href={ProtectedPaths.GRAPHQL}>{translate('links.graphql')}</Link>
               <Link href={ProtectedPaths.HISTORY}>{translate('links.history')}</Link>
             </>
           ) : (

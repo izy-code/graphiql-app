@@ -6,8 +6,10 @@ import { usePathname } from 'next/navigation';
 import { type ReactNode } from 'react';
 import { useEffect, useState } from 'react';
 
+import { USER_LOGOUT } from '@/common/constants';
 import { NonProtectedPaths } from '@/common/enums';
 import { logOut } from '@/firebase/firebase';
+import { useAppDispatch } from '@/hooks/store-hooks';
 import { useAuth } from '@/hooks/useAuth';
 import { useScopedI18n } from '@/locales/client';
 
@@ -19,6 +21,7 @@ export function Header(): ReactNode {
   const [isSticky, setIsSticky] = useState(false);
   const pathname = usePathname();
   const translate = useScopedI18n('header');
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const handleScroll = (): void => {
@@ -49,16 +52,24 @@ export function Header(): ReactNode {
         <div className={styles.right}>
           <FlagButtons />
           {user ? (
-            <Button onClick={logOut}>{translate('button.sign-out')}</Button>
+            <Button
+              className={styles.signElement}
+              onClick={() => {
+                void logOut();
+                dispatch({ type: USER_LOGOUT });
+              }}
+            >
+              {translate('button.sign-out')}
+            </Button>
           ) : (
             <>
               {!pathname.includes(NonProtectedPaths.SIGN_IN) && (
-                <Link className={styles.footer_items} href={NonProtectedPaths.SIGN_IN}>
+                <Link className={styles.signElement} href={NonProtectedPaths.SIGN_IN}>
                   {translate('links.sign-in')}
                 </Link>
               )}
               {!pathname.includes(NonProtectedPaths.SIGN_UP) && (
-                <Link className={styles.footer_items} href={NonProtectedPaths.SIGN_UP}>
+                <Link className={styles.signElement} href={NonProtectedPaths.SIGN_UP}>
                   {translate('links.sign-up')}
                 </Link>
               )}
