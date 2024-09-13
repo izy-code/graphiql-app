@@ -13,13 +13,7 @@ interface CustomInputProps {
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
 }
 
-export default function CustomTextarea({
-  label,
-  value,
-  width = '100%',
-  onChange,
-  onBlur,
-}: CustomInputProps): ReactNode {
+export function CustomTextarea({ label, value, width = '100%', onChange, onBlur }: CustomInputProps): ReactNode {
   return (
     <TextField
       label={label}

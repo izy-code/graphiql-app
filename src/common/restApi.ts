@@ -12,7 +12,7 @@ export async function getResponse(
 ): Promise<RestResponseData> {
   try {
     if (!endpoint) {
-      return { errorMessage: 'No endpoint provided' };
+      return { errorMessage: 'restApi.errors.endpoint' };
     }
 
     const options: RequestInit = {
@@ -28,11 +28,11 @@ export async function getResponse(
     const responseBody = (await response.json()) as { data?: object; errors?: object };
 
     if ('errors' in responseBody && Array.isArray(responseBody.errors) && responseBody.errors.length > 0) {
-      return { errorMessage: 'Response body contains errors' };
+      return { errorMessage: 'restApi.errors.body' };
     }
 
     return { status: response.status.toString(), data: responseBody };
   } catch {
-    return { errorMessage: 'Unknown error occurred while making the request', status: 'Fetch error' };
+    return { errorMessage: 'restApi.errors.unknown', status: 'restApi.errors.status' };
   }
 }

@@ -11,19 +11,20 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TextField from '@mui/material/TextField';
-import type { ReactNode } from 'react';
-import * as React from 'react';
+import { type ReactNode, useState } from 'react';
 
-import { generateUniqueId } from '@/utils/utils.ts';
+import { CustomInput } from '@/components/custom-input/CustomInput';
+import { useScopedI18n } from '@/locales/client';
+import { generateUniqueId } from '@/utils/utils';
 
-import CustomInput from '../custom-input/CustomInput.tsx';
 import styles from './ClientTable.module.scss';
-import type { TableProps } from './types.ts';
+import type { TableProps } from './types';
 
-export default function ClientTable({ title, tableInfo, onChange }: TableProps): ReactNode {
-  const [newKey, setNewKey] = React.useState<string>('');
-  const [newValue, setNewValue] = React.useState<string>('');
-  const [isTableVisible, setIsTableVisible] = React.useState<boolean>(true);
+export function ClientTable({ title, tableInfo, onChange }: TableProps): ReactNode {
+  const [newKey, setNewKey] = useState('');
+  const [newValue, setNewValue] = useState('');
+  const [isTableVisible, setIsTableVisible] = useState(true);
+  const translate = useScopedI18n('clientTable');
 
   const handleAddMode = (): void => {
     if (newKey.trim() && newValue.trim()) {
@@ -69,7 +70,7 @@ export default function ClientTable({ title, tableInfo, onChange }: TableProps):
           onClick={toggleTableVisibility}
           sx={{ ml: 2 }}
         >
-          {isTableVisible ? 'Hide' : 'Show'} Table
+          {isTableVisible ? translate('hide') : translate('show')} {title}
         </Button>
       </h4>
 
@@ -77,21 +78,21 @@ export default function ClientTable({ title, tableInfo, onChange }: TableProps):
         <>
           <div className={styles.inputContainer}>
             <CustomInput
-              label="Key"
+              label={translate('key')}
               variant="outlined"
               width="200px"
               value={newKey}
               onChange={(e) => setNewKey(e.target.value)}
             />
             <CustomInput
-              label="Value"
+              label={translate('value')}
               variant="outlined"
               width="200px"
               value={newValue}
               onChange={(e) => setNewValue(e.target.value)}
             />
             <Button className={styles.button} variant="contained" color="primary" onClick={handleAddMode}>
-              + row
+              {translate('row')}
             </Button>
           </div>
           {tableInfo.length > 0 && (
@@ -99,9 +100,9 @@ export default function ClientTable({ title, tableInfo, onChange }: TableProps):
               <Table sx={{ minWidth: 550 }} aria-label="table">
                 <TableHead>
                   <TableRow>
-                    <TableCell>Key</TableCell>
-                    <TableCell align="center">Value</TableCell>
-                    <TableCell align="right">Delete</TableCell>
+                    <TableCell align="center">{translate('key')}</TableCell>
+                    <TableCell align="center">{translate('value')}</TableCell>
+                    <TableCell align="right">{translate('delete')}</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -110,7 +111,7 @@ export default function ClientTable({ title, tableInfo, onChange }: TableProps):
                       <TableCell component="th" scope="row">
                         <TextField
                           className={styles.input}
-                          placeholder={`${title} Key`}
+                          placeholder={`${title} ${translate('key')}`}
                           value={rowData.key}
                           onChange={(e) => handleChangeMode(index, 'key', e.target.value)}
                           fullWidth
@@ -119,7 +120,7 @@ export default function ClientTable({ title, tableInfo, onChange }: TableProps):
                       <TableCell align="right">
                         <TextField
                           className={styles.input}
-                          placeholder={`${title} Value`}
+                          placeholder={`${title} ${translate('value')}`}
                           value={rowData.value}
                           onChange={(e) => handleChangeMode(index, 'value', e.target.value)}
                           fullWidth

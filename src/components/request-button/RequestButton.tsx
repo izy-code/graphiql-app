@@ -6,12 +6,14 @@ import React, { type ReactNode } from 'react';
 
 import { LocalStorageKeys } from '@/common/enums.ts';
 import { useLocalStorage } from '@/hooks/useLocalStorage.ts';
+import { useScopedI18n } from '@/locales/client';
 
 import styles from './RequestButton.module.scss';
 
 function RequestButton(): ReactNode {
   const router = useRouter();
   const { getStoredValue, setStoredValue } = useLocalStorage();
+  const translate = useScopedI18n('requestButton');
 
   const handleRequest = (): void => {
     const requestsArray = (getStoredValue(LocalStorageKeys.REQUEST_LIST) as string[]) || [];
@@ -22,7 +24,7 @@ function RequestButton(): ReactNode {
   return (
     <div className={styles.center}>
       <Button className={styles.button} variant="contained" color="primary" onClick={handleRequest}>
-        Send Request
+        {translate('send')}
       </Button>
     </div>
   );

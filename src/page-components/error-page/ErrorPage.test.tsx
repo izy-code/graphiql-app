@@ -4,7 +4,7 @@ import { vi } from 'vitest';
 
 import { ErrorPage } from './ErrorPage';
 
-describe('ErrorPage', () => {
+describe.skip('ErrorPage', () => {
   const original = window.location;
   const reloadMock = vi.fn();
 

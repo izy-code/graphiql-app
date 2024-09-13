@@ -2,6 +2,7 @@ import { useRouter } from 'next/navigation';
 import { type ReactNode, useEffect } from 'react';
 
 import { useAuth } from '@/hooks/useAuth';
+import { useScopedI18n } from '@/locales/client';
 
 import { Loader } from '../loader/Loader';
 
@@ -12,6 +13,7 @@ export const AuthRoute = <P extends object>(
   function WithAuthControl(props: P): ReactNode {
     const user = useAuth();
     const router = useRouter();
+    const translate = useScopedI18n('auth');
 
     useEffect(() => {
       if ((isNonAuth && user) || (!isNonAuth && !user)) {
@@ -22,7 +24,7 @@ export const AuthRoute = <P extends object>(
     return (isNonAuth && !user) || (!isNonAuth && user) ? (
       <WrappedComponent {...props} />
     ) : (
-      <Loader loaderText="Redirecting..." />
+      <Loader loaderText={translate('redirect')} />
     );
   }
 

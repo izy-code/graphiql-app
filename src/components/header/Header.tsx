@@ -11,6 +11,7 @@ import { NonProtectedPaths } from '@/common/enums';
 import { logOut } from '@/firebase/firebase';
 import { useAppDispatch } from '@/hooks/store-hooks';
 import { useAuth } from '@/hooks/useAuth';
+import { useScopedI18n } from '@/locales/client';
 
 import FlagButtons from '../flag-buttons/FlagButtons';
 import styles from './Header.module.scss';
@@ -19,6 +20,7 @@ export function Header(): ReactNode {
   const user = useAuth();
   const [isSticky, setIsSticky] = useState(false);
   const pathname = usePathname();
+  const translate = useScopedI18n('header');
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -57,18 +59,18 @@ export function Header(): ReactNode {
                 dispatch({ type: USER_LOGOUT });
               }}
             >
-              Sign out
+              {translate('button.sign-out')}
             </Button>
           ) : (
             <>
               {!pathname.includes(NonProtectedPaths.SIGN_IN) && (
                 <Link className={styles.signElement} href={NonProtectedPaths.SIGN_IN}>
-                  Sign in
+                  {translate('links.sign-in')}
                 </Link>
               )}
               {!pathname.includes(NonProtectedPaths.SIGN_UP) && (
                 <Link className={styles.signElement} href={NonProtectedPaths.SIGN_UP}>
-                  Sign up
+                  {translate('links.sign-up')}
                 </Link>
               )}
             </>

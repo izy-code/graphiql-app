@@ -1,21 +1,23 @@
 import { usePathname } from 'next/navigation';
 import type { ReactNode } from 'react';
 
-import CustomTextarea from '@/components/custom-textarea/CustomTextarea.tsx';
-import { useAppDispatch, useAppSelector } from '@/hooks/store-hooks.ts';
-import { useEncodeUrl } from '@/hooks/useEncodeUrl.ts';
-import { setHeaders, setQuery, setVariables } from '@/store/graphql-slice/graphql-slice.ts';
+import { ClientTable } from '@/components/client-table/ClientTable';
+import type { ObjectWithId } from '@/components/client-table/types';
+import { CustomTextarea } from '@/components/custom-textarea/CustomTextarea';
+import { useAppDispatch, useAppSelector } from '@/hooks/store-hooks';
+import { useEncodeUrl } from '@/hooks/useEncodeUrl';
+import { useScopedI18n } from '@/locales/client';
+import { setHeaders, setQuery, setVariables } from '@/store/graphql-slice/graphql-slice';
 import type { RootState } from '@/store/store';
 
-import ClientTable from '../client-table/ClientTable.tsx';
-import type { ObjectWithId } from '../client-table/types.ts';
 import styles from './GraphqlParamsContainer.module.scss';
 
-export default function GraphqlParamsContainer(): ReactNode {
+export function GraphqlParamsContainer(): ReactNode {
   const pathname = usePathname();
   const dispatch = useAppDispatch();
   const { query, variables, headers } = useAppSelector((state: RootState) => state.graphql);
   const { replaceUrl, getEncodedHeaders, getEncodedRequestBody, getEncodedEndpoint } = useEncodeUrl();
+  const translate = useScopedI18n('graphql');
 
   const handleJsonEditorBlur = (): void => {
     if (!query && !variables) {
@@ -34,10 +36,12 @@ export default function GraphqlParamsContainer(): ReactNode {
 
   return (
     <div className={styles.section}>
+      <h2 className={styles.sectionTitle}>{translate('params')}</h2>
+
       <div className={styles.item}>
-        <h4>Query: </h4>
+        <h4>{translate('query.title')}</h4>
         <CustomTextarea
-          label="Query"
+          label={translate('query')}
           value={query}
           width="100%"
           onBlur={handleJsonEditorBlur}
@@ -45,12 +49,11 @@ export default function GraphqlParamsContainer(): ReactNode {
         />
       </div>
 
-      <h2 className={styles.sectionTitle}>Params</h2>
-      <ClientTable title="Headers" tableInfo={headers} onChange={handleHeadersChange} />
+      <ClientTable title={translate('headers')} tableInfo={headers} onChange={handleHeadersChange} />
       <div className={styles.item}>
-        <h4>Variables: </h4>
+        <h4>{translate('variables.title')}</h4>
         <CustomTextarea
-          label="Variables"
+          label={translate('variables')}
           value={variables}
           width="100%"
           onBlur={handleJsonEditorBlur}

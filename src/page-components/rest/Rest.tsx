@@ -1,18 +1,17 @@
 'use client';
 
 import { notFound, usePathname, useSearchParams } from 'next/navigation';
-import type { ReactNode } from 'react';
-import React, { useEffect, useRef } from 'react';
+import { type ReactNode, useEffect, useRef } from 'react';
 
 import { USER_LOGOUT } from '@/common/constants';
 import { AuthRoute } from '@/components/auth-route/AuthRoute';
 import type { ObjectWithId } from '@/components/client-table/types';
-import ResponseContainer from '@/components/response-container/ResponseContainer';
-import RestFieldset from '@/components/rest-fieldset/RestFieldset';
+import { ResponseContainer } from '@/components/response-container/ResponseContainer';
+import { RestFieldset } from '@/components/rest-fieldset/RestFieldset';
 import { useAppDispatch } from '@/hooks/store-hooks';
-import { useCurrentLocale } from '@/locales/client';
+import { useCurrentLocale, useScopedI18n } from '@/locales/client';
 import { setBody, setEndpoint, setHeaders, setMethod, setResponseBody, setStatus } from '@/store/rest-slice/rest-slice';
-import { decodeBase64, generateUniqueId } from '@/utils/utils.ts';
+import { decodeBase64, generateUniqueId, translateText } from '@/utils/utils';
 
 import styles from './Rest.module.scss';
 
@@ -30,11 +29,19 @@ function Rest({ responseData }: RestProps): ReactNode {
   const dispatch = useAppDispatch();
   const didMount = useRef(false);
   const locale = useCurrentLocale();
+  const translate = useScopedI18n('rest');
+
   useEffect(() => {
     if (responseData) {
-      dispatch(setStatus(responseData.status || ''));
+      dispatch(
+        setStatus(
+          responseData.status === 'restApi.errors.status'
+            ? translateText(responseData.status as never)
+            : responseData.status || '',
+        ),
+      );
       if (responseData.errorMessage) {
-        dispatch(setResponseBody(responseData.errorMessage));
+        dispatch(setResponseBody(translateText(responseData.errorMessage as never)));
       } else {
         dispatch(setResponseBody(JSON.stringify(responseData.data, null, 2)));
       }
@@ -76,7 +83,7 @@ function Rest({ responseData }: RestProps): ReactNode {
   return (
     <div className={styles.page}>
       <div className={styles.container}>
-        <h1 className={styles.title}>REST Client</h1>
+        <h1 className={styles.title}>{translate('title')}</h1>
         <RestFieldset />
       </div>
       <ResponseContainer type="rest" />

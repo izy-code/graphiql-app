@@ -2,7 +2,7 @@
 
 import { getIntrospectionQuery, type IntrospectionQuery } from 'graphql';
 
-import type { ObjectWithId } from '@/components/client-table/types.ts';
+import type { ObjectWithId } from '@/components/client-table/types';
 
 export interface GraphQLResponseData {
   status?: string;
@@ -13,6 +13,7 @@ export interface GraphQLResponseData {
 export interface SchemaResponseData {
   data?: IntrospectionQuery;
   errorMessage?: string;
+  status?: string;
 }
 
 const createHeadersObject = (headers: ObjectWithId[] = []): Record<string, string> =>
@@ -29,7 +30,7 @@ const createHeadersObject = (headers: ObjectWithId[] = []): Record<string, strin
 export const getSchema = async (endpoint: string, headers: ObjectWithId[] = []): Promise<SchemaResponseData> => {
   try {
     if (!endpoint) {
-      return { errorMessage: 'No schema endpoint provided' };
+      return { errorMessage: 'graphQlApi.schema-errors.endpoint' };
     }
 
     const response = await fetch(endpoint, {
@@ -44,7 +45,7 @@ export const getSchema = async (endpoint: string, headers: ObjectWithId[] = []):
     const responseBody = (await response.json()) as { data?: object; errors?: object };
 
     if ('errors' in responseBody && Array.isArray(responseBody.errors) && responseBody.errors.length > 0) {
-      return { errorMessage: 'Response body contains errors' };
+      return { errorMessage: 'graphQlApi.schema-errors.body' };
     }
 
     if (response.ok) {
@@ -52,22 +53,24 @@ export const getSchema = async (endpoint: string, headers: ObjectWithId[] = []):
         return { data: responseBody.data as IntrospectionQuery };
       }
 
-      return {
-        errorMessage: 'Unknown response structure: no "data" or "__schema" fields. Check endpoint and headers.',
-      };
+      return { errorMessage: 'graphQlApi.schema-errors.data' };
     }
 
-    return { errorMessage: `Fetch failed with status code: ${response.status}` };
+    return { errorMessage: 'graphQlApi.schema-errors.fetch-status', status: String(response.status) };
   } catch (error) {
     if (error instanceof Error) {
       if (error.message === 'fetch failed') {
-        return { errorMessage: 'Failed to fetch schema' };
+        return { errorMessage: 'graphQlApi.schema-errors.fetch' };
+      }
+
+      if (error.message === `Failed to parse URL from ${endpoint}`) {
+        return { errorMessage: 'graphQlApi.schema-errors.parse' };
       }
 
       return { errorMessage: error.message };
     }
 
-    return { errorMessage: 'Unknown error occurred while making the request' };
+    return { errorMessage: 'graphQlApi.schema-errors.unknown' };
   }
 };
 
@@ -79,15 +82,15 @@ export const getResponse = async (
 ): Promise<GraphQLResponseData> => {
   try {
     if (!endpoint || !query) {
-      return { errorMessage: 'No endpoint or query provided' };
+      return { errorMessage: 'graphQlApi.response-errors.endpoint' };
     }
 
     let parsedVariables = {};
 
     try {
       parsedVariables = JSON.parse(variables.trim() || '{}') as object;
-    } catch (error) {
-      return { errorMessage: 'Variables field is not valid JSON' };
+    } catch {
+      return { errorMessage: 'graphQlApi.response-errors.variables' };
     }
 
     const response = await fetch(endpoint, {
@@ -105,12 +108,12 @@ export const getResponse = async (
     const responseBody = (await response.json()) as { data?: object; errors?: object };
 
     if ('errors' in responseBody && Array.isArray(responseBody.errors) && responseBody.errors.length > 0) {
-      return { errorMessage: 'Response body contains errors' };
+      return { errorMessage: 'graphQlApi.response-errors.body' };
     }
 
     if (response.ok) {
       if (!('data' in responseBody)) {
-        return { errorMessage: 'Unknown response structure: no data field. Check endpoint and request params.' };
+        return { errorMessage: 'graphQlApi.response-errors.data' };
       }
 
       return { status: response.status.toString(), data: responseBody.data };
@@ -118,6 +121,6 @@ export const getResponse = async (
 
     return { status: response.status.toString(), data: responseBody };
   } catch {
-    return { errorMessage: 'Unknown error occurred while making the request', status: 'Fetch error' };
+    return { errorMessage: 'graphQlApi.response-errors.unknown', status: 'graphQlApi.response-errors.status' };
   }
 };
