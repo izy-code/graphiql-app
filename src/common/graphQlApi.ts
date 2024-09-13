@@ -45,7 +45,7 @@ export const getSchema = async (endpoint: string, headers: TableRow[] = []): Pro
     const responseBody = (await response.json()) as { data?: object; errors?: object };
 
     if ('errors' in responseBody && Array.isArray(responseBody.errors) && responseBody.errors.length > 0) {
-      return { errorMessage: 'Response body contains errors' };
+      return { errorMessage: 'Schema docs response body contains errors' };
     }
 
     if (response.ok) {
@@ -97,10 +97,6 @@ export const getResponse = async (
     });
 
     const responseBody = (await response.json()) as { data?: object; errors?: object };
-
-    if ('errors' in responseBody && Array.isArray(responseBody.errors) && responseBody.errors.length > 0) {
-      return { errorMessage: 'Response body contains errors' };
-    }
 
     if (response.ok) {
       if (!('data' in responseBody)) {
