@@ -20,7 +20,7 @@ export const teamInfo = [
     link: 'https://github.com/izy-code',
     textInfo: {
       role: 'Frontend-developer, Team leader',
-      contributions: 'Dev environment setup, Authentication, Firebase',
+      contributions: 'Dev environment setup, Authentication, Firebase, GraphQL client',
       'Short bio':
         ' Graduated from the Bauman Moscow State Technical University, completed the Frontend Developer program at the HTML Academy',
       'Tech stack': 'CSS, Sass, HTML, JavaScript, Java, TypeScript, Webpack, Vite, Jest, React, Next, Redux, Remix',
@@ -34,7 +34,7 @@ export const teamInfo = [
     link: 'https://github.com/VadimKol',
     textInfo: {
       role: 'Frontend-developer',
-      contributions: 'Routing, Internationalization',
+      contributions: 'Routing, Internationalization, Testing',
       'Short bio':
         'Graduated from the Saratov State University, studied at the Faculty of Computer Science and Information Technologies and in the Department of Computer Security and Cryptography Theory. Graduated from layout courses at Frontendblok. Worked as a T-SQL developer',
       'Tech stack': 'CSS, Sass, SQL, HTML, JavaScript, TypeScript, Webpack, Vite, Jest, React, Next, Redux',
@@ -48,7 +48,7 @@ export const teamInfo = [
     link: 'https://github.com/BodnarAlex',
     textInfo: {
       role: 'Frontend-developer, Scrum-master',
-      contributions: 'Jira, Design, MUI',
+      contributions: 'Jira, Design, MUI, RESTful client',
       'Short bio':
         'Graduated from the Immanuel Kant Baltic Federal University, studied at the Faculty of Business Informatics. Graduated from 3WC courses with a degree in Frontend-development. Built PHP-driven features for 1C CRM',
       'Tech stack':
