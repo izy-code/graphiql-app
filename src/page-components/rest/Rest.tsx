@@ -29,8 +29,7 @@ function Rest(): ReactNode {
           <h2 className={styles.sectionTitle}>Params</h2>
           <ClientTable title="Headers" tableInfo={[]} onChange={() => {}} />
           <div className={styles.item}>
-            <h4>Body: </h4>
-            <CustomTextarea label="Body" value={body} width="500px" onChange={(e) => setBody(e.target.value)} />
+            <CustomTextarea editorMode="json" titleText="Body: " value={body} onChange={(value) => setBody(value)} />
           </div>
         </div>
       </div>
