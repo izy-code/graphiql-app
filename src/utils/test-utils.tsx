@@ -1,7 +1,7 @@
 import type { RenderOptions } from '@testing-library/react';
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { type PropsWithChildren, type ReactElement, useRef } from 'react';
+import { type PropsWithChildren, type ReactElement, useMemo } from 'react';
 import { Provider } from 'react-redux';
 
 import type { AppStore, RootState } from '@/store/store';
@@ -17,13 +17,9 @@ export function renderWithProvidersAndUser(
   { preloadedState = {}, store = setupStore(preloadedState), ...renderOptions }: ExtendedRenderOptions = {},
 ): { store: AppStore; user: ReturnType<typeof userEvent.setup>; container: HTMLElement } {
   function Wrapper({ children }: PropsWithChildren): ReactElement {
-    const storeRef = useRef<AppStore>();
+    const storeMemo = useMemo(() => setupStore(preloadedState), []);
 
-    if (!storeRef.current) {
-      storeRef.current = setupStore(preloadedState);
-    }
-
-    return <Provider store={storeRef.current}>{children}</Provider>;
+    return <Provider store={storeMemo}>{children}</Provider>;
   }
 
   return { store, user: userEvent.setup(), ...render(ui, { wrapper: Wrapper, ...renderOptions }) };
