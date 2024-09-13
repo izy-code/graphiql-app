@@ -20,7 +20,7 @@ const initialState: GraphQlState = {
   query: '',
   variables: '',
   status: 'N/A',
-  responseBody: '{}',
+  responseBody: '',
   endpoint: '',
   schemaUrl: '',
   headers: [],
