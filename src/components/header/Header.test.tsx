@@ -7,6 +7,18 @@ import { renderWithProvidersAndUser } from '@/utils/test-utils';
 
 let auth = true;
 const changeLocale = vi.fn((arg: string) => arg);
+const translate = vi.fn((arg: string) => {
+  switch (arg) {
+    case 'button.sign-out':
+      return 'Sign out';
+    case 'links.sign-in':
+      return 'Sign in';
+    case 'links.sign-up':
+      return 'Sign up';
+    default:
+      return '';
+  }
+});
 
 vi.mock('next/navigation', async (importOriginal) => {
   const actual = await importOriginal<object>();
@@ -17,10 +29,16 @@ vi.mock('next/navigation', async (importOriginal) => {
   };
 });
 
-vi.mock('@/locales/client', () => ({
-  useCurrentLocale: vi.fn(() => 'en'),
-  useChangeLocale: vi.fn(() => changeLocale),
-}));
+vi.mock('@/locales/client', async (importOriginal) => {
+  const actual = await importOriginal<object>();
+
+  return {
+    ...actual,
+    useCurrentLocale: vi.fn(() => 'en'),
+    useChangeLocale: vi.fn(() => changeLocale),
+    useScopedI18n: vi.fn(() => translate),
+  };
+});
 
 vi.mock('@/firebase/firebase', () => ({
   logOut: vi.fn(() => {

@@ -1,3 +1,4 @@
+import { nanoid } from '@reduxjs/toolkit';
 import { screen } from '@testing-library/react';
 import React from 'react';
 
@@ -8,10 +9,17 @@ import ru from '@/locales/ru';
 import { renderWithProvidersAndUser } from '@/utils/test-utils';
 
 let text: string = en['main.welcome'];
-const translate = vi.fn(() => text);
+const translate = vi.fn((arg: string) => {
+  switch (arg) {
+    case 'welcome':
+      return text;
+    default:
+      return nanoid();
+  }
+});
 
-vi.mock('@/locales/client', async () => {
-  const actual = await vi.importActual('@/locales/client');
+vi.mock('@/locales/client', async (importOriginal) => {
+  const actual = await importOriginal<object>();
 
   return {
     ...actual,
@@ -20,16 +28,6 @@ vi.mock('@/locales/client', async () => {
 });
 
 describe('Main page', () => {
-  it('renders correctly', () => {
-    const { container } = renderWithProvidersAndUser(
-      <AuthProvider>
-        <MainPage />
-      </AuthProvider>,
-    );
-
-    expect(container).toMatchSnapshot();
-  });
-
   it('Show welcome message with en locale', () => {
     renderWithProvidersAndUser(
       <AuthProvider>

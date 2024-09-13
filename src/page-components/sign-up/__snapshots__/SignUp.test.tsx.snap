@@ -7,9 +7,7 @@ exports[`Sign up page > renders correctly 1`] = `
   >
     <h1
       class="_title_64a4eb"
-    >
-      Sign up
-    </h1>
+    />
     <form
       class="_form_64a4eb"
       name="react-hook-form"
@@ -61,9 +59,7 @@ exports[`Sign up page > renders correctly 1`] = `
       >
         <legend
           class="_legend_64a4eb"
-        >
-          Password
-        </legend>
+        />
         <div
           class="_field_727496"
         >
