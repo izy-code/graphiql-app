@@ -1,0 +1,141 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Sign in page > renders correctly 1`] = `
+<div>
+  <div
+    class="_page_476574"
+  >
+    <h1
+      class="_title_476574"
+    >
+      Sign in
+    </h1>
+    <form
+      class="_form_476574"
+      name="react-hook-form"
+      novalidate=""
+    >
+      <div
+        class="_field_ba64c0"
+      >
+        <label
+          class="_label_ba64c0"
+          for=":r0:"
+        >
+          Email
+        </label>
+        <input
+          aria-invalid="false"
+          autocomplete="email"
+          class="_input_ba64c0"
+          id=":r0:"
+          name="email"
+          type="text"
+        />
+        <p
+          class="_errorMessage_ba64c0"
+        />
+      </div>
+      <div
+        class="_field_ba64c0"
+      >
+        <label
+          class="_label_ba64c0"
+          for=":r1:"
+        >
+          Password
+        </label>
+        <input
+          aria-invalid="false"
+          autocomplete="current-password"
+          class="_input_ba64c0"
+          id=":r1:"
+          name="password"
+          type="password"
+        />
+        <p
+          class="_errorMessage_ba64c0"
+        />
+      </div>
+      <button
+        class="_button_1c0f93 _button--primary_1c0f93 _submitButton_476574"
+        disabled=""
+        type="submit"
+      >
+        Sign in
+      </button>
+    </form>
+  </div>
+  ;
+</div>
+`;
+
+exports[`SignIn page > renders correctly 1`] = `
+<div>
+  <div
+    class="_page_476574"
+  >
+    <h1
+      class="_title_476574"
+    >
+      Sign in
+    </h1>
+    <form
+      class="_form_476574"
+      name="react-hook-form"
+      novalidate=""
+    >
+      <div
+        class="_field_ba64c0"
+      >
+        <label
+          class="_label_ba64c0"
+          for=":r0:"
+        >
+          Email
+        </label>
+        <input
+          aria-invalid="false"
+          autocomplete="email"
+          class="_input_ba64c0"
+          id=":r0:"
+          name="email"
+          type="text"
+        />
+        <p
+          class="_errorMessage_ba64c0"
+        />
+      </div>
+      <div
+        class="_field_ba64c0"
+      >
+        <label
+          class="_label_ba64c0"
+          for=":r1:"
+        >
+          Password
+        </label>
+        <input
+          aria-invalid="false"
+          autocomplete="current-password"
+          class="_input_ba64c0"
+          id=":r1:"
+          name="password"
+          type="password"
+        />
+        <p
+          class="_errorMessage_ba64c0"
+        />
+      </div>
+      <button
+        class="_button_1c0f93 _button--primary_1c0f93 _submitButton_476574"
+        disabled=""
+        type="submit"
+      >
+        Sign in
+      </button>
+    </form>
+  </div>
+  ;
+</div>
+`;

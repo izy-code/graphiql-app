@@ -2,7 +2,8 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
-import { ErrorPage } from './ErrorPage';
+import ErrorPage from '@/app/error';
+import GlobalErrorPage from '@/app/global-error';
 
 describe.skip('ErrorPage', () => {
   const original = window.location;
@@ -24,9 +25,7 @@ describe.skip('ErrorPage', () => {
   });
 
   it('displays the error message from errorMessage prop', () => {
-    const errorMessage = 'Boundary error message';
-
-    render(<ErrorPage errorMessage={errorMessage} />);
+    render(<ErrorPage error={new Error('Boundary error message')} />);
 
     expect(screen.getByText('Oops!')).toBeInTheDocument();
     expect(screen.getByText('Sorry, an unexpected error has occurred.')).toBeInTheDocument();
@@ -34,7 +33,9 @@ describe.skip('ErrorPage', () => {
   });
 
   it('sets errorMessage to null if routeError is not recognized', () => {
-    render(<ErrorPage />);
+    const c = console;
+    c.error = vi.fn();
+    render(<GlobalErrorPage error={new Error()} />);
 
     expect(screen.getByText('Oops!')).toBeInTheDocument();
     expect(screen.getByText('Sorry, an unexpected error has occurred.')).toBeInTheDocument();
@@ -44,7 +45,7 @@ describe.skip('ErrorPage', () => {
   it('reloads the page when the refresh button is clicked', async () => {
     const user = userEvent.setup();
 
-    render(<ErrorPage />);
+    render(<ErrorPage error={new Error()} />);
 
     const refreshButton = screen.getByRole('button', { name: /refresh the page/i });
     await user.click(refreshButton);

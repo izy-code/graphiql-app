@@ -63,12 +63,17 @@ export default function SignUp(): ReactNode {
     }
   };
 
+  useEffect(() => {
+    if (user) {
+      router.push('/');
+    }
+  }, [router, user]);
+
   if (isLoading) {
     return <Loader loaderText={translate('loader')} />;
   }
 
   if (user) {
-    router.push('/');
     return null;
   }
 
@@ -83,7 +88,7 @@ export default function SignUp(): ReactNode {
         />
         <FormInputField
           label={translate('email')}
-          inputProps={{ ...register('email'), type: 'email', autoComplete: 'email' }}
+          inputProps={{ ...register('email'), type: 'text, autoComplete: 'email' }}
           error={errors.email?.message && translateValidation(errors.email?.message as never)}
         />
 

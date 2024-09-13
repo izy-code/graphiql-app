@@ -5,6 +5,7 @@ import {
   EMAIL_REGEX,
   LOWERCASE_LETTER_REGEX,
   MIN_PASSWORD_LENGTH,
+  NAME_REGEX,
   NUMBER_REGEX,
   SPECIAL_CHARACTER_REGEX,
   UPPERCASE_LETTER_REGEX,
@@ -22,7 +23,7 @@ const passwordStringSchema = string()
 export const registrationSchema = object().shape({
   name: string()
     .required('name.required')
-    .matches(/^\p{Lu}/u, 'name.capital'),
+    .matches(NAME_REGEX, 'name.capital'),
   email: emailStringSchema,
   password: passwordStringSchema,
   passwordConfirm: string()

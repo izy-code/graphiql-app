@@ -51,6 +51,7 @@
     "@mui/icons-material": "^5.16.7",
     "@mui/material": "^5.16.7",
     "@mui/material-nextjs": "^5.16.6",
+    "@next/env": "^14.2.7",
     "@reduxjs/toolkit": "^2.2.6",
     "clsx": "^2.1.1",
     "firebase": "^10.13.1",

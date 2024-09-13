@@ -1,0 +1,47 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`History page > renders correctly 1`] = `
+<div>
+  <div
+    class="_historyPage_3d8cb6"
+  >
+    <h1
+      class="_historyTitle_3d8cb6"
+    >
+      History
+    </h1>
+    <div
+      class="_requests_3d8cb6"
+    >
+      <div
+        class="_section_3d8cb6"
+      >
+        <h2
+          class="_sectionTitle_3d8cb6"
+        >
+           Requests:
+        </h2>
+        <div
+          class="_requestsStrings_3d8cb6"
+        >
+          <div
+            class="_requestItem_3d8cb6"
+          >
+            http://localhost:3000/GET
+          </div>
+          <div
+            class="_requestItem_3d8cb6"
+          >
+            http://localhost:3000/POST
+          </div>
+          <div
+            class="_requestItem_3d8cb6"
+          >
+            http://localhost:3000/DELETE
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -53,7 +53,7 @@ function SignIn(): ReactNode {
       <form className={styles.form} name="react-hook-form" noValidate onSubmit={handleSubmit(onValid)}>
         <FormInputField
           label={translate('email')}
-          inputProps={{ ...register('email'), type: 'email', autoComplete: 'email' }}
+          inputProps={{ ...register('email'), type: 'text', autoComplete: 'email' }}
           error={errors.email?.message && translateValidation(errors.email?.message as never)}
         />
         <FormInputField
