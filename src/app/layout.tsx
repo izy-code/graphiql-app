@@ -11,6 +11,7 @@ import { Footer } from '@/components/footer/Footer';
 import { Header } from '@/components/header/Header';
 import { Toast } from '@/components/toast/Toast';
 import { AuthProvider } from '@/contexts/auth-context';
+import { MuiProvider } from '@/contexts/mui-context';
 import errorPageStyles from '@/page-components/error-page/ErrorPage.module.scss';
 import { StoreProvider } from '@/store/store-provider';
 
@@ -24,14 +25,16 @@ export default function RootLayout({ children }: { children: ReactNode }): React
     <html lang="en">
       <body>
         <StoreProvider>
-          <AppRouterCacheProvider>
-            <AuthProvider>
-              <Header />
-              <main className="main">{children}</main>
-              <Footer />
-              <Toast />
-            </AuthProvider>
-          </AppRouterCacheProvider>
+          <MuiProvider>
+            <AppRouterCacheProvider>
+              <AuthProvider>
+                <Header />
+                <main className="main">{children}</main>
+                <Footer />
+                <Toast />
+              </AuthProvider>
+            </AppRouterCacheProvider>
+          </MuiProvider>
         </StoreProvider>
         {/* Allows to apply styles in global-error.tsx */}
         <div className={clsx(customButtonStyles.dummy, errorPageStyles.dummy)} />
