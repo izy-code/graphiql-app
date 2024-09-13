@@ -2,14 +2,14 @@
   position: relative;
   display: flex;
   flex-flow: column nowrap;
-  gap: 40px;
+  gap: 25px;
   justify-content: start;
   align-items: start;
   box-sizing: border-box;
   width: 100%;
   max-width: 700px;
   min-height: min-content;
-  padding: 30px;
+  padding: 35px 30px 30px;
   border: 1px solid var(--color-border);
   border-radius: 50px;
 
@@ -23,7 +23,7 @@
 
 .sectionTitle {
   position: absolute;
-  top: -52px;
+  top: -47px;
   left: 50%;
   width: fit-content;
   padding-inline: 20px;
