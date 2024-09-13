@@ -7,6 +7,7 @@ import { NO_ENDPOINT } from '@/common/constants';
 import { LocalStorageKeys, ProtectedPaths } from '@/common/enums';
 import { AuthRoute } from '@/components/auth-route/AuthRoute';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { useScopedI18n } from '@/locales/client';
 import { decodeBase64 } from '@/utils/utils';
 
 import styles from './History.module.scss';
@@ -14,29 +15,29 @@ import styles from './History.module.scss';
 function History(): ReactNode {
   const { getStoredValue } = useLocalStorage();
   const requests = (getStoredValue(LocalStorageKeys.REQUEST_LIST) as string[]) || [];
+  const translate = useScopedI18n('history');
 
   return (
     <div className={styles.historyPage}>
-      <h1 className={styles.historyTitle}>History</h1>
+      <h1 className={styles.historyTitle}>{translate('title')}</h1>
       {requests.length === 0 ? (
         <div className={styles.noRequests}>
-          <h2>{`You haven't executed any requests`}</h2>
-          <p>{`It's empty here. Try: `}</p>
+          <h2>{translate('empty.title')}</h2>
+          <p>{translate('empty')}</p>
           <div className={styles.buttonGroup}>
-            <Link href={ProtectedPaths.REST}>REST Client</Link>
-            <Link href={ProtectedPaths.GRAPHQL}>GraphiQL Client</Link>
+            <Link href={ProtectedPaths.REST}>{translate('links.rest')}</Link>
+            <Link href={ProtectedPaths.GRAPHQL}>{translate('links.graphql')}</Link>
           </div>
         </div>
       ) : (
         <div className={styles.requests}>
           <div className={styles.section}>
-            <h2 className={styles.sectionTitle}> Requests:</h2>
+            <h2 className={styles.sectionTitle}>{translate('subtitle')}</h2>
             <div className={styles.requestRows}>
               {requests.map((request, index) => {
-                const url = new URL(request);
-                const pathParts = url.pathname.split('/');
-                const methodParam = pathParts[2] || '';
-                const encodedEndpoint = pathParts[3] || '';
+                const pathParts = request.split('/');
+                const methodParam = pathParts[4] || '';
+                const encodedEndpoint = pathParts[5] || '';
                 const decodedEndpoint = encodedEndpoint === NO_ENDPOINT ? NO_ENDPOINT : decodeBase64(encodedEndpoint);
                 const key = index;
 

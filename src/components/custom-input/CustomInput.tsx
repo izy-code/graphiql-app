@@ -14,7 +14,7 @@ interface CustomInputProps {
   onBlur?: (event: FocusEvent<HTMLInputElement>) => void;
 }
 
-export default function CustomInput({
+export function CustomInput({
   label,
   variant = 'standard',
   width = '420px',

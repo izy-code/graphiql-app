@@ -1,19 +1,21 @@
 import type { ReactNode } from 'react';
 
-import CustomTextarea from '@/components/custom-textarea/CustomTextarea.tsx';
-import { useAppDispatch, useAppSelector } from '@/hooks/store-hooks.ts';
-import { useEncodeUrl } from '@/hooks/useEncodeUrl.ts';
-import { setHeaders, setQuery, setVariables } from '@/store/graphql-slice/graphql-slice.ts';
+import { ClientTable } from '@/components/client-table/ClientTable';
+import { CustomTextarea } from '@/components/custom-textarea/CustomTextarea';
+import { useAppDispatch, useAppSelector } from '@/hooks/store-hooks';
+import { useEncodeUrl } from '@/hooks/useEncodeUrl';
+import { useScopedI18n } from '@/locales/client';
+import { setHeaders, setQuery, setVariables } from '@/store/graphql-slice/graphql-slice';
 import type { RootState } from '@/store/store';
 
-import ClientTable from '../client-table/ClientTable.tsx';
-import type { TableRow } from '../client-table/types.ts';
+import type { TableRow } from '../client-table/types';
 import styles from './GraphqlParamsContainer.module.scss';
 
-export default function GraphqlParamsContainer(): ReactNode {
+export function GraphqlParamsContainer(): ReactNode {
   const dispatch = useAppDispatch();
   const { query, variables, headers } = useAppSelector((state: RootState) => state.graphql);
   const { replaceUrl } = useEncodeUrl();
+  const translate = useScopedI18n('graphql');
 
   const handleHeadersChange = (changedHeaders: TableRow[]): void => {
     dispatch(setHeaders(changedHeaders));
@@ -25,7 +27,7 @@ export default function GraphqlParamsContainer(): ReactNode {
       <div className={styles.item}>
         <CustomTextarea
           editorMode="graphql"
-          titleText="Query: "
+          titleText={translate('query.title')}
           value={query}
           width="100%"
           hasHideBtn={false}
@@ -34,12 +36,12 @@ export default function GraphqlParamsContainer(): ReactNode {
         />
       </div>
 
-      <h2 className={styles.sectionTitle}>Params</h2>
-      <ClientTable title="Headers" tableInfo={headers} onChange={handleHeadersChange} />
+      <h2 className={styles.sectionTitle}>{translate('params')}</h2>
+      <ClientTable title={translate('headers')} tableInfo={headers} onChange={handleHeadersChange} />
       <div className={styles.item}>
         <CustomTextarea
           editorMode="json-with-linter"
-          titleText="Variables: "
+          titleText={translate('variables.title')}
           value={variables}
           width="100%"
           onBlur={() => replaceUrl()}

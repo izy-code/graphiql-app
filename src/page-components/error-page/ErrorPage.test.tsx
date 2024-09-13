@@ -2,15 +2,37 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
-import { ErrorPage } from './ErrorPage';
+import ErrorPage from '@/app/[locale]/error';
+
+const translate = vi.fn((arg: string) => {
+  switch (arg) {
+    case 'title':
+      return 'Oops!';
+    case 'text':
+      return 'Sorry, an unexpected error has occurred.';
+    case 'desc':
+      return 'Error message:';
+    case 'recommendation':
+      return 'Please try to refresh the page.';
+    case 'refresh':
+      return 'Refresh the page';
+    default:
+      return '';
+  }
+});
+
+vi.mock('@/locales/client', async (importOriginal) => {
+  const actual = await importOriginal<object>();
+
+  return {
+    ...actual,
+    useScopedI18n: vi.fn(() => translate),
+  };
+});
 
 describe('ErrorPage', () => {
   const original = window.location;
   const reloadMock = vi.fn();
-
-  beforeEach(() => {
-    vi.resetAllMocks();
-  });
 
   beforeAll(() => {
     Object.defineProperty(window, 'location', {
@@ -24,9 +46,7 @@ describe('ErrorPage', () => {
   });
 
   it('displays the error message from errorMessage prop', () => {
-    const errorMessage = 'Boundary error message';
-
-    render(<ErrorPage errorMessage={errorMessage} />);
+    render(<ErrorPage error={new Error('Boundary error message')} />);
 
     expect(screen.getByText('Oops!')).toBeInTheDocument();
     expect(screen.getByText('Sorry, an unexpected error has occurred.')).toBeInTheDocument();
@@ -34,7 +54,9 @@ describe('ErrorPage', () => {
   });
 
   it('sets errorMessage to null if routeError is not recognized', () => {
-    render(<ErrorPage />);
+    const c = console;
+    c.error = vi.fn();
+    render(<ErrorPage error={new Error()} />);
 
     expect(screen.getByText('Oops!')).toBeInTheDocument();
     expect(screen.getByText('Sorry, an unexpected error has occurred.')).toBeInTheDocument();
@@ -44,7 +66,7 @@ describe('ErrorPage', () => {
   it('reloads the page when the refresh button is clicked', async () => {
     const user = userEvent.setup();
 
-    render(<ErrorPage />);
+    render(<ErrorPage error={new Error()} />);
 
     const refreshButton = screen.getByRole('button', { name: /refresh the page/i });
     await user.click(refreshButton);

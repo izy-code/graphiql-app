@@ -1,5 +1,7 @@
 import { http, HttpResponse } from 'msw';
 
+import { charactersDataMock } from '../mocks/mocks';
+
 export const MOCK_SEARCH_NAME = 'example';
 export const MOCK_PAGE_NUMBER = '1';
 export const MOCK_STATUS_500 = 'status 500';
@@ -12,7 +14,7 @@ export const handlers = [
     const name = searchParams.get('name');
 
     if (page === MOCK_PAGE_NUMBER && name === MOCK_SEARCH_NAME) {
-      return HttpResponse.json('charactersDataMockVariable');
+      return HttpResponse.json(charactersDataMock);
     }
 
     if (name === MOCK_STATUS_500) {

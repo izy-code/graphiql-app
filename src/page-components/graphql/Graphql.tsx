@@ -4,18 +4,18 @@ import { notFound, usePathname, useSearchParams } from 'next/navigation';
 import { type ReactNode, useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
 
-import { STORE_RESET } from '@/common/constants';
+import { NO_ENDPOINT, STORE_RESET } from '@/common/constants';
 import { ProtectedPaths } from '@/common/enums';
 import { AuthRoute } from '@/components/auth-route/AuthRoute';
 import type { TableRow } from '@/components/client-table/types';
-import GraphqlParamsContainer from '@/components/graphql-params-container/GraphqlParamsContainer';
-import GraphqlUrlFieldset from '@/components/graphql-url-fieldset/GraphqlUrlFieldset';
-import ResponseContainer from '@/components/response-container/ResponseContainer';
-import SchemaContainer from '@/components/schema-container/SchemaContainer';
+import { GraphqlParamsContainer } from '@/components/graphql-params-container/GraphqlParamsContainer';
+import { GraphqlUrlFieldset } from '@/components/graphql-url-fieldset/GraphqlUrlFieldset';
+import { ResponseContainer } from '@/components/response-container/ResponseContainer';
+import { SchemaContainer } from '@/components/schema-container/SchemaContainer';
 import { useAppDispatch } from '@/hooks/store-hooks';
-import { useCurrentLocale } from '@/locales/client';
+import { useCurrentLocale, useScopedI18n } from '@/locales/client';
 import { setEndpoint, setHeaders, setQuery, setSchemaUrl, setVariables } from '@/store/graphql-slice/graphql-slice';
-import { decodeBase64, generateUniqueId } from '@/utils/utils';
+import { decodeBase64, generateUniqueId, translateText } from '@/utils/utils';
 
 import styles from './Graphql.module.scss';
 
@@ -24,14 +24,13 @@ interface RequestBody {
   variables: string;
 }
 
-const NO_ENDPOINT = 'no-endpoint-provided';
-
 function GraphQl(): ReactNode {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const dispatch = useAppDispatch();
   const locale = useCurrentLocale();
   const didMount = useRef(false);
+  const translate = useScopedI18n('graphql');
 
   useEffect(() => {
     if (!didMount.current) {
@@ -65,7 +64,7 @@ function GraphQl(): ReactNode {
           dispatch(setQuery(parsedRequestBody.query));
           dispatch(setVariables(parsedRequestBody.variables));
         } catch (error) {
-          toast.error(`Can't parse request body in URL`);
+          toast.error(translateText('graphql.errors.parse'));
         }
       }
 
@@ -83,13 +82,13 @@ function GraphQl(): ReactNode {
   return (
     <div className={styles.page}>
       <div className={styles.container}>
-        <h1 className={styles.title}>GraphiQl Client</h1>
+        <h1 className={styles.title}>{translate('title')}</h1>
         <GraphqlUrlFieldset />
         <SchemaContainer />
         <GraphqlParamsContainer />
       </div>
 
-      <ResponseContainer />
+      <ResponseContainer type="graphql" />
     </div>
   );
 }

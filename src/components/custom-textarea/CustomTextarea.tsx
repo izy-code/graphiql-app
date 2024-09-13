@@ -24,7 +24,7 @@ interface CustomTextareaProps {
   hasHideBtn?: boolean;
 }
 
-export default function CustomTextarea({
+export function CustomTextarea({
   titleText,
   value,
   editorMode = '',

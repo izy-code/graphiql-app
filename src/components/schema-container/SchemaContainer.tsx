@@ -11,7 +11,7 @@ import type { RootState } from '@/store/store';
 
 import styles from './SchemaContainer.module.scss';
 
-export default function SchemaContainer(): ReactNode {
+export function SchemaContainer(): ReactNode {
   const { currentSchema, isSchemaShown } = useAppSelector((state: RootState) => state.graphql);
   const { setTheme } = useSchemaTheme();
 

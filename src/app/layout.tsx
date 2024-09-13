@@ -7,11 +7,7 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 
 import customButtonStyles from '@/components/custom-button/CustomButton.module.scss';
-import { Footer } from '@/components/footer/Footer';
-import { Header } from '@/components/header/Header';
 import { Toast } from '@/components/toast/Toast';
-import { AuthProvider } from '@/contexts/auth-context';
-import { MuiProvider } from '@/contexts/mui-context';
 import errorPageStyles from '@/page-components/error-page/ErrorPage.module.scss';
 import { StoreProvider } from '@/store/store-provider';
 
@@ -20,21 +16,21 @@ export const metadata: Metadata = {
   description: 'REST/GraphiQL client as final team project at Rolling Scopes school React course',
 };
 
-export default function RootLayout({ children }: { children: ReactNode }): ReactNode {
+export default function RootLayout({
+  params: { locale },
+  children,
+}: {
+  params: { locale: string };
+  children: ReactNode;
+}): ReactNode {
   return (
-    <html lang="en">
+    <html lang={locale}>
       <body>
         <StoreProvider>
-          <MuiProvider>
-            <AppRouterCacheProvider>
-              <AuthProvider>
-                <Header />
-                <main className="main">{children}</main>
-                <Footer />
-                <Toast />
-              </AuthProvider>
-            </AppRouterCacheProvider>
-          </MuiProvider>
+          <AppRouterCacheProvider>
+            {children}
+            <Toast />
+          </AppRouterCacheProvider>
         </StoreProvider>
         {/* Allows to apply styles in global-error.tsx */}
         <div className={clsx(customButtonStyles.dummy, errorPageStyles.dummy)} />

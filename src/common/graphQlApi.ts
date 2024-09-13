@@ -2,7 +2,7 @@
 
 import { getIntrospectionQuery, type IntrospectionQuery } from 'graphql';
 
-import type { TableRow } from '@/components/client-table/types.ts';
+import type { TableRow } from '@/components/client-table/types';
 
 export interface GraphQLResponseData {
   status?: string;
@@ -11,6 +11,7 @@ export interface GraphQLResponseData {
 }
 
 export interface SchemaResponseData {
+  status?: string;
   data?: IntrospectionQuery;
   errorMessage?: string;
 }
@@ -29,7 +30,7 @@ const createHeadersObject = (headers: TableRow[] = []): Record<string, string> =
 export const getSchema = async (endpoint: string, headers: TableRow[] = []): Promise<SchemaResponseData> => {
   try {
     if (!endpoint) {
-      return { errorMessage: 'No schema endpoint provided' };
+      return { errorMessage: 'graphQlApi.schema-errors.endpoint' };
     }
 
     const response = await fetch(endpoint, {
@@ -45,7 +46,7 @@ export const getSchema = async (endpoint: string, headers: TableRow[] = []): Pro
     const responseBody = (await response.json()) as { data?: object; errors?: object };
 
     if ('errors' in responseBody && Array.isArray(responseBody.errors) && responseBody.errors.length > 0) {
-      return { errorMessage: 'Schema docs response body contains errors' };
+      return { errorMessage: 'graphQlApi.schema-errors.body' };
     }
 
     if (response.ok) {
@@ -53,14 +54,12 @@ export const getSchema = async (endpoint: string, headers: TableRow[] = []): Pro
         return { data: responseBody.data as IntrospectionQuery };
       }
 
-      return {
-        errorMessage: 'Unknown response structure: no "data" or "__schema" fields. Check endpoint and headers.',
-      };
+      return { errorMessage: 'graphQlApi.schema-errors.data' };
     }
 
-    return { errorMessage: `Schema docs fetch failed with status code: ${response.status}` };
+    return { errorMessage: 'graphQlApi.schema-errors.fetch-status', status: response.status.toString() };
   } catch {
-    return { errorMessage: 'Unknown error occurred while making the request, change schema docs URL' };
+    return { errorMessage: 'graphQlApi.schema-errors.unknown' };
   }
 };
 
@@ -72,15 +71,15 @@ export const getResponse = async (
 ): Promise<GraphQLResponseData> => {
   try {
     if (!endpoint || !query) {
-      return { errorMessage: 'No endpoint or query provided' };
+      return { errorMessage: 'graphQlApi.response-errors.endpoint' };
     }
 
     let parsedVariables = {};
 
     try {
       parsedVariables = JSON.parse(variables.trim() || '{}') as object;
-    } catch (error) {
-      return { errorMessage: 'Variables field is not valid JSON' };
+    } catch {
+      return { errorMessage: 'graphQlApi.response-errors.variables' };
     }
 
     const response = await fetch(endpoint, {
@@ -100,7 +99,7 @@ export const getResponse = async (
 
     if (response.ok) {
       if (!('data' in responseBody)) {
-        return { errorMessage: 'Unknown response structure: no data field. Check endpoint and request params.' };
+        return { errorMessage: 'graphQlApi.response-errors.data' };
       }
 
       return { status: response.status.toString(), data: responseBody.data };
@@ -108,6 +107,6 @@ export const getResponse = async (
 
     return { status: response.status.toString(), data: responseBody };
   } catch {
-    return { errorMessage: 'Unknown error occurred while making the request', status: 'Fetch error' };
+    return { errorMessage: 'graphQlApi.response-errors.unknown', status: 'graphQlApi.response-errors.status' };
   }
 };

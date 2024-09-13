@@ -52,6 +52,7 @@
     "@mui/icons-material": "^5.16.7",
     "@mui/material": "^5.16.7",
     "@mui/material-nextjs": "^5.16.6",
+    "@next/env": "^14.2.7",
     "@reduxjs/toolkit": "^2.2.6",
     "@uiw/codemirror-theme-material": "^4.23.2",
     "@uiw/react-codemirror": "^4.23.2",

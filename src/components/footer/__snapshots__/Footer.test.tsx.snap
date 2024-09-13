@@ -1,0 +1,49 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Footer Component > renders correctly 1`] = `
+<div>
+  <footer
+    class="_footer_660fbd"
+  >
+    <div
+      class="_links_660fbd _devs_660fbd"
+    >
+      <a
+        class="_link_660fbd"
+        href="https://github.com/izy-code"
+      >
+        izy-code
+      </a>
+      <a
+        class="_link_660fbd"
+        href="https://github.com/VadimKol"
+      >
+        vadimkol
+      </a>
+      <a
+        class="_link_660fbd"
+        href="https://github.com/BodnarAlex"
+      >
+        bodnaralex
+      </a>
+    </div>
+    <div
+      class="_links_660fbd"
+    >
+      <a
+        class="_github_660fbd"
+        href="https://github.com/izy-code/graphiql-app"
+      />
+      <p
+        class="_year_660fbd"
+      >
+        2024
+      </p>
+      <a
+        class="_rss_660fbd"
+        href="https://rs.school/courses/"
+      />
+    </div>
+  </footer>
+</div>
+`;
