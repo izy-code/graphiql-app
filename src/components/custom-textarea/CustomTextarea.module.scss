@@ -1,11 +1,49 @@
-.input * {
-  color: var(--color-accent) !important;
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-block: 10px;
 }
 
-.input textarea {
-  color: var(--color-text-light) !important;
+.buttons {
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }
 
-.input fieldset {
-  border-color: var(--color-border) !important;
+.prettifyBtn {
+  padding-inline: 14px;
+
+  &::after {
+    content: "";
+    display: block;
+    width: 24px;
+    height: 24px;
+    background-color: var(--color-text-light);
+    mask: url("/prettify.svg") no-repeat center;
+  }
+}
+
+.hideBtn {
+  padding-inline: 14px;
+
+  &::after {
+    content: "";
+    display: block;
+    width: 24px;
+    height: 24px;
+    background-color: var(--color-text-light);
+    mask: url("/arrow_down.svg") no-repeat center;
+  }
+
+  &.hidden {
+    &::after {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.title {
+  margin-block: 0;
 }

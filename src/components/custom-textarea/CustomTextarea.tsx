@@ -1,69 +1,79 @@
 'use client';
 
-import TextField from '@mui/material/TextField';
+import type { ReactCodeMirrorProps } from '@uiw/react-codemirror';
+import clsx from 'clsx';
 import babelPlugin from 'prettier/plugins/babel';
 import estreePlugin from 'prettier/plugins/estree';
 import graphqlPlugin from 'prettier/plugins/graphql';
 import prettier from 'prettier/standalone';
-import { type ChangeEvent, type FocusEvent, type ReactNode, useState } from 'react';
+import { type FocusEvent, type ReactNode, useState } from 'react';
 import { toast } from 'react-toastify';
+
+import { Editor, type EditorMode } from '@/components/editor/Editor';
 
 import { CustomButton } from '../custom-button/CustomButton';
 import styles from './CustomTextarea.module.scss';
 
 interface CustomTextareaProps {
-  label: string;
+  titleText: string;
   value: string;
-  width?: string;
-  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+  editorMode: EditorMode;
+  onChange?: (newValue: string) => void;
   onBlur?: (event: FocusEvent<HTMLInputElement>) => void;
-  isJson?: boolean;
+  hasPrettifyBtn?: boolean;
+  hasHideBtn?: boolean;
 }
 
 export default function CustomTextarea({
-  label,
+  titleText,
   value,
-  width = '100%',
+  editorMode = '',
   onChange,
-  onBlur,
-  isJson = true,
-}: CustomTextareaProps): ReactNode {
-  const [text, setText] = useState(value);
+  hasPrettifyBtn = true,
+  hasHideBtn = true,
+  ...props
+}: CustomTextareaProps & Omit<ReactCodeMirrorProps, 'onChange'>): ReactNode {
+  const [isHidden, setIsHidden] = useState(true);
 
   const handlePrettify = async (): Promise<void> => {
+    const isJson = editorMode === 'json' || editorMode === 'json-with-linter';
+
     try {
-      const formattedCode = await prettier.format(text, {
+      const formattedCode = await prettier.format(value, {
         parser: isJson ? 'json' : 'graphql',
         plugins: isJson ? [babelPlugin, estreePlugin] : [graphqlPlugin],
       });
 
-      setText(formattedCode.replace(/[\r\n]+$/, ''));
+      onChange?.(formattedCode.replace(/[\r\n]+$/, ''));
     } catch {
       toast.info(`Failed to prettify code. Check ${isJson ? 'JSON' : 'GraphQL'} syntax`);
     }
   };
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    setText(event.target.value);
-    onChange?.(event);
-  };
-
   return (
     <>
-      <CustomButton onClick={handlePrettify}>Prettify</CustomButton>
+      <div className={styles.wrapper}>
+        <h4 className={styles.title}>{titleText}</h4>
+        <div className={styles.buttons}>
+          {hasPrettifyBtn && editorMode && (
+            <CustomButton variant="tertiary" className={styles.prettifyBtn} onClick={handlePrettify}>
+              <span className="visually-hidden">Prettify</span>
+            </CustomButton>
+          )}
+          {hasHideBtn && (
+            <CustomButton
+              className={clsx(styles.hideBtn, isHidden && styles.hidden)}
+              onClick={() => setIsHidden(!isHidden)}
+            >
+              <span className="visually-hidden">{isHidden ? 'Show' : 'Hide'}</span>
+            </CustomButton>
+          )}
+        </div>
+      </div>
 
-      <TextField
-        label={label}
-        fullWidth
-        multiline
-        minRows={1}
-        maxRows={Infinity}
-        sx={{ mt: 2, width }}
-        value={text}
-        onChange={handleChange}
-        onBlur={onBlur}
-        className={styles.input}
-      />
+      {(!isHidden || !hasHideBtn) && (
+        <Editor value={value} mode={editorMode} onChange={(newValue) => onChange?.(newValue)} {...props} />
+      )}
     </>
   );
 }
