@@ -1,5 +1,7 @@
 'use client';
 
+import './mui-table.scss';
+
 import DeleteIcon from '@mui/icons-material/Delete';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
@@ -11,10 +13,12 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TextField from '@mui/material/TextField';
+import clsx from 'clsx';
 import { type ReactNode, useState } from 'react';
 
 import { generateUniqueId } from '@/utils/utils.ts';
 
+import { CustomButton } from '../custom-button/CustomButton.tsx';
 import CustomInput from '../custom-input/CustomInput.tsx';
 import styles from './ClientTable.module.scss';
 import type { TableProps } from './types.ts';
@@ -22,6 +26,7 @@ import type { TableProps } from './types.ts';
 export default function ClientTable({ title, tableInfo, onChange }: TableProps): ReactNode {
   const [newKey, setNewKey] = useState<string>('');
   const [newValue, setNewValue] = useState<string>('');
+  const [isTableVisible, setIsTableVisible] = useState(false);
 
   const handleAddMode = (): void => {
     if (newKey.trim() && newValue.trim()) {
@@ -52,71 +57,90 @@ export default function ClientTable({ title, tableInfo, onChange }: TableProps):
     onChange(newData);
   };
 
+  const toggleTableVisibility = (): void => {
+    setIsTableVisible((prev) => !prev);
+  };
+
   return (
     <div className={styles.container}>
-      <div>
+      <div className={styles.titleContainer}>
         <h4 className={styles.subtitle}>{title}:</h4>
-        <div className={styles.inputContainer}>
-          <CustomInput
-            label="Key"
-            variant="outlined"
-            width="200px"
-            value={newKey}
-            onChange={(e) => setNewKey(e.target.value)}
-          />
-          <CustomInput
-            label="Value"
-            variant="outlined"
-            width="200px"
-            value={newValue}
-            onChange={(e) => setNewValue(e.target.value)}
-          />
-          <Button className={styles.button} variant="contained" color="primary" onClick={handleAddMode}>
-            + row
-          </Button>
-        </div>
+        <CustomButton
+          className={clsx(styles.hideBtn, !isTableVisible && styles.hidden)}
+          onClick={toggleTableVisibility}
+        >
+          <span className="visually-hidden">{!isTableVisible ? 'Show' : 'Hide'}</span>
+        </CustomButton>
       </div>
-      {tableInfo.length > 0 && (
-        <TableContainer component={Paper} sx={{ mt: 2 }} className={styles.table}>
-          <Table sx={{ minWidth: 550 }} aria-label="table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Key</TableCell>
-                <TableCell align="center">Value</TableCell>
-                <TableCell align="right">Delete</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {tableInfo.map((rowData, index) => (
-                <TableRow key={rowData.id}>
-                  <TableCell component="th" scope="row">
-                    <TextField
-                      className={styles.input}
-                      placeholder={`${title} Key`}
-                      value={rowData.key}
-                      onChange={(e) => handleChangeMode(index, 'key', e.target.value)}
-                      fullWidth
-                    />
-                  </TableCell>
-                  <TableCell align="right">
-                    <TextField
-                      className={styles.input}
-                      placeholder={`${title} Value`}
-                      value={rowData.value}
-                      onChange={(e) => handleChangeMode(index, 'value', e.target.value)}
-                      fullWidth
-                    />
-                  </TableCell>
-                  <TableCell align="right">
-                    <IconButton aria-label="delete" onClick={() => handleDeleteMode(index)} color="secondary">
-                      <DeleteIcon />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+      {isTableVisible && (
+        <>
+          <div className={styles.inputContainer}>
+            <CustomInput
+              label="Key"
+              variant="outlined"
+              width="200px"
+              value={newKey}
+              onChange={(e) => setNewKey(e.target.value)}
+            />
+            <CustomInput
+              label="Value"
+              variant="outlined"
+              width="200px"
+              value={newValue}
+              onChange={(e) => setNewValue(e.target.value)}
+            />
+            <Button className={styles.button} variant="contained" color="primary" onClick={handleAddMode}>
+              + Row
+            </Button>
+          </div>
+
+          {tableInfo.length > 0 && (
+            <TableContainer
+              component={Paper}
+              sx={{ mt: 2, borderColor: 'var(--color-text-dark)' }}
+              className={styles.table}
+            >
+              <Table sx={{ minWidth: 550 }} aria-label="table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Key</TableCell>
+                    <TableCell align="center">Value</TableCell>
+                    <TableCell align="right">Delete</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {tableInfo.map((rowData, index) => (
+                    <TableRow key={rowData.id}>
+                      <TableCell component="th" scope="row">
+                        <TextField
+                          className={styles.input}
+                          placeholder={`${title} Key`}
+                          value={rowData.key}
+                          onChange={(e) => handleChangeMode(index, 'key', e.target.value)}
+                          fullWidth
+                        />
+                      </TableCell>
+                      <TableCell align="right">
+                        <TextField
+                          className={styles.input}
+                          placeholder={`${title} Value`}
+                          value={rowData.value}
+                          onChange={(e) => handleChangeMode(index, 'value', e.target.value)}
+                          fullWidth
+                        />
+                      </TableCell>
+                      <TableCell align="right">
+                        <IconButton aria-label="delete" onClick={() => handleDeleteMode(index)} color="secondary">
+                          <DeleteIcon />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          )}
+        </>
       )}
     </div>
   );
