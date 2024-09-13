@@ -2,16 +2,37 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
-import ErrorPage from '@/app/error';
-import GlobalErrorPage from '@/app/global-error';
+import ErrorPage from '@/app/[locale]/error';
 
-describe.skip('ErrorPage', () => {
+const translate = vi.fn((arg: string) => {
+  switch (arg) {
+    case 'title':
+      return 'Oops!';
+    case 'text':
+      return 'Sorry, an unexpected error has occurred.';
+    case 'desc':
+      return 'Error message:';
+    case 'recommendation':
+      return 'Please try to refresh the page.';
+    case 'refresh':
+      return 'Refresh the page';
+    default:
+      return '';
+  }
+});
+
+vi.mock('@/locales/client', async (importOriginal) => {
+  const actual = await importOriginal<object>();
+
+  return {
+    ...actual,
+    useScopedI18n: vi.fn(() => translate),
+  };
+});
+
+describe('ErrorPage', () => {
   const original = window.location;
   const reloadMock = vi.fn();
-
-  beforeEach(() => {
-    vi.resetAllMocks();
-  });
 
   beforeAll(() => {
     Object.defineProperty(window, 'location', {
@@ -35,7 +56,7 @@ describe.skip('ErrorPage', () => {
   it('sets errorMessage to null if routeError is not recognized', () => {
     const c = console;
     c.error = vi.fn();
-    render(<GlobalErrorPage error={new Error()} />);
+    render(<ErrorPage error={new Error()} />);
 
     expect(screen.getByText('Oops!')).toBeInTheDocument();
     expect(screen.getByText('Sorry, an unexpected error has occurred.')).toBeInTheDocument();

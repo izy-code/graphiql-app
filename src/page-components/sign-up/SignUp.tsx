@@ -88,7 +88,7 @@ export default function SignUp(): ReactNode {
         />
         <FormInputField
           label={translate('email')}
-          inputProps={{ ...register('email'), type: 'text, autoComplete: 'email' }}
+          inputProps={{ ...register('email'), type: 'text', autoComplete: 'email' }}
           error={errors.email?.message && translateValidation(errors.email?.message as never)}
         />
 

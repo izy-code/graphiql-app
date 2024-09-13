@@ -7,7 +7,66 @@ import { Toast } from '@/components/toast/Toast';
 import { AuthProvider } from '@/contexts/auth-context';
 import { renderWithProvidersAndUser } from '@/utils/test-utils';
 
+const translate = vi.fn((arg: string) => {
+  switch (arg) {
+    case 'email':
+      return 'Email';
+    case 'password':
+      return 'Password';
+    case 'submit':
+      return 'Sign in';
+    default:
+      return '';
+  }
+});
+
+const translateValidation = vi.fn((arg: string) => {
+  switch (arg) {
+    case 'email.format':
+      return 'Email must have valid format';
+    case 'password.number':
+      return 'Password must contain a number';
+    default:
+      return '';
+  }
+});
+
+const translateAuth = vi.fn(() => 'Loading Firebase...');
+
+vi.mock('@/locales/client', async (importOriginal) => {
+  const actual = await importOriginal<object>();
+
+  return {
+    ...actual,
+    useScopedI18n: vi.fn((arg: string) => {
+      switch (arg) {
+        case 'sign-in':
+          return translate;
+        case 'validation':
+          return translateValidation;
+        case 'auth':
+          return translateAuth;
+        default:
+          return {};
+      }
+    }),
+  };
+});
+
 describe('Sign in page', () => {
+  const original = window.location;
+
+  beforeAll(() => {
+    Object.defineProperty(window, 'location', {
+      value: { ...window.location, pathname: '/en' },
+      writable: true,
+    });
+  });
+
+  afterAll(() => {
+    Object.defineProperty(window, 'location', { configurable: true, value: original });
+  });
+
   it('renders correctly', () => {
     const { container } = renderWithProvidersAndUser(
       <AuthProvider>

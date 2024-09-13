@@ -21,9 +21,7 @@ const passwordStringSchema = string()
   .min(MIN_PASSWORD_LENGTH, 'password.min');
 
 export const registrationSchema = object().shape({
-  name: string()
-    .required('name.required')
-    .matches(NAME_REGEX, 'name.capital'),
+  name: string().required('name.required').matches(NAME_REGEX, 'name.capital'),
   email: emailStringSchema,
   password: passwordStringSchema,
   passwordConfirm: string()

@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 
-import GraphiQlPage from '@/app/[locale]/graphiql/[[...graphiql]]/page';
+import GraphQlPage from '@/app/[locale]/GRAPHQL/[[...slug]]/page';
 
 vi.mock('next/navigation', async (importOriginal) => {
   const actual = await importOriginal<object>();
@@ -15,7 +15,7 @@ vi.mock('@/hooks/useAuth', () => ({ useAuth: vi.fn((): boolean => true) }));
 
 describe.skip('GraphQL page', () => {
   it('renders correctly', () => {
-    const { container } = render(<GraphiQlPage />);
+    const { container } = render(<GraphQlPage />);
 
     expect(container).toMatchSnapshot();
   });

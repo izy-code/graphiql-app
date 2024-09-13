@@ -6,6 +6,60 @@ import { NonProtectedPaths } from '@/common/enums';
 import { AuthProvider } from '@/contexts/auth-context';
 import { renderWithProvidersAndUser } from '@/utils/test-utils';
 
+const translate = vi.fn((arg: string) => {
+  switch (arg) {
+    case 'name':
+      return 'Name';
+    case 'email':
+      return 'Email';
+    case 'password':
+      return 'Enter password';
+    case 'password.confirm':
+      return 'Confirm password';
+    case 'submit':
+      return 'Sign up';
+    default:
+      return '';
+  }
+});
+
+const translateValidation = vi.fn((arg: string) => {
+  switch (arg) {
+    case 'name.capital':
+      return 'Name must start with a capital letter';
+    case 'email.format':
+      return 'Email must have valid format';
+    case 'password.number':
+      return 'Password must contain a number';
+    case 'confirm.match':
+      return 'Passwords do not match';
+    default:
+      return '';
+  }
+});
+
+const translateAuth = vi.fn(() => 'Loading Firebase...');
+
+vi.mock('@/locales/client', async (importOriginal) => {
+  const actual = await importOriginal<object>();
+
+  return {
+    ...actual,
+    useScopedI18n: vi.fn((arg: string) => {
+      switch (arg) {
+        case 'sign-up':
+          return translate;
+        case 'validation':
+          return translateValidation;
+        case 'auth':
+          return translateAuth;
+        default:
+          return {};
+      }
+    }),
+  };
+});
+
 describe('Sign up page', () => {
   it('renders correctly', () => {
     const { container } = renderWithProvidersAndUser(
