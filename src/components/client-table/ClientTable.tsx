@@ -1,5 +1,7 @@
 'use client';
 
+import './mui-table.scss';
+
 import DeleteIcon from '@mui/icons-material/Delete';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
@@ -11,19 +13,21 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TextField from '@mui/material/TextField';
+import clsx from 'clsx';
 import { type ReactNode, useState } from 'react';
 
 import { CustomInput } from '@/components/custom-input/CustomInput';
 import { useScopedI18n } from '@/locales/client';
 import { generateUniqueId } from '@/utils/utils';
 
+import { CustomButton } from '../custom-button/CustomButton.tsx';
 import styles from './ClientTable.module.scss';
 import type { TableProps } from './types';
 
 export function ClientTable({ title, tableInfo, onChange }: TableProps): ReactNode {
   const [newKey, setNewKey] = useState('');
   const [newValue, setNewValue] = useState('');
-  const [isTableVisible, setIsTableVisible] = useState(true);
+  const [isTableVisible, setIsTableVisible] = useState(false);
   const translate = useScopedI18n('clientTable');
 
   const handleAddMode = (): void => {
@@ -61,19 +65,15 @@ export function ClientTable({ title, tableInfo, onChange }: TableProps): ReactNo
 
   return (
     <div className={styles.container}>
-      <h4 className={styles.subtitle}>
-        {title}:
-        <Button
-          className={styles.toggleButton}
-          variant="text"
-          color="primary"
+      <div className={styles.titleContainer}>
+        <h4 className={styles.subtitle}>{title}:</h4>
+        <CustomButton
+          className={clsx(styles.hideBtn, !isTableVisible && styles.hidden)}
           onClick={toggleTableVisibility}
-          sx={{ ml: 2 }}
         >
-          {isTableVisible ? translate('hide') : translate('show')} {title}
-        </Button>
-      </h4>
-
+          <span className="visually-hidden">{isTableVisible ? translate('hide') : translate('show')}</span>
+        </CustomButton>
+      </div>
       {isTableVisible && (
         <>
           <div className={styles.inputContainer}>
@@ -95,14 +95,19 @@ export function ClientTable({ title, tableInfo, onChange }: TableProps): ReactNo
               {translate('row')}
             </Button>
           </div>
+
           {tableInfo.length > 0 && (
-            <TableContainer component={Paper} sx={{ mt: 2 }} className={styles.table}>
+            <TableContainer
+              component={Paper}
+              sx={{ mt: 2, borderColor: 'var(--color-text-dark)' }}
+              className={styles.table}
+            >
               <Table sx={{ minWidth: 550 }} aria-label="table">
                 <TableHead>
                   <TableRow>
                     <TableCell align="center">{translate('key')}</TableCell>
                     <TableCell align="center">{translate('value')}</TableCell>
-                    <TableCell align="right">{translate('delete')}</TableCell>
+                    <TableCell align="center">{translate('delete')}</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>

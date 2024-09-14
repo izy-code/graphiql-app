@@ -1,7 +1,7 @@
 'use client';
 
 import TextField from '@mui/material/TextField';
-import type { ReactNode } from 'react';
+import type { ChangeEvent, FocusEvent, ReactNode } from 'react';
 
 import styles from './CustomInput.module.scss';
 
@@ -10,8 +10,8 @@ interface CustomInputProps {
   variant: 'standard' | 'filled' | 'outlined';
   width?: string;
   value: string;
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (event: FocusEvent<HTMLInputElement>) => void;
 }
 
 export function CustomInput({

@@ -1,5 +1,5 @@
 import './global.scss';
-import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.min.css';
 
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import clsx from 'clsx';
@@ -32,7 +32,6 @@ export default function RootLayout({
             <Toast />
           </AppRouterCacheProvider>
         </StoreProvider>
-        {/* Allows to apply styles in global-error.tsx */}
         <div className={clsx(customButtonStyles.dummy, errorPageStyles.dummy)} />
       </body>
     </html>

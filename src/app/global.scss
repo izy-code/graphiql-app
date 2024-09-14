@@ -1,3 +1,16 @@
+@mixin font($font_name, $file_name, $weight, $style) {
+  @font-face {
+    font-family: $font_name;
+    font-style: $style;
+    font-weight: $weight;
+    src: url("/fonts/#{$file_name}.woff2") format("woff2");
+    font-display: swap;
+  }
+}
+
+@include font("Inter", inter-400, 400, normal);
+@include font("Inter", inter-700, 700, normal);
+
 $color-black: #000000;
 $color-black-olive: #403f3d;
 $color-granite: #665f55;
@@ -30,29 +43,27 @@ $accent-color: #6554c2;
 :root {
   --color-bg-page: #{$background-color};
   --color-text-dark: #{$text-color};
-  --color-text-light: #{$bright-text-color};
+  --color-text-light: #{$color-anti-flash-white};
   --color-border: #{$border-color};
   --color-accent: #{$accent-color};
   --color-accent-hover: #{$color-major-blue};
   --color-accent-dark: #{$color-dark-slate-blue};
 
-  --color-star-filled: #{$color-yellow};
-  --color-star-empty: #{$color-anti-flash-white};
   --color-text-primary: #{$color-black-olive};
   --color-bd: #{$color-black-olive};
   --color-bg-container: #{$color-anti-flash-white};
   --color-primary: #{$color-sandy-brown};
   --color-primary-accent: #{$color-pastel-yellow};
   --color-primary-active: #{$color-chinese-bronze};
-  --color-second: #{$color-light-blue};
+  --color-second-active: #{$color-light-blue};
   --color-second-accent: #{$color-blue};
-  --color-second-active: #{$color-dark-blue};
-  --color-third: #{$color-iguana-green};
+  --color-second: #{$color-dark-blue};
+  --color-third-active: #{$color-iguana-green};
   --color-third-accent: #{$color-green};
-  --color-third-active: #{$color-dark-green};
-  --color-error: #{$color-light-red};
+  --color-third: #{$color-dark-green};
+  --color-error-active: #{$color-light-red};
   --color-error-accent: #{$color-red};
-  --color-error-active: #{$color-dark-red};
+  --color-error: #{$color-dark-red};
   --color-disabled: #{$color-granite};
   --color-shadow: #{$color-black-transparent};
 

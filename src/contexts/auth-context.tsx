@@ -6,7 +6,7 @@ import type { ReactNode } from 'react';
 import { createContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
-import { USER_LOGOUT } from '@/common/constants';
+import { STORE_RESET } from '@/common/constants';
 import { Loader } from '@/components/loader/Loader';
 import { auth, logOut } from '@/firebase/firebase';
 import { useAppDispatch } from '@/hooks/store-hooks';
@@ -40,7 +40,7 @@ export function AuthProvider({ children }: { children: ReactNode }): ReactNode {
 
       if (currentTime >= expirationTime) {
         await logOut();
-        dispatch({ type: USER_LOGOUT });
+        dispatch({ type: STORE_RESET });
         toast.info(translateText('auth.expired'));
         router.push('/');
       }

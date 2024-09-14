@@ -17,11 +17,12 @@
 
 .sectionTitle {
   position: absolute;
-  top: -52px;
-  left: 35%;
-  width: 200px;
+  top: -47px;
+  left: 50%;
+  padding-inline: 20px;
   text-align: center;
   background-color: var(--color-bg-page);
+  transform: translateX(-50%);
 }
 
 

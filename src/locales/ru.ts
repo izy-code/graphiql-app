@@ -8,8 +8,8 @@ export default {
   'main.welcome': 'Добро пожаловать, пожалуйста, войдите в систему.',
   'main.signed-in': 'С возвращением, {name}!',
   'main.title': 'REST/GraphQL клиент',
-  'main.links.rest': 'REST Клиент',
-  'main.links.graphql': 'GraphQL Клиент',
+  'main.links.rest': 'REST клиент',
+  'main.links.graphql': 'GraphQL клиент',
   'main.links.history': 'История',
   'main.links.sign-in': 'Войти',
   'main.links.sign-up': 'Зарегистрироваться',
@@ -18,9 +18,9 @@ export default {
     'Разработанный в качестве итогового задания на курсе React, этот проект демонстрирует скоординированные усилия трёх преданных участников.\nЗавершённое в течение четырёх недель, это приложение является результатом усердной работы и сотрудничества команды.\nПриложение поддерживает как RESTful, так и GraphQL API, включает аутентификацию через Firebase, отслеживание истории запросов и переключение языков.\nПользователи могут настраивать и отправлять запросы, просматривать ответы.',
   'main.team.name-1': 'Иван Жиребный',
   'main.team.role-1': 'Frontend-разработчик, Лидер команды',
-  'main.team.contributions-1': 'Настройка среды разработки, Аутентификация, Firebase, GraphQL',
+  'main.team.contributions-1': 'Настройка среды разработки, Страницы аутентификации, Firebase, GraphQL',
   'main.team.bio-1':
-    'Окончил Московский государственный технический университет имени Баумана, завершил программу Frontend-разработчика в HTML Academy.',
+    'Окончил Московский государственный технический университет имени Баумана, завершил профессию «Фронтенд-разработчик» в HTML Academy.',
   'main.team.name-2': 'Вадим Колымбет',
   'main.team.role-2': 'Frontend-разработчик',
   'main.team.contributions-2': 'Маршрутизация, Интернационализация, Тестирование',
@@ -58,7 +58,7 @@ export default {
   'sign-up.password.confirm': 'Подтвердите пароль',
   'sign-up.submit': 'Зарегистрироваться',
 
-  'rest.title': 'REST Клиент',
+  'rest.title': 'REST клиент',
   'rest.endpoint': 'Эндпоинт URL',
   'rest.params': 'Параметры',
   'rest.headers': 'Заголовки',
@@ -88,9 +88,9 @@ export default {
   'response.body': 'Тело:',
 
   'graphql.errors.parse': 'Не удается разобрать тело запроса в URL',
-  'graphql.schema.completed': 'Запрос выполнен, посмотрите на схему',
-  'graphql.request.completed': 'Запрос выполнен, посмотрите на тело ответа',
-  'graphql.title': 'GraphQL Клиент',
+  'graphql.schema.completed': 'Запрос выполнен, можете открыть схему',
+  'graphql.request.completed': 'Запрос выполнен, проверьте поле ответа',
+  'graphql.title': 'GraphQL клиент',
   'graphql.endpoint': 'Эндпоинт URL',
   'graphql.schema': 'Схема URL',
   'graphql.request': 'Запрос',
@@ -108,26 +108,23 @@ export default {
 
   'graphQlApi.response-errors.endpoint': 'Эндпоинт или запрос данных не указаны',
   'graphQlApi.response-errors.variables': 'Поле переменных не является валидным JSON',
-  'graphQlApi.response-errors.body': 'Тело ответа содержит ошибки',
   'graphQlApi.response-errors.data':
     'Неизвестная структура ответа: отсутствует поле "data". Проверьте эндпоинт и параметры запроса',
   'graphQlApi.response-errors.unknown': 'Произошла неизвестная ошибка при выполнении запроса',
   'graphQlApi.response-errors.status': 'Ошибка получения данных',
 
   'graphQlApi.schema-errors.endpoint': 'Эндпоинт схемы не указан',
-  'graphQlApi.schema-errors.body': 'Тело ответа содержит ошибки',
+  'graphQlApi.schema-errors.body': 'Тело ответа схемы содержит ошибки',
   'graphQlApi.schema-errors.data':
     'Неизвестная структура ответа: отсутствует поле "data" или "__schema". Проверьте эндпоинт и заголовки',
-  'graphQlApi.schema-errors.fetch-status': 'Не удалось получить данные, код состояния: {status}',
-  'graphQlApi.schema-errors.fetch': 'Не удалось получить схему',
-  'graphQlApi.schema-errors.unknown': 'Произошла неизвестная ошибка при выполнении запроса',
-  'graphQlApi.schema-errors.parse': 'Не удалось разобрать URL из {endpoint}',
+  'graphQlApi.schema-errors.fetch-status': 'Не удалось получить документацию схемы, код состояния: {status}',
+  'graphQlApi.schema-errors.unknown': 'Произошла неизвестная ошибка при выполнении запроса документации схемы',
 
   'history.title': 'История',
   'history.empty.title': 'Вы не выполняли никаких запросов.',
   'history.empty': 'Здесь пусто. Попробуйте: ',
-  'history.links.rest': 'REST Клиент',
-  'history.links.graphql': 'GraphQL Клиент',
+  'history.links.rest': 'REST клиент',
+  'history.links.graphql': 'GraphQL клиент',
   'history.subtitle': 'Запросы:',
 
   'error.title': 'Упс!',
@@ -151,6 +148,7 @@ export default {
   'firebase.errors.INVALID_LOGIN_CREDENTIALS': 'Неверные учетные данные',
   'firebase.errors.EMAIL_EXISTS': 'Почта уже используется',
   'firebase.errors.TOO_MANY_ATTEMPTS_TRY_LATER': 'Слишком много попыток входа',
+  'firebase.errors.NETWORK_REQUEST_FAILED': 'Сетевой запрос не выполнен',
 
   'validation.email.required': 'Почта обязательна',
   'validation.email.format': 'Почта должна иметь допустимый формат',
@@ -164,4 +162,10 @@ export default {
   'validation.name.capital': 'Имя должно начинаться с заглавной буквы',
   'validation.confirm.required': 'Пожалуйста, подтвердите свой пароль',
   'validation.confirm.match': 'Пароли не совпадают',
+
+  'customTextarea.prettifyError': 'Не удалось отформатировать код. Проверьте синтаксис {language}',
+  'customTextarea.show': 'Показать',
+  'customTextarea.hide': 'Скрыть',
+  'customTextarea.plainText': 'Простой текст',
+  'customTextarea.format': 'Форматировать',
 } as const;

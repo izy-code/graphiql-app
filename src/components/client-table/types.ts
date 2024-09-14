@@ -1,14 +1,11 @@
-export interface ObjectProps {
+export interface TableRow {
+  id: string;
   key: string;
   value: string;
 }
 
-export interface ObjectWithId extends ObjectProps {
-  id: string;
-}
-
 export interface TableProps {
   title: string;
-  tableInfo: ObjectWithId[];
-  onChange: (newData: ObjectWithId[]) => void;
+  tableInfo: TableRow[];
+  onChange: (newData: TableRow[]) => void;
 }

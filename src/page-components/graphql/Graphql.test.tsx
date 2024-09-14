@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 
-import GraphQlPage from '@/app/[locale]/GRAPHQL/[[...slug]]/page';
+import GraphQlPage from '@/app/[locale]/GRAPHQL/[[...path]]/page';
 
 vi.mock('next/navigation', async (importOriginal) => {
   const actual = await importOriginal<object>();
