@@ -165,4 +165,5 @@ export default {
   'customTextarea.prettifyError': 'Failed to prettify code. Check {language} syntax',
   'customTextarea.show': 'Show',
   'customTextarea.hide': 'Hide',
+  'customTextarea.plainText': 'Plain text',
 } as const;

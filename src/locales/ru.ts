@@ -166,4 +166,5 @@ export default {
   'customTextarea.prettifyError': 'Не удалось отформатировать код. Проверьте синтаксис {language}',
   'customTextarea.show': 'Показать',
   'customTextarea.hide': 'Скрыть',
+  'customTextarea.plainText': 'Простой текст',
 } as const;

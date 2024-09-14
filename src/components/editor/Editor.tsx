@@ -9,20 +9,7 @@ import { type ReactNode, useMemo } from 'react';
 import { useAppSelector } from '@/hooks/store-hooks';
 import type { RootState } from '@/store/store';
 
-export type EditorMode = 'json' | 'json-with-linter' | 'graphql' | '';
-
-const getCodeMirrorExtension = (mode: EditorMode, schema?: GraphQLSchema): Extension[] => {
-  switch (mode) {
-    case 'json':
-      return [json()];
-    case 'json-with-linter':
-      return [json(), linter(jsonParseLinter()), lintGutter()];
-    case 'graphql':
-      return schema ? [graphql(schema)] : [graphql()];
-    default:
-      return [];
-  }
-};
+export type EditorMode = 'json' | 'json-with-linter' | 'graphql' | 'plain-text';
 
 export const themeSettings = EditorView.theme({
   '&': {
@@ -55,8 +42,21 @@ export const theme = materialInit({
   },
 });
 
+const getCodeMirrorExtension = (mode: EditorMode, schema?: GraphQLSchema): Extension[] => {
+  switch (mode) {
+    case 'json':
+      return [json()];
+    case 'json-with-linter':
+      return [json(), linter(jsonParseLinter()), lintGutter()];
+    case 'graphql':
+      return schema ? [graphql(schema)] : [graphql()];
+    default:
+      return [];
+  }
+};
+
 export function Editor({
-  mode = '',
+  mode = 'plain-text',
   schema,
   extensions = [],
   style,

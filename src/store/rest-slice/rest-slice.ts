@@ -11,6 +11,7 @@ interface RestState {
   variables: TableRow[];
   status: string;
   responseBody: string;
+  isPlainText: boolean;
 }
 
 const initialState: RestState = {
@@ -21,6 +22,7 @@ const initialState: RestState = {
   variables: [],
   status: '-',
   responseBody: '',
+  isPlainText: false,
 };
 
 const restSlice = createSlice({
@@ -48,9 +50,12 @@ const restSlice = createSlice({
     setResponseBody(state, action: PayloadAction<string>) {
       state.responseBody = action.payload;
     },
+    setIsPlainText(state, action: PayloadAction<boolean>) {
+      state.isPlainText = action.payload;
+    },
   },
 });
 
-export const { setMethod, setBody, setEndpoint, setHeaders, setVariables, setStatus, setResponseBody } =
+export const { setMethod, setBody, setEndpoint, setHeaders, setVariables, setStatus, setResponseBody, setIsPlainText } =
   restSlice.actions;
 export default restSlice.reducer;

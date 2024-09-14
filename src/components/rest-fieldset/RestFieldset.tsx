@@ -7,7 +7,14 @@ import { CustomTextarea } from '@/components/custom-textarea/CustomTextarea';
 import { MethodButtons } from '@/components/method-buttons/MethodButtons';
 import { useAppDispatch, useAppSelector } from '@/hooks/store-hooks';
 import { useCurrentLocale, useScopedI18n } from '@/locales/client';
-import { setBody, setEndpoint, setHeaders, setMethod, setVariables } from '@/store/rest-slice/rest-slice';
+import {
+  setBody,
+  setEndpoint,
+  setHeaders,
+  setIsPlainText,
+  setMethod,
+  setVariables,
+} from '@/store/rest-slice/rest-slice';
 import type { RootState } from '@/store/store';
 import { updateHistory } from '@/utils/utils';
 
@@ -15,7 +22,7 @@ import RequestButton from '../request-button/RequestButton';
 import styles from './RestFieldset.module.scss';
 
 export function RestFieldset(): ReactNode {
-  const { endpoint, method, body, headers, variables } = useAppSelector((state: RootState) => state.rest);
+  const { endpoint, method, body, headers, variables, isPlainText } = useAppSelector((state: RootState) => state.rest);
   const dispatch = useAppDispatch();
   const locale = useCurrentLocale();
   const translate = useScopedI18n('rest');
@@ -70,6 +77,9 @@ export function RestFieldset(): ReactNode {
             value={body}
             onChange={(value) => dispatch(setBody(value))}
             onBlur={handleBodyBlur}
+            hasSwitcher
+            isPlainText={isPlainText}
+            onSwitchChange={() => dispatch(setIsPlainText(!isPlainText))}
           />
         </div>
         <RequestButton />
