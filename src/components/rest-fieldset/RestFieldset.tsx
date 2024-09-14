@@ -21,7 +21,10 @@ import { updateHistory } from '@/utils/utils';
 import RequestButton from '../request-button/RequestButton';
 import styles from './RestFieldset.module.scss';
 
-export function RestFieldset(): ReactNode {
+interface RestFieldsetProps {
+  setShowResponse: (value: boolean) => void;
+}
+export function RestFieldset({ setShowResponse }: RestFieldsetProps): ReactNode {
   const { endpoint, method, body, headers, variables, isPlainText } = useAppSelector((state: RootState) => state.rest);
   const dispatch = useAppDispatch();
   const locale = useCurrentLocale();
@@ -56,14 +59,17 @@ export function RestFieldset(): ReactNode {
     <>
       <div className={styles.items}>
         <h2 className={styles.sectionTitle}>URL</h2>
-        <MethodButtons method={method} onMethodChange={handleMethodChange} />
-        <CustomInput
-          label={translate('endpoint')}
-          variant="standard"
-          width="420px"
-          value={endpoint}
-          onChange={handleEndpointChange}
-        />
+        <div className={styles.oneLine}>
+          <MethodButtons method={method} onMethodChange={handleMethodChange} />
+          <CustomInput
+            label={translate('endpoint')}
+            variant="standard"
+            width="420px"
+            value={endpoint}
+            onChange={handleEndpointChange}
+          />
+        </div>
+        <RequestButton setShowResponse={setShowResponse} />
       </div>
       <div className={styles.section}>
         <h2 className={styles.sectionTitle}>{translate('params')}</h2>
@@ -81,7 +87,6 @@ export function RestFieldset(): ReactNode {
             onSwitchChange={() => dispatch(setIsPlainText(!isPlainText))}
           />
         </div>
-        <RequestButton />
       </div>
     </>
   );

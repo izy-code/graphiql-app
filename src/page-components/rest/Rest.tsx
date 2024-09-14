@@ -1,7 +1,7 @@
 'use client';
 
 import { notFound, usePathname, useSearchParams } from 'next/navigation';
-import { type ReactNode, useEffect, useRef } from 'react';
+import { type ReactNode, useEffect, useRef, useState } from 'react';
 
 import { STORE_RESET } from '@/common/constants';
 import { AuthRoute } from '@/components/auth-route/AuthRoute';
@@ -30,6 +30,7 @@ function Rest({ responseData }: RestProps): ReactNode {
   const didMount = useRef(false);
   const locale = useCurrentLocale();
   const translate = useScopedI18n('rest');
+  const [showResponse, setShowResponse] = useState(false);
 
   useEffect(() => {
     if (responseData) {
@@ -84,9 +85,9 @@ function Rest({ responseData }: RestProps): ReactNode {
     <div className={styles.page}>
       <div className={styles.container}>
         <h1 className={styles.title}>{translate('title')}</h1>
-        <RestFieldset />
+        <RestFieldset setShowResponse={setShowResponse} />
       </div>
-      <ResponseContainer type="rest" />
+      {showResponse && <ResponseContainer type="rest" />}
     </div>
   );
 }

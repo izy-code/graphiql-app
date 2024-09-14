@@ -10,7 +10,10 @@ import { useScopedI18n } from '@/locales/client';
 
 import styles from './RequestButton.module.scss';
 
-function RequestButton(): ReactNode {
+interface RequestButtonProps {
+  setShowResponse: (value: boolean) => void;
+}
+function RequestButton({ setShowResponse }: RequestButtonProps): ReactNode {
   const router = useRouter();
   const { getStoredValue, setStoredValue } = useLocalStorage();
   const translate = useScopedI18n('requestButton');
@@ -18,6 +21,7 @@ function RequestButton(): ReactNode {
   const handleRequest = (): void => {
     const requestsArray = (getStoredValue(LocalStorageKeys.REQUEST_LIST) as string[]) || [];
     setStoredValue(LocalStorageKeys.REQUEST_LIST, [window.location.href, ...requestsArray]);
+    setShowResponse(true);
     void router.refresh();
   };
 
