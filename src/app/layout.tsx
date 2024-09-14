@@ -32,7 +32,6 @@ export default function RootLayout({
             <Toast />
           </AppRouterCacheProvider>
         </StoreProvider>
-        {/* Allows to apply styles in global-error.tsx */}
         <div className={clsx(customButtonStyles.dummy, errorPageStyles.dummy)} />
       </body>
     </html>

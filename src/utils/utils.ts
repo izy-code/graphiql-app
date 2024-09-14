@@ -30,12 +30,12 @@ export const decodeBase64 = (str: string): string => {
 
 export const generateUniqueId = (): string => `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 
-export const replaceVariables = (text: string, variables: TableRow[]): string => {
+export const replaceVariables = (text: string | undefined, variables: TableRow[]): string => {
   const variableMap = Object.fromEntries(
     variables.filter(({ key, value }) => key.trim() && value.trim()).map(({ key, value }) => [key, value]),
   );
 
-  let result = text;
+  let result = text || '';
   Object.entries(variableMap).forEach(([variableKey, variableValue]) => {
     const variablePlaceholder = `{{${variableKey}}}`;
     result = result.replace(new RegExp(variablePlaceholder, 'g'), variableValue);

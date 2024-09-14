@@ -74,7 +74,12 @@ export function CustomTextarea({
         <h4 className={styles.title}>{titleText}</h4>
         <div className={styles.controls}>
           {hasPrettifyBtn && modeWithSwitcher !== 'plain-text' && (
-            <CustomButton variant="tertiary" className={styles.prettifyBtn} onClick={handlePrettify}>
+            <CustomButton
+              variant="tertiary"
+              className={styles.prettifyBtn}
+              onClick={handlePrettify}
+              title={translate('format')}
+            >
               <span className="visually-hidden">Prettify</span>
             </CustomButton>
           )}

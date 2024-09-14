@@ -38,9 +38,8 @@ export function RestFieldset(): ReactNode {
     updateHistory(locale, newMethod, endpoint, body, headers, variables);
   };
 
-  const handleBodyBlur = (e: React.FocusEvent<HTMLInputElement>): void => {
-    dispatch(setBody(e.target.value));
-    updateHistory(locale, method, endpoint, e.target.value, headers, variables);
+  const handleBodyBlur = (): void => {
+    updateHistory(locale, method, endpoint, body, headers, variables);
   };
 
   const handleHeaderChange = (newHeaders: TableRow[]): void => {

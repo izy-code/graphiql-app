@@ -166,4 +166,5 @@ export default {
   'customTextarea.show': 'Show',
   'customTextarea.hide': 'Hide',
   'customTextarea.plainText': 'Plain text',
+  'customTextarea.format': 'Prettify',
 } as const;

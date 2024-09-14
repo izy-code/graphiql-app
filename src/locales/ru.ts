@@ -167,4 +167,5 @@ export default {
   'customTextarea.show': 'Показать',
   'customTextarea.hide': 'Скрыть',
   'customTextarea.plainText': 'Простой текст',
+  'customTextarea.format': 'Форматировать',
 } as const;
