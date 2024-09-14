@@ -57,7 +57,7 @@ export function GraphqlUrlFieldset(): ReactNode {
     dispatch(setStatus(statusCode!));
 
     if (errorMessage) {
-      toast.error(errorMessage);
+      toast.error(translateErrors(errorMessage as never));
       return;
     }
 

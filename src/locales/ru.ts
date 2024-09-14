@@ -118,7 +118,7 @@ export default {
   'graphQlApi.schema-errors.data':
     'Неизвестная структура ответа: отсутствует поле "data" или "__schema". Проверьте эндпоинт и заголовки',
   'graphQlApi.schema-errors.fetch-status': 'Не удалось получить документацию схемы, код состояния: {status}',
-  'graphQlApi.schema-errors.unknown': 'Произошла неизвестная ошибка при выполнении запроса документацию схемы',
+  'graphQlApi.schema-errors.unknown': 'Произошла неизвестная ошибка при выполнении запроса документации схемы',
 
   'history.title': 'История',
   'history.empty.title': 'Вы не выполняли никаких запросов.',
@@ -162,4 +162,8 @@ export default {
   'validation.name.capital': 'Имя должно начинаться с заглавной буквы',
   'validation.confirm.required': 'Пожалуйста, подтвердите свой пароль',
   'validation.confirm.match': 'Пароли не совпадают',
+
+  'customTextarea.prettifyError': 'Не удалось отформатировать код. Проверьте синтаксис {language}',
+  'customTextarea.show': 'Показать',
+  'customTextarea.hide': 'Скрыть',
 } as const;

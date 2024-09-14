@@ -15,11 +15,11 @@ export function SchemaContainer(): ReactNode {
   const { currentSchema, isSchemaShown } = useAppSelector((state: RootState) => state.graphql);
   const { setTheme } = useSchemaTheme();
 
+  const fetcher = useMemo(() => createGraphiQLFetcher({ url: '' }), []);
+
   useEffect(() => {
     setTheme('dark');
   }, [setTheme]);
-
-  const fetcher = useMemo(() => createGraphiQLFetcher({ url: '' }), []);
 
   return (
     isSchemaShown && (

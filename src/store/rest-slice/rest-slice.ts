@@ -19,7 +19,7 @@ const initialState: RestState = {
   endpoint: '',
   headers: [],
   variables: [],
-  status: 'N/A',
+  status: '-',
   responseBody: '',
 };
 

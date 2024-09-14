@@ -161,4 +161,8 @@ export default {
   'validation.name.capital': 'Name must start with a capital letter',
   'validation.confirm.required': 'Please confirm your password',
   'validation.confirm.match': 'Passwords do not match',
+
+  'customTextarea.prettifyError': 'Failed to prettify code. Check {language} syntax',
+  'customTextarea.show': 'Show',
+  'customTextarea.hide': 'Hide',
 } as const;

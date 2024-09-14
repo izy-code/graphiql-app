@@ -19,7 +19,7 @@ interface GraphQlState {
 const initialState: GraphQlState = {
   query: '',
   variables: '',
-  status: 'N/A',
+  status: '-',
   responseBody: '',
   endpoint: '',
   schemaUrl: '',

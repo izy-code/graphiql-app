@@ -10,6 +10,7 @@ import { type FocusEvent, type ReactNode, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { Editor, type EditorMode } from '@/components/editor/Editor';
+import { useScopedI18n } from '@/locales/client';
 
 import { CustomButton } from '../custom-button/CustomButton';
 import styles from './CustomTextarea.module.scss';
@@ -34,6 +35,7 @@ export function CustomTextarea({
   ...props
 }: CustomTextareaProps & Omit<ReactCodeMirrorProps, 'onChange'>): ReactNode {
   const [isHidden, setIsHidden] = useState(true);
+  const translate = useScopedI18n('customTextarea');
 
   const handlePrettify = async (): Promise<void> => {
     const isJson = editorMode === 'json' || editorMode === 'json-with-linter';
@@ -46,7 +48,7 @@ export function CustomTextarea({
 
       onChange?.(formattedCode.replace(/[\r\n]+$/, ''));
     } catch {
-      toast.info(`Failed to prettify code. Check ${isJson ? 'JSON' : 'GraphQL'} syntax`);
+      toast.info(translate('prettifyError', { language: isJson ? 'JSON' : 'GraphQL' }));
     }
   };
 
@@ -65,7 +67,7 @@ export function CustomTextarea({
               className={clsx(styles.hideBtn, isHidden && styles.hidden)}
               onClick={() => setIsHidden(!isHidden)}
             >
-              <span className="visually-hidden">{isHidden ? 'Show' : 'Hide'}</span>
+              <span className="visually-hidden">{isHidden ? translate('show') : translate('hide')}</span>
             </CustomButton>
           )}
         </div>
