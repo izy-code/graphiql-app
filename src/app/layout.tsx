@@ -11,20 +11,16 @@ import { Toast } from '@/components/toast/Toast';
 import errorPageStyles from '@/page-components/error-page/ErrorPage.module.scss';
 import { StoreProvider } from '@/store/store-provider';
 
+import { getLocale } from './not-found';
+
 export const metadata: Metadata = {
   title: 'REST/GraphiQL client',
   description: 'REST/GraphiQL client as final team project at Rolling Scopes school React course',
 };
 
-export default function RootLayout({
-  params: { locale },
-  children,
-}: {
-  params: { locale: string };
-  children: ReactNode;
-}): ReactNode {
+export default function RootLayout({ children }: { children: ReactNode }): ReactNode {
   return (
-    <html lang={locale}>
+    <html lang={getLocale()}>
       <body>
         <StoreProvider>
           <AppRouterCacheProvider>
@@ -32,7 +28,6 @@ export default function RootLayout({
             <Toast />
           </AppRouterCacheProvider>
         </StoreProvider>
-        {/* Allows to apply styles in global-error.tsx */}
         <div className={clsx(customButtonStyles.dummy, errorPageStyles.dummy)} />
       </body>
     </html>

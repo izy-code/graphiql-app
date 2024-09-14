@@ -11,6 +11,8 @@ const translate = vi.fn((arg: string) => {
       return 'Previous page';
     case 'main':
       return 'Main page';
+    case 'message':
+      return 'The page you requested was not found.';
     default:
       return '';
   }
@@ -28,16 +30,14 @@ vi.mock('@/locales/client', async (importOriginal) => {
 describe('ErrorStatusPage Component', () => {
   it('render 404 page', async () => {
     await mockRouter.push('/404');
-    renderWithProvidersAndUser(<ErrorStatusPage status={404} message="The page you requested was not found." />);
+    renderWithProvidersAndUser(<ErrorStatusPage status={404} />);
 
     expect(screen.getByText('The page you requested was not found.')).toBeInTheDocument();
   });
 
   it('Button Main page on 404 page should route to Main page', async () => {
     await mockRouter.push('/404');
-    const { user } = renderWithProvidersAndUser(
-      <ErrorStatusPage status={404} message="The page you requested was not found." />,
-    );
+    const { user } = renderWithProvidersAndUser(<ErrorStatusPage status={404} />);
 
     const mainPage = screen.getByRole('button', { name: /main page/i });
 

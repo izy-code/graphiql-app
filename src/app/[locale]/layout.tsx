@@ -1,3 +1,4 @@
+import { notFound } from 'next/navigation';
 import { type ReactNode } from 'react';
 
 import { Footer } from '@/components/footer/Footer';
@@ -13,6 +14,10 @@ export default function LocaleLayout({
   params: { locale: string };
   children: ReactNode;
 }): ReactNode {
+  if (!['en', 'ru'].includes(locale)) {
+    notFound();
+  }
+
   return (
     <I18nProviderClient locale={locale} fallback={<Loader />}>
       <AuthProvider>
