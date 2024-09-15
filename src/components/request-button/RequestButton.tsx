@@ -2,26 +2,27 @@
 
 import { Button } from '@mui/material';
 import { useRouter } from 'next/navigation';
-import React, { type ReactNode } from 'react';
+import React from 'react';
 
 import { LocalStorageKeys } from '@/common/enums.ts';
+import { useAppDispatch } from '@/hooks/store-hooks';
 import { useLocalStorage } from '@/hooks/useLocalStorage.ts';
 import { useScopedI18n } from '@/locales/client';
+import { setIsShowResponse } from '@/store/rest-slice/rest-slice';
 
 import styles from './RequestButton.module.scss';
 
-interface RequestButtonProps {
-  setShowResponse: (value: boolean) => void;
-}
-function RequestButton({ setShowResponse }: RequestButtonProps): ReactNode {
+function RequestButton(): JSX.Element {
   const router = useRouter();
   const { getStoredValue, setStoredValue } = useLocalStorage();
   const translate = useScopedI18n('requestButton');
+  const dispatch = useAppDispatch();
 
   const handleRequest = (): void => {
     const requestsArray = (getStoredValue(LocalStorageKeys.REQUEST_LIST) as string[]) || [];
     setStoredValue(LocalStorageKeys.REQUEST_LIST, [window.location.href, ...requestsArray]);
-    setShowResponse(true);
+
+    dispatch(setIsShowResponse(true));
     void router.refresh();
   };
 

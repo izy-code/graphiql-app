@@ -12,6 +12,7 @@ import {
   setEndpoint,
   setHeaders,
   setIsPlainText,
+  setIsShowResponse,
   setMethod,
   setVariables,
 } from '@/store/rest-slice/rest-slice';
@@ -21,10 +22,7 @@ import { updateHistory } from '@/utils/utils';
 import RequestButton from '../request-button/RequestButton';
 import styles from './RestFieldset.module.scss';
 
-interface RestFieldsetProps {
-  setShowResponse: (value: boolean) => void;
-}
-export function RestFieldset({ setShowResponse }: RestFieldsetProps): ReactNode {
+export function RestFieldset(): ReactNode {
   const { endpoint, method, body, headers, variables, isPlainText } = useAppSelector((state: RootState) => state.rest);
   const dispatch = useAppDispatch();
   const locale = useCurrentLocale();
@@ -34,25 +32,30 @@ export function RestFieldset({ setShowResponse }: RestFieldsetProps): ReactNode 
     const newEndpoint = e.target.value;
     dispatch(setEndpoint(newEndpoint));
     updateHistory(locale, method, newEndpoint, body, headers, variables);
+    dispatch(setIsShowResponse(false));
   };
 
   const handleMethodChange = (newMethod: string): void => {
     dispatch(setMethod(newMethod));
     updateHistory(locale, newMethod, endpoint, body, headers, variables);
+    dispatch(setIsShowResponse(false));
   };
 
   const handleBodyBlur = (): void => {
     updateHistory(locale, method, endpoint, body, headers, variables);
+    dispatch(setIsShowResponse(false));
   };
 
   const handleHeaderChange = (newHeaders: TableRow[]): void => {
     dispatch(setHeaders(newHeaders));
     updateHistory(locale, method, endpoint, body, newHeaders, variables);
+    dispatch(setIsShowResponse(false));
   };
 
   const handleVariablesChange = (newVariables: TableRow[]): void => {
     dispatch(setVariables(newVariables));
     updateHistory(locale, method, endpoint, body, headers, newVariables);
+    dispatch(setIsShowResponse(false));
   };
 
   return (
@@ -69,7 +72,7 @@ export function RestFieldset({ setShowResponse }: RestFieldsetProps): ReactNode 
             onChange={handleEndpointChange}
           />
         </div>
-        <RequestButton setShowResponse={setShowResponse} />
+        <RequestButton />
       </div>
       <div className={styles.section}>
         <h2 className={styles.sectionTitle}>{translate('params')}</h2>
