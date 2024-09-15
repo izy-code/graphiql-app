@@ -58,8 +58,10 @@ function Rest({ responseData }: RestProps): ReactNode {
             toast.info(translate('request.completed'));
           }
         }
-        if (!responseData.errorMessage) {
+        if (!responseData.errorMessage && responseData.data) {
           dispatch(setResponseBody(JSON.stringify(responseData.data, null, 2)));
+        } else {
+          dispatch(setResponseBody(''));
         }
       }
 

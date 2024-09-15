@@ -17,7 +17,7 @@ import {
   setVariables,
 } from '@/store/rest-slice/rest-slice';
 import type { RootState } from '@/store/store';
-import { updateHistory } from '@/utils/utils';
+import { generateUniqueId, updateHistory } from '@/utils/utils';
 
 import RequestButton from '../request-button/RequestButton';
 import styles from './RestFieldset.module.scss';
@@ -58,6 +58,20 @@ export function RestFieldset(): ReactNode {
     dispatch(setIsShowResponse(false));
   };
 
+  const handleSwitchChange = (): void => {
+    const filteredHeaders = headers.filter((header) => header.key !== 'Content-Type');
+
+    const newContentType = !isPlainText
+      ? { id: generateUniqueId(), key: 'Content-Type', value: 'text/plain' }
+      : { id: generateUniqueId(), key: 'Content-Type', value: 'application/json' };
+
+    const updatedHeaders = [newContentType, ...filteredHeaders];
+    updateHistory(locale, method, endpoint, body, updatedHeaders, variables);
+
+    dispatch(setHeaders(updatedHeaders));
+    dispatch(setIsPlainText(!isPlainText));
+  };
+
   return (
     <>
       <div className={styles.items}>
@@ -87,7 +101,7 @@ export function RestFieldset(): ReactNode {
             onBlur={handleBodyBlur}
             hasSwitcher
             isPlainText={isPlainText}
-            onSwitchChange={() => dispatch(setIsPlainText(!isPlainText))}
+            onSwitchChange={handleSwitchChange}
           />
         </div>
       </div>

@@ -25,12 +25,11 @@ export default async function RestPage({ params, searchParams }: RestPageProps):
   const endpointPath = pathArray[0] || '';
   const bodyPath = pathArray[1] || '';
 
-  const endpoint = endpointPath === NO_ENDPOINT ? '' : decodeBase64(endpointPath);
+  const endpoint = endpointPath === NO_ENDPOINT || endpointPath === '' ? '' : decodeBase64(endpointPath);
   const body = bodyPath ? decodeBase64(bodyPath) : '';
   const headersArray = searchParams;
   let responseData = null;
 
   responseData = await getResponse(method.toUpperCase(), endpoint, headersArray, body);
-
   return <Rest responseData={responseData} />;
 }
