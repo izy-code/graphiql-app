@@ -1,10 +1,13 @@
-// import { screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import mockRouter from 'next-router-mock';
+import { MemoryRouterProvider } from 'next-router-mock/dist/MemoryRouterProvider';
 import { type ReactNode } from 'react';
+import { Provider } from 'react-redux';
 
 import { getResponse } from '@/common/restApi';
 import en from '@/locales/en';
-import { renderWithProvidersAndUser } from '@/utils/test-utils';
+import { setResponseBody } from '@/store/rest-slice/rest-slice';
+import { setupStore } from '@/store/store';
 
 import Rest from './Rest';
 
@@ -60,19 +63,31 @@ vi.mock('@uiw/react-codemirror', () => ({
   },
 }));
 
+const normalizeString = (str: string): string => str.replace(/\s+/g, '').trim();
+
 describe('Rest page', () => {
-  /*   it('renders correctly', () => {
-    const { container } = render(<Rest responseData={{}} />);
-
-    expect(container).toMatchSnapshot();
-  }); */
-
-  it('renders correctly', async () => {
+  it('renders correctly and show response body', async () => {
     await mockRouter.push('/en/GET');
     const responseData = await getResponse('GET', `https://rickandmortyapi.com/api/character/2`, {});
-    const { container } = renderWithProvidersAndUser(<Rest responseData={responseData} />);
 
-    // expect(screen.getByText('Morty Smith')).toBeInTheDocument();
+    const storeMemo = setupStore({});
+
+    const { container } = render(
+      <MemoryRouterProvider>
+        <Provider store={storeMemo}>
+          <Rest responseData={responseData} />
+        </Provider>
+      </MemoryRouterProvider>,
+    );
+
+    await waitFor(() => {
+      storeMemo.dispatch(setResponseBody(JSON.stringify(responseData.data, null, 2)));
+
+      const responseEditor: HTMLInputElement = screen.getByTestId('codemirror');
+
+      expect(normalizeString(responseEditor.value)).toBe(normalizeString(JSON.stringify(responseData.data)));
+    });
+
     expect(container).toMatchSnapshot();
   });
 });
