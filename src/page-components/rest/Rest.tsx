@@ -70,7 +70,7 @@ function Rest({ responseData }: RestProps): ReactNode {
       } else {
         dispatch(setEndpoint(''));
       }
-      dispatch(setBody(decodeBase64(bodyParam || '') || ''));
+      dispatch(setBody(decodeBase64(bodyParam || '')));
 
       let decodedHeaders: TableRow[] = [];
 

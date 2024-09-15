@@ -67,21 +67,16 @@ export const updateHistory = (
 ): void => {
   const encodedEndpoint = endpoint ? encodeBase64(endpoint) : '';
   const encodedBody = body ? encodeBase64(replaceVariables(body, variables)) : '';
-  const encodedHeaders = headers.length ? getEncodedHeaders(headers) : '';
 
   let url = `/${locale}/${method}`;
 
   if (encodedEndpoint) {
     url += `/${encodedEndpoint}`;
+  } else {
+    url += `/${NO_ENDPOINT}`;
   }
   if (encodedBody) {
-    if (!encodedEndpoint) {
-      url += `/${NO_ENDPOINT}`;
-    }
     url += `/${encodedBody}`;
   }
-  if (encodedHeaders) {
-    url += encodedHeaders;
-  }
-  window.history.replaceState(null, '', url);
+  window.history.replaceState(null, '', `${url}${getEncodedHeaders(headers)}`);
 };

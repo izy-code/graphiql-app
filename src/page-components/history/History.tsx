@@ -41,7 +41,12 @@ function History(): ReactNode {
             <h2 className={styles.sectionTitle}>{translate('subtitle')}</h2>
             <div className={styles.requestRows}>
               {requests.map((request, index) => {
-                const pathParts = request.split('/');
+                let coryRequest = request;
+                const questionMarkIndex = coryRequest.indexOf('?');
+                if (questionMarkIndex !== -1) {
+                  coryRequest = coryRequest.substring(0, questionMarkIndex);
+                }
+                const pathParts = coryRequest.split('/');
                 const methodParam = pathParts[4] || '';
                 const encodedEndpoint = pathParts[5] || '';
                 const decodedEndpoint = encodedEndpoint === NO_ENDPOINT ? NO_ENDPOINT : decodeBase64(encodedEndpoint);
