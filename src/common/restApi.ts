@@ -29,11 +29,7 @@ export async function getResponse(
     if ('errors' in responseBody && Array.isArray(responseBody.errors) && responseBody.errors.length > 0) {
       return { errorMessage: 'restApi.errors.body' };
     }
-    if (response.ok) {
-      if (!('data' in responseBody)) {
-        return { errorMessage: 'restApi.errors.body' };
-      }
-
+    if (response.ok && 'data' in responseBody) {
       return { status: response.status.toString(), data: responseBody.data };
     }
 

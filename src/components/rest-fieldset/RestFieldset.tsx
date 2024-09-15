@@ -36,7 +36,7 @@ export function RestFieldset(): ReactNode {
   };
 
   const handleMethodChange = (newMethod: string): void => {
-    dispatch(setMethod(newMethod));
+    dispatch(setMethod(newMethod.toUpperCase()));
     updateHistory(locale, newMethod, endpoint, body, headers, variables);
     dispatch(setIsShowResponse(false));
   };

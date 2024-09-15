@@ -64,7 +64,7 @@ function Rest({ responseData }: RestProps): ReactNode {
       }
 
       const [methodParam, endpointParam, bodyParam] = pathParts;
-      dispatch(setMethod(methodParam || 'GET'));
+      dispatch(setMethod(methodParam?.toUpperCase() || 'GET'));
       if (endpointParam !== NO_ENDPOINT) {
         dispatch(setEndpoint(decodeBase64(endpointParam || '')));
       } else {
