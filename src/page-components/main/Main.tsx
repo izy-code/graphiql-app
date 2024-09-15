@@ -1,10 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import { type ReactNode, useMemo } from 'react';
+import { type ReactNode, useEffect, useMemo } from 'react';
 
+import { STORE_RESET } from '@/common/constants';
 import { NonProtectedPaths, ProtectedPaths } from '@/common/enums';
 import { TeamMember } from '@/components/team-member/TeamMember.tsx';
+import { useAppDispatch } from '@/hooks/store-hooks';
 import { useAuth } from '@/hooks/useAuth';
 import { useScopedI18n } from '@/locales/client';
 
@@ -13,6 +15,11 @@ import styles from './Main.module.scss';
 export default function Main(): ReactNode {
   const user = useAuth();
   const translate = useScopedI18n('main');
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch({ type: STORE_RESET });
+  }, [dispatch]);
 
   const teamInfo = useMemo(
     () => [

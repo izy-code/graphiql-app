@@ -12,6 +12,7 @@ interface RestState {
   status: string;
   responseBody: string;
   isPlainText: boolean;
+  isShowResponse: boolean;
 }
 
 const initialState: RestState = {
@@ -23,6 +24,7 @@ const initialState: RestState = {
   status: '-',
   responseBody: '',
   isPlainText: false,
+  isShowResponse: false,
 };
 
 const restSlice = createSlice({
@@ -53,9 +55,21 @@ const restSlice = createSlice({
     setIsPlainText(state, action: PayloadAction<boolean>) {
       state.isPlainText = action.payload;
     },
+    setIsShowResponse(state, action: PayloadAction<boolean>) {
+      state.isShowResponse = action.payload;
+    },
   },
 });
 
-export const { setMethod, setBody, setEndpoint, setHeaders, setVariables, setStatus, setResponseBody, setIsPlainText } =
-  restSlice.actions;
+export const {
+  setMethod,
+  setBody,
+  setEndpoint,
+  setHeaders,
+  setVariables,
+  setStatus,
+  setResponseBody,
+  setIsPlainText,
+  setIsShowResponse,
+} = restSlice.actions;
 export default restSlice.reducer;
