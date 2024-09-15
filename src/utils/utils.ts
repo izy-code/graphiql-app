@@ -5,7 +5,7 @@ import {
   SPECIAL_CHARACTER_REGEX,
   UPPERCASE_LETTER_REGEX,
 } from '@/common/constants';
-import type { ObjectWithId } from '@/components/client-table/types.ts';
+import type { TableRow } from '@/components/client-table/types.ts';
 import en from '@/locales/en';
 import ru from '@/locales/ru';
 
@@ -30,12 +30,12 @@ export const decodeBase64 = (str: string): string => {
 
 export const generateUniqueId = (): string => `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 
-export const replaceVariables = (text: string, variables: ObjectWithId[]): string => {
+export const replaceVariables = (text: string | undefined, variables: TableRow[]): string => {
   const variableMap = Object.fromEntries(
     variables.filter(({ key, value }) => key.trim() && value.trim()).map(({ key, value }) => [key, value]),
   );
 
-  let result = text;
+  let result = text || '';
   Object.entries(variableMap).forEach(([variableKey, variableValue]) => {
     const variablePlaceholder = `{{${variableKey}}}`;
     result = result.replace(new RegExp(variablePlaceholder, 'g'), variableValue);
@@ -44,7 +44,7 @@ export const replaceVariables = (text: string, variables: ObjectWithId[]): strin
   return result.trim();
 };
 
-export const getEncodedHeaders = (headersParameter: ObjectWithId[]): string => {
+export const getEncodedHeaders = (headersParameter: TableRow[]): string => {
   if (!headersParameter || headersParameter.length === 0) {
     return '';
   }
@@ -61,8 +61,8 @@ export const updateHistory = (
   method: string,
   endpoint: string,
   body: string,
-  headers: ObjectWithId[],
-  variables: ObjectWithId[],
+  headers: TableRow[],
+  variables: TableRow[],
 ): void => {
   const encodedEndpoint = endpoint ? encodeBase64(endpoint) : encodeBase64(' ');
   const encodedBody = encodeBase64(replaceVariables(body, variables) || ' ');

@@ -8,8 +8,8 @@ export default {
   'main.welcome': 'Welcome, please sign in.',
   'main.signed-in': 'Welcome back, {name}!',
   'main.title': 'REST/GraphQL client',
-  'main.links.rest': 'REST Client',
-  'main.links.graphql': 'GraphQL Client',
+  'main.links.rest': 'REST client',
+  'main.links.graphql': 'GraphQL client',
   'main.links.history': 'History',
   'main.links.sign-in': 'Sign in',
   'main.links.sign-up': 'Sign up',
@@ -18,7 +18,7 @@ export default {
     'Developed as the final assignment for a React course, this project showcases the coordinated effort of three dedicated participants.\nCompleted within a span of four weeks, the application is a result of the team’s hard work and collaboration.\nThe application supports both RESTful and GraphQL APIs, featuring Firebase authentication, request history tracking, and language switching.\nUsers can configure and send requests, view responses.',
   'main.team.name-1': 'Ivan Zhirebny',
   'main.team.role-1': 'Frontend-developer, Team leader',
-  'main.team.contributions-1': 'Dev environment setup, Authentication, Firebase, GraphQL',
+  'main.team.contributions-1': 'Dev environment setup, Authentication pages, Firebase, GraphQL',
   'main.team.bio-1':
     'Graduated from the Bauman Moscow State Technical University, completed the Frontend Developer program at the HTML Academy',
   'main.team.name-2': 'Vadim Kolymbet',
@@ -58,7 +58,7 @@ export default {
   'sign-up.password.confirm': 'Confirm password',
   'sign-up.submit': 'Sign up',
 
-  'rest.title': 'REST Client',
+  'rest.title': 'REST client',
   'rest.endpoint': 'Endpoint URL',
   'rest.params': 'Params',
   'rest.headers': 'Headers',
@@ -88,9 +88,9 @@ export default {
   'response.body': 'Body:',
 
   'graphql.errors.parse': 'Can’t parse request body in URL',
-  'graphql.schema.completed': 'The request has been completed, look at the schema',
-  'graphql.request.completed': 'The request has been completed, look at the response body',
-  'graphql.title': 'GraphQL Client',
+  'graphql.schema.completed': 'The request has been completed, you can open the schema',
+  'graphql.request.completed': 'The request has been completed, check the response field',
+  'graphql.title': 'GraphQL client',
   'graphql.endpoint': 'Endpoint URL',
   'graphql.schema': 'Schema URL',
   'graphql.request': 'Request',
@@ -108,25 +108,22 @@ export default {
 
   'graphQlApi.response-errors.endpoint': 'No endpoint or query provided',
   'graphQlApi.response-errors.variables': 'Variables field is not valid JSON',
-  'graphQlApi.response-errors.body': 'Response body contains errors',
   'graphQlApi.response-errors.data': 'Unknown response structure: no "data" field. Check endpoint and request params',
   'graphQlApi.response-errors.unknown': 'Unknown error occurred while making the request',
   'graphQlApi.response-errors.status': 'Fetch error',
 
   'graphQlApi.schema-errors.endpoint': 'No schema endpoint provided',
-  'graphQlApi.schema-errors.body': 'Response body contains errors',
+  'graphQlApi.schema-errors.body': 'Schema docs response body contains errors',
   'graphQlApi.schema-errors.data':
     'Unknown response structure: no "data" or "__schema" fields. Check endpoint and headers',
-  'graphQlApi.schema-errors.fetch-status': 'Fetch failed with status code: {status}',
-  'graphQlApi.schema-errors.fetch': 'Failed to fetch schema',
-  'graphQlApi.schema-errors.unknown': 'Unknown error occurred while making the request',
-  'graphQlApi.schema-errors.parse': 'Failed to parse URL from {endpoint}',
+  'graphQlApi.schema-errors.fetch-status': 'Schema docs fetch failed with status code: {status}',
+  'graphQlApi.schema-errors.unknown': 'Unknown error occurred while making the schema request',
 
   'history.title': 'History',
   'history.empty.title': 'You haven’t executed any requests',
   'history.empty': 'It’s empty here. Try: ',
-  'history.links.rest': 'REST Client',
-  'history.links.graphql': 'GraphQL Client',
+  'history.links.rest': 'REST client',
+  'history.links.graphql': 'GraphQL client',
   'history.subtitle': 'Requests:',
 
   'error.title': 'Oops!',
@@ -150,6 +147,7 @@ export default {
   'firebase.errors.INVALID_LOGIN_CREDENTIALS': 'Invalid credentials',
   'firebase.errors.EMAIL_EXISTS': 'Email already in use',
   'firebase.errors.TOO_MANY_ATTEMPTS_TRY_LATER': 'Too many authentication requests',
+  'firebase.errors.NETWORK_REQUEST_FAILED': 'Network request failed',
 
   'validation.email.required': 'Email is required',
   'validation.email.format': 'Email must have valid format',
@@ -163,4 +161,10 @@ export default {
   'validation.name.capital': 'Name must start with a capital letter',
   'validation.confirm.required': 'Please confirm your password',
   'validation.confirm.match': 'Passwords do not match',
+
+  'customTextarea.prettifyError': 'Failed to prettify code. Check {language} syntax',
+  'customTextarea.show': 'Show',
+  'customTextarea.hide': 'Hide',
+  'customTextarea.plainText': 'Plain text',
+  'customTextarea.format': 'Prettify',
 } as const;

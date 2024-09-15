@@ -3,9 +3,9 @@
 import { notFound, usePathname, useSearchParams } from 'next/navigation';
 import { type ReactNode, useEffect, useRef } from 'react';
 
-import { USER_LOGOUT } from '@/common/constants';
+import { STORE_RESET } from '@/common/constants';
 import { AuthRoute } from '@/components/auth-route/AuthRoute';
-import type { ObjectWithId } from '@/components/client-table/types';
+import type { TableRow } from '@/components/client-table/types';
 import { ResponseContainer } from '@/components/response-container/ResponseContainer';
 import { RestFieldset } from '@/components/rest-fieldset/RestFieldset';
 import { useAppDispatch } from '@/hooks/store-hooks';
@@ -60,7 +60,7 @@ function Rest({ responseData }: RestProps): ReactNode {
       dispatch(setMethod(methodParam || 'GET'));
 
       if (pathParts.length < 2) {
-        dispatch({ type: USER_LOGOUT });
+        dispatch({ type: STORE_RESET });
         dispatch(setHeaders([{ id: generateUniqueId(), key: 'Content-Type', value: 'application/json' }]));
       }
 
@@ -69,7 +69,7 @@ function Rest({ responseData }: RestProps): ReactNode {
         dispatch(setBody(decodeBase64(bodyParam || '') || ''));
       }
 
-      const decodedHeaders: ObjectWithId[] = [];
+      const decodedHeaders: TableRow[] = [];
 
       searchParams.forEach((value, key) => {
         decodedHeaders.push({ id: generateUniqueId(), key: decodeURIComponent(key), value: decodeURIComponent(value) });

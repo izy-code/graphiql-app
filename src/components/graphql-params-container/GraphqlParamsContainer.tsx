@@ -1,8 +1,6 @@
-import { usePathname } from 'next/navigation';
 import type { ReactNode } from 'react';
 
 import { ClientTable } from '@/components/client-table/ClientTable';
-import type { ObjectWithId } from '@/components/client-table/types';
 import { CustomTextarea } from '@/components/custom-textarea/CustomTextarea';
 import { useAppDispatch, useAppSelector } from '@/hooks/store-hooks';
 import { useEncodeUrl } from '@/hooks/useEncodeUrl';
@@ -10,54 +8,44 @@ import { useScopedI18n } from '@/locales/client';
 import { setHeaders, setQuery, setVariables } from '@/store/graphql-slice/graphql-slice';
 import type { RootState } from '@/store/store';
 
+import type { TableRow } from '../client-table/types';
 import styles from './GraphqlParamsContainer.module.scss';
 
 export function GraphqlParamsContainer(): ReactNode {
-  const pathname = usePathname();
   const dispatch = useAppDispatch();
   const { query, variables, headers } = useAppSelector((state: RootState) => state.graphql);
-  const { replaceUrl, getEncodedHeaders, getEncodedRequestBody, getEncodedEndpoint } = useEncodeUrl();
+  const { replaceUrl } = useEncodeUrl();
   const translate = useScopedI18n('graphql');
 
-  const handleJsonEditorBlur = (): void => {
-    if (!query && !variables) {
-      replaceUrl(`${getEncodedEndpoint()}${getEncodedHeaders()}`);
-      return;
-    }
-
-    replaceUrl(`${getEncodedEndpoint()}/${getEncodedRequestBody()}${getEncodedHeaders()}`);
-  };
-
-  const handleHeadersChange = (changedHeaders: ObjectWithId[]): void => {
+  const handleHeadersChange = (changedHeaders: TableRow[]): void => {
     dispatch(setHeaders(changedHeaders));
-
-    replaceUrl(getEncodedHeaders(changedHeaders), pathname);
+    replaceUrl({ headersParam: changedHeaders });
   };
 
   return (
     <div className={styles.section}>
-      <h2 className={styles.sectionTitle}>{translate('params')}</h2>
-
       <div className={styles.item}>
-        <h4>{translate('query.title')}</h4>
         <CustomTextarea
-          label={translate('query')}
+          editorMode="graphql"
+          titleText={translate('query.title')}
           value={query}
           width="100%"
-          onBlur={handleJsonEditorBlur}
-          onChange={(e) => dispatch(setQuery(e.target.value))}
+          hasHideBtn={false}
+          onBlur={() => replaceUrl()}
+          onChange={(value) => dispatch(setQuery(value))}
         />
       </div>
 
+      <h2 className={styles.sectionTitle}>{translate('params')}</h2>
       <ClientTable title={translate('headers')} tableInfo={headers} onChange={handleHeadersChange} />
       <div className={styles.item}>
-        <h4>{translate('variables.title')}</h4>
         <CustomTextarea
-          label={translate('variables')}
+          editorMode="json-with-linter"
+          titleText={translate('variables.title')}
           value={variables}
           width="100%"
-          onBlur={handleJsonEditorBlur}
-          onChange={(e) => dispatch(setVariables(e.target.value))}
+          onBlur={() => replaceUrl()}
+          onChange={(value) => dispatch(setVariables(value))}
         />
       </div>
     </div>

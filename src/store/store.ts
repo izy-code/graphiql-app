@@ -1,7 +1,7 @@
 import type { Store } from '@reduxjs/toolkit';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
-import { USER_LOGOUT } from '@/common/constants';
+import { STORE_RESET } from '@/common/constants';
 
 import graphqlReducer from './graphql-slice/graphql-slice';
 import restReducer from './rest-slice/rest-slice';
@@ -15,7 +15,7 @@ const rootReducer: typeof appReducer = (
   state: RootState | Partial<RootState> | undefined,
   action: Parameters<typeof appReducer>[1],
 ): RootState => {
-  if (action.type === USER_LOGOUT) {
+  if (action.type === STORE_RESET) {
     return appReducer(undefined, action);
   }
 

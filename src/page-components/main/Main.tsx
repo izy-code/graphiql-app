@@ -91,7 +91,7 @@ export default function Main(): ReactNode {
       </div>
       <div className={styles.container}>
         <h2 className={styles.sectionTitle}>{translate('project')}</h2>
-        <p className={styles.project_info}>{translate('project-info')}</p>
+        <p className={styles.projectInfo}>{translate('project-info')}</p>
         {teamInfo.map((info, index) => (
           <TeamMember
             key={info.classPhoto}

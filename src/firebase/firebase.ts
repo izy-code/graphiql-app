@@ -38,6 +38,9 @@ const showErrorToast = (error: unknown): void => {
       case AuthErrorCodes.TOO_MANY_ATTEMPTS_TRY_LATER:
         toast.error(translateText('firebase.errors.TOO_MANY_ATTEMPTS_TRY_LATER'));
         break;
+      case AuthErrorCodes.NETWORK_REQUEST_FAILED:
+        toast.error(translateText('firebase.errors.NETWORK_REQUEST_FAILED'));
+        break;
       default:
         toast.error(error.code);
     }

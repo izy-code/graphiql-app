@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react';
+
 interface TextInfo {
   role?: string;
   contributions?: string;
@@ -17,5 +19,5 @@ export interface BlockInfoProps {
 
 export interface BlockParagraph {
   title: string;
-  content: React.ReactNode;
+  content: ReactNode;
 }

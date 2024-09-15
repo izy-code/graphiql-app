@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { type Auth } from 'firebase/auth';
 import mockRouter from 'next-router-mock';
 import { MemoryRouterProvider } from 'next-router-mock/MemoryRouterProvider';
-import { type PropsWithChildren, type ReactElement, useRef } from 'react';
+import { type PropsWithChildren, type ReactElement, useMemo } from 'react';
 import { Provider } from 'react-redux';
 
 import type * as FirebaseModule from '@/firebase/firebase';
@@ -28,15 +28,11 @@ export function renderWithProvidersAndUser(
   rerender: (ui: ReactElement) => void;
 } {
   function Wrapper({ children }: PropsWithChildren): ReactElement {
-    const storeRef = useRef<AppStore>();
-
-    if (!storeRef.current) {
-      storeRef.current = setupStore(preloadedState);
-    }
+    const storeMemo = useMemo(() => setupStore(preloadedState), []);
 
     return (
       <MemoryRouterProvider>
-        <Provider store={storeRef.current}>{children}</Provider>;
+        <Provider store={storeMemo}>{children}</Provider>;
       </MemoryRouterProvider>
     );
   }

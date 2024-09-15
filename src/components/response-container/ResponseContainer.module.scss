@@ -18,7 +18,7 @@
 
 .sectionTitle {
   position: absolute;
-  top: -52px;
+  top: -43px;
   left: 50%;
   width: fit-content;
   padding-inline: 20px;
@@ -32,4 +32,9 @@
   flex-flow: row nowrap;
   gap: 10px;
   align-items: baseline;
+}
+
+.status {
+  margin-block: 0;
+  margin-bottom: 15px;
 }

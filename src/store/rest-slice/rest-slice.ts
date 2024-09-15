@@ -1,16 +1,17 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 
-import type { ObjectWithId } from '@/components/client-table/types';
+import type { TableRow } from '@/components/client-table/types';
 
 interface RestState {
   method: string;
   body: string;
   endpoint: string;
-  headers: ObjectWithId[];
-  variables: ObjectWithId[];
+  headers: TableRow[];
+  variables: TableRow[];
   status: string;
   responseBody: string;
+  isPlainText: boolean;
 }
 
 const initialState: RestState = {
@@ -19,8 +20,9 @@ const initialState: RestState = {
   endpoint: '',
   headers: [],
   variables: [],
-  status: 'N/A',
+  status: '-',
   responseBody: '',
+  isPlainText: false,
 };
 
 const restSlice = createSlice({
@@ -36,10 +38,10 @@ const restSlice = createSlice({
     setEndpoint(state, action: PayloadAction<string>) {
       state.endpoint = action.payload;
     },
-    setHeaders(state, action: PayloadAction<ObjectWithId[]>) {
+    setHeaders(state, action: PayloadAction<TableRow[]>) {
       state.headers = action.payload;
     },
-    setVariables(state, action: PayloadAction<ObjectWithId[]>) {
+    setVariables(state, action: PayloadAction<TableRow[]>) {
       state.variables = action.payload;
     },
     setStatus(state, action: PayloadAction<string>) {
@@ -48,9 +50,12 @@ const restSlice = createSlice({
     setResponseBody(state, action: PayloadAction<string>) {
       state.responseBody = action.payload;
     },
+    setIsPlainText(state, action: PayloadAction<boolean>) {
+      state.isPlainText = action.payload;
+    },
   },
 });
 
-export const { setMethod, setBody, setEndpoint, setHeaders, setVariables, setStatus, setResponseBody } =
+export const { setMethod, setBody, setEndpoint, setHeaders, setVariables, setStatus, setResponseBody, setIsPlainText } =
   restSlice.actions;
 export default restSlice.reducer;

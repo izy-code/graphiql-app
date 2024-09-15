@@ -6,25 +6,25 @@
     "module": "preserve",
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "moduleDetection": "force" /* every non-declaration file is treated as a module */,
-    /* Bundler mode */
+    "moduleDetection": "force",
+
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "preserve",
-    /* Linting */
+
     "strict": true,
     "noImplicitAny": true,
-    "noUncheckedIndexedAccess": true /* forbids unsafe indexing of Records and arrays */,
-    /* Path aliases */
+    "noUncheckedIndexedAccess": true,
+
     "baseUrl": "",
     "paths": {
       "@/*": ["./src/*"]
     },
     "types": ["vitest/globals"],
-    /* Next.js settings */
+
     "allowJs": true,
     "incremental": true,
     "forceConsistentCasingInFileNames": true,
