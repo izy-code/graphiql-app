@@ -20,7 +20,8 @@ function RequestButton(): JSX.Element {
 
   const handleRequest = (): void => {
     const requestsArray = (getStoredValue(LocalStorageKeys.REQUEST_LIST) as string[]) || [];
-    setStoredValue(LocalStorageKeys.REQUEST_LIST, [window.location.href, ...requestsArray]);
+    requestsArray.push(window.location.href);
+    setStoredValue(LocalStorageKeys.REQUEST_LIST, requestsArray);
 
     dispatch(setIsShowResponse(true));
     void router.refresh();
