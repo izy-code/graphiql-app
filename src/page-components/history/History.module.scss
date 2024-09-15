@@ -73,7 +73,7 @@
 
   & .requestRows {
     display: flex;
-    flex-flow: column nowrap;
+    flex-flow: column-reverse nowrap;
     gap: 20px;
     justify-content: center;
     align-items: center;

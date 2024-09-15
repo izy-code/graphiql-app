@@ -76,11 +76,21 @@ export default function Main(): ReactNode {
     [translate],
   );
 
+  const getWelcomeMessage = (): string => {
+    if (user) {
+      if (user.displayName) {
+        return translate('signed-in', { name: user.displayName });
+      }
+      return translate('signed-up');
+    }
+    return translate('welcome');
+  };
+
   return (
     <div className={styles.page}>
       <div className={styles.bigSection}>
         <h1 className={styles.welcomeTitle}>{translate('title')}</h1>
-        <p>{user ? translate('signed-in', { name: user?.displayName }) : translate('welcome')}</p>
+        <p>{getWelcomeMessage()}</p>
         <div className={styles.additionalInfo}>
           {user ? (
             <>
