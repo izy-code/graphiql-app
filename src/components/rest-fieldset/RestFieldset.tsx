@@ -80,7 +80,7 @@ export function RestFieldset(): ReactNode {
           <MethodButtons method={method} onMethodChange={handleMethodChange} />
           <CustomInput
             label={translate('endpoint')}
-            variant="standard"
+            variant="outlined"
             width="420px"
             value={endpoint}
             onChange={handleEndpointChange}
