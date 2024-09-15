@@ -27,9 +27,8 @@ export default async function RestPage({ params, searchParams }: RestPageProps):
 
   const endpoint = endpointPath === NO_ENDPOINT || endpointPath === '' ? '' : decodeBase64(endpointPath);
   const body = bodyPath ? decodeBase64(bodyPath) : '';
-  const headersArray = searchParams;
-  let responseData = null;
 
-  responseData = await getResponse(method.toUpperCase(), endpoint, headersArray, body);
+  const responseData = await getResponse(method.toUpperCase(), endpoint, searchParams, body);
+
   return <Rest responseData={responseData} />;
 }

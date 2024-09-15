@@ -51,6 +51,7 @@ function Rest({ responseData }: RestProps): ReactNode {
               : responseData.status || '',
           ),
         );
+
         if (isShowResponse) {
           if (responseData.errorMessage) {
             toast.error(translateErrors(responseData.errorMessage as never));
@@ -58,6 +59,7 @@ function Rest({ responseData }: RestProps): ReactNode {
             toast.info(translate('request.completed'));
           }
         }
+
         if (!responseData.errorMessage && responseData.data) {
           dispatch(setResponseBody(JSON.stringify(responseData.data, null, 2)));
         } else {
@@ -67,11 +69,13 @@ function Rest({ responseData }: RestProps): ReactNode {
 
       const [methodParam, endpointParam, bodyParam] = pathParts;
       dispatch(setMethod(methodParam?.toUpperCase() || 'GET'));
+
       if (endpointParam !== NO_ENDPOINT) {
         dispatch(setEndpoint(decodeBase64(endpointParam || '')));
       } else {
         dispatch(setEndpoint(''));
       }
+
       dispatch(setBody(decodeBase64(bodyParam || '')));
 
       let decodedHeaders: TableRow[] = [];
