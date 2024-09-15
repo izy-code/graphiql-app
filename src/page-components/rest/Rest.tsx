@@ -2,13 +2,14 @@
 
 import { notFound, usePathname, useSearchParams } from 'next/navigation';
 import { type ReactNode, useEffect, useRef } from 'react';
+import { toast } from 'react-toastify';
 
 import { AuthRoute } from '@/components/auth-route/AuthRoute';
 import type { TableRow } from '@/components/client-table/types';
 import { ResponseContainer } from '@/components/response-container/ResponseContainer';
 import { RestFieldset } from '@/components/rest-fieldset/RestFieldset';
 import { useAppDispatch, useAppSelector } from '@/hooks/store-hooks';
-import { useCurrentLocale, useScopedI18n } from '@/locales/client';
+import { useCurrentLocale, useI18n, useScopedI18n } from '@/locales/client';
 import { setBody, setEndpoint, setHeaders, setMethod, setResponseBody, setStatus } from '@/store/rest-slice/rest-slice';
 import { decodeBase64, generateUniqueId, translateText } from '@/utils/utils';
 
@@ -29,6 +30,7 @@ function Rest({ responseData }: RestProps): ReactNode {
   const didMount = useRef(false);
   const locale = useCurrentLocale();
   const translate = useScopedI18n('rest');
+  const translateErrors = useI18n();
 
   const isShowResponse = useAppSelector((state) => state.rest.isShowResponse);
 
@@ -48,9 +50,14 @@ function Rest({ responseData }: RestProps): ReactNode {
               : responseData.status || '',
           ),
         );
-        if (responseData.errorMessage) {
-          dispatch(setResponseBody(translateText(responseData.errorMessage as never)));
-        } else {
+        if (isShowResponse) {
+          if (responseData.errorMessage) {
+            toast.error(translateErrors(responseData.errorMessage as never));
+          } else {
+            toast.info(translate('request.completed'));
+          }
+        }
+        if (!responseData.errorMessage) {
           dispatch(setResponseBody(JSON.stringify(responseData.data, null, 2)));
         }
       }
@@ -62,12 +69,12 @@ function Rest({ responseData }: RestProps): ReactNode {
 
       let decodedHeaders: TableRow[] = [];
 
-      if (pathParts.length < 2 && !searchParams) {
+      if (pathParts.length < 2 && searchParams.size === 0) {
         decodedHeaders = [{ id: generateUniqueId(), key: 'Content-Type', value: 'application/json' }];
         window.history.replaceState(
           null,
           '',
-          `/${locale}/${methodParam}?Content-Type=${encodeURIComponent('application/json')}`,
+          `/${locale}/${methodParam}/?Content-Type=${encodeURIComponent('application/json')}`,
         );
       }
 
@@ -82,7 +89,7 @@ function Rest({ responseData }: RestProps): ReactNode {
 
       didMount.current = true;
     }
-  }, [responseData, pathname, searchParams, dispatch, locale]);
+  }, [responseData, pathname, searchParams, dispatch, locale, isShowResponse, translate, translateErrors]);
 
   return (
     <div className={styles.page}>

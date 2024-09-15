@@ -58,6 +58,7 @@ export default {
   'sign-up.password.confirm': 'Подтвердите пароль',
   'sign-up.submit': 'Зарегистрироваться',
 
+  'rest.request.completed': 'Запрос выполнен, проверьте поле ответа',
   'rest.title': 'REST клиент',
   'rest.endpoint': 'Эндпоинт URL',
   'rest.params': 'Параметры',
