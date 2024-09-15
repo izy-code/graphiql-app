@@ -7,6 +7,7 @@ export default {
 
   'main.welcome': 'Welcome, please sign in.',
   'main.signed-in': 'Welcome back, {name}!',
+  'main.signed-up': 'Glad that you signed up!',
   'main.title': 'REST/GraphQL client',
   'main.links.rest': 'REST client',
   'main.links.graphql': 'GraphQL client',
