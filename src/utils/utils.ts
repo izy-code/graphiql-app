@@ -70,3 +70,5 @@ export const updateHistory = (
 
   window.history.replaceState(null, '', `/${locale}/${method}/${encodedEndpoint}/${encodedBody}${encodedHeaders}`);
 };
+
+export const normalizeString = (str: string): string => str.replace(/\s+/g, '').trim();
