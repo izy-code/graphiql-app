@@ -1,7 +1,7 @@
 'use client';
 
-import { notFound, usePathname, useSearchParams } from 'next/navigation';
-import { type ReactNode, useEffect, useRef } from 'react';
+import { usePathname, useSearchParams } from 'next/navigation';
+import { type ReactNode, useEffect, useRef, useState } from 'react';
 
 import { STORE_RESET } from '@/common/constants';
 import { AuthRoute } from '@/components/auth-route/AuthRoute';
@@ -10,6 +10,7 @@ import { ResponseContainer } from '@/components/response-container/ResponseConta
 import { RestFieldset } from '@/components/rest-fieldset/RestFieldset';
 import { useAppDispatch } from '@/hooks/store-hooks';
 import { useCurrentLocale, useScopedI18n } from '@/locales/client';
+import ErrorStatusPage from '@/page-components/error-status-page/ErrorStatusPage';
 import { setBody, setEndpoint, setHeaders, setMethod, setResponseBody, setStatus } from '@/store/rest-slice/rest-slice';
 import { decodeBase64, generateUniqueId, translateText } from '@/utils/utils';
 
@@ -30,6 +31,7 @@ function Rest({ responseData }: RestProps): ReactNode {
   const didMount = useRef(false);
   const locale = useCurrentLocale();
   const translate = useScopedI18n('rest');
+  const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
     if (responseData) {
@@ -53,7 +55,8 @@ function Rest({ responseData }: RestProps): ReactNode {
       const pathParts: string[] = pathname.split('/').filter((_, index) => index > 1);
 
       if (pathParts.length >= 4) {
-        notFound();
+        setNotFound(true);
+        return;
       }
 
       const [methodParam, endpointParam, bodyParam] = pathParts;
@@ -79,6 +82,10 @@ function Rest({ responseData }: RestProps): ReactNode {
       didMount.current = true;
     }
   }, [pathname, searchParams, dispatch, locale]);
+
+  if (notFound) {
+    return <ErrorStatusPage status={404} />;
+  }
 
   return (
     <div className={styles.page}>
