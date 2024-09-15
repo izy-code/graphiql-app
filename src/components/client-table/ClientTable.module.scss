@@ -54,12 +54,14 @@
     width: 24px;
     height: 24px;
     background-color: var(--color-text-light);
+    transition: transform 0.3s ease-in-out;
+    transform: rotate(180deg);
     mask: url("/arrow_down.svg") no-repeat center;
   }
 
   &.hidden {
     &::after {
-      transform: rotate(180deg);
+      transform: rotate(0);
     }
   }
 }

@@ -1,7 +1,7 @@
 'use client';
 
-import { notFound, usePathname, useSearchParams } from 'next/navigation';
-import { type ReactNode, useEffect, useRef } from 'react';
+import { usePathname, useSearchParams } from 'next/navigation';
+import { type ReactNode, useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { NO_ENDPOINT } from '@/common/constants';
@@ -10,7 +10,8 @@ import type { TableRow } from '@/components/client-table/types';
 import { ResponseContainer } from '@/components/response-container/ResponseContainer';
 import { RestFieldset } from '@/components/rest-fieldset/RestFieldset';
 import { useAppDispatch, useAppSelector } from '@/hooks/store-hooks';
-import { useCurrentLocale, useI18n, useScopedI18n } from '@/locales/client';
+import { useCurrentLocale, useScopedI18n } from '@/locales/client';
+import ErrorStatusPage from '@/page-components/error-status-page/ErrorStatusPage';
 import { setBody, setEndpoint, setHeaders, setMethod, setResponseBody, setStatus } from '@/store/rest-slice/rest-slice';
 import { decodeBase64, generateUniqueId, translateText } from '@/utils/utils';
 
@@ -31,8 +32,7 @@ function Rest({ responseData }: RestProps): ReactNode {
   const didMount = useRef(false);
   const locale = useCurrentLocale();
   const translate = useScopedI18n('rest');
-  const translateErrors = useI18n();
-
+  const [notFound, setNotFound] = useState(false);
   const isShowResponse = useAppSelector((state) => state.rest.isShowResponse);
 
   useEffect(() => {
@@ -40,7 +40,8 @@ function Rest({ responseData }: RestProps): ReactNode {
       const pathParts: string[] = pathname.split('/').filter((_, index) => index > 1);
 
       if (pathParts.length >= 4) {
-        notFound();
+        setNotFound(true);
+        return;
       }
 
       if (responseData) {
@@ -54,9 +55,9 @@ function Rest({ responseData }: RestProps): ReactNode {
 
         if (isShowResponse) {
           if (responseData.errorMessage) {
-            toast.error(translateErrors(responseData.errorMessage as never));
+            toast.error(translateText(responseData.errorMessage as never));
           } else {
-            toast.info(translate('request.completed'));
+            toast.info(translateText('rest.request.completed'));
           }
         }
 
@@ -100,7 +101,11 @@ function Rest({ responseData }: RestProps): ReactNode {
 
       didMount.current = true;
     }
-  }, [responseData, pathname, searchParams, dispatch, locale, isShowResponse, translate, translateErrors]);
+  }, [responseData, pathname, searchParams, dispatch, locale, isShowResponse]);
+
+  if (notFound) {
+    return <ErrorStatusPage status={404} />;
+  }
 
   return (
     <div className={styles.page}>

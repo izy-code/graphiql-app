@@ -80,3 +80,5 @@ export const updateHistory = (
   }
   window.history.replaceState(null, '', `${url}${getEncodedHeaders(headers)}`);
 };
+
+export const normalizeString = (str: string): string => str.replace(/\s+/g, '').trim();

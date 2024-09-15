@@ -1,7 +1,7 @@
 'use client';
 
-import { notFound, usePathname, useSearchParams } from 'next/navigation';
-import { type ReactNode, useEffect, useRef } from 'react';
+import { usePathname, useSearchParams } from 'next/navigation';
+import { type ReactNode, useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { NO_ENDPOINT, STORE_RESET } from '@/common/constants';
@@ -14,6 +14,7 @@ import { ResponseContainer } from '@/components/response-container/ResponseConta
 import { SchemaContainer } from '@/components/schema-container/SchemaContainer';
 import { useAppDispatch } from '@/hooks/store-hooks';
 import { useCurrentLocale, useScopedI18n } from '@/locales/client';
+import ErrorStatusPage from '@/page-components/error-status-page/ErrorStatusPage';
 import { setEndpoint, setHeaders, setQuery, setSchemaUrl, setVariables } from '@/store/graphql-slice/graphql-slice';
 import { decodeBase64, generateUniqueId, translateText } from '@/utils/utils';
 
@@ -31,6 +32,7 @@ function GraphQl(): ReactNode {
   const locale = useCurrentLocale();
   const didMount = useRef(false);
   const translate = useScopedI18n('graphql');
+  const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
     if (!didMount.current) {
@@ -46,7 +48,8 @@ function GraphQl(): ReactNode {
       }
 
       if (pathname.split('/').length > 5) {
-        notFound();
+        setNotFound(true);
+        return;
       }
 
       const pathParts: string[] = pathname.split('/').filter((_, index) => index > 2);
@@ -78,6 +81,10 @@ function GraphQl(): ReactNode {
       didMount.current = true;
     }
   }, [pathname, searchParams, dispatch, locale]);
+
+  if (notFound) {
+    return <ErrorStatusPage status={404} />;
+  }
 
   return (
     <div className={styles.page}>
