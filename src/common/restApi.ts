@@ -11,10 +11,9 @@ export async function getResponse(
   body?: string,
 ): Promise<RestResponseData> {
   try {
-    if (!endpoint) {
-      return { errorMessage: 'restApi.errors.endpoint' };
+    if (endpoint === '' || !endpoint) {
+      return { errorMessage: 'restApi.errors.endpoint', status: 'restApi.errors.status' };
     }
-
     const options: RequestInit = {
       method,
       headers,

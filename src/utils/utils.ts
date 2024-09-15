@@ -1,6 +1,7 @@
 import {
   LOWERCASE_LETTER_REGEX,
   MIN_PASSWORD_LENGTH,
+  NO_ENDPOINT,
   NUMBER_REGEX,
   SPECIAL_CHARACTER_REGEX,
   UPPERCASE_LETTER_REGEX,
@@ -64,9 +65,23 @@ export const updateHistory = (
   headers: TableRow[],
   variables: TableRow[],
 ): void => {
-  const encodedEndpoint = endpoint ? encodeBase64(endpoint) : encodeBase64(' ');
-  const encodedBody = encodeBase64(replaceVariables(body, variables) || ' ');
-  const encodedHeaders = getEncodedHeaders(headers);
+  const encodedEndpoint = endpoint ? encodeBase64(endpoint) : '';
+  const encodedBody = body ? encodeBase64(replaceVariables(body, variables)) : '';
+  const encodedHeaders = headers.length ? getEncodedHeaders(headers) : '';
 
-  window.history.replaceState(null, '', `/${locale}/${method}/${encodedEndpoint}/${encodedBody}${encodedHeaders}`);
+  let url = `/${locale}/${method}`;
+
+  if (encodedEndpoint) {
+    url += `/${encodedEndpoint}`;
+  }
+  if (encodedBody) {
+    if (!encodedEndpoint) {
+      url += `/${NO_ENDPOINT}`;
+    }
+    url += `/${encodedBody}`;
+  }
+  if (encodedHeaders) {
+    url += encodedHeaders;
+  }
+  window.history.replaceState(null, '', url);
 };

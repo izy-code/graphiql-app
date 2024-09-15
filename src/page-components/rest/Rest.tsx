@@ -4,6 +4,7 @@ import { notFound, usePathname, useSearchParams } from 'next/navigation';
 import { type ReactNode, useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
 
+import { NO_ENDPOINT } from '@/common/constants';
 import { AuthRoute } from '@/components/auth-route/AuthRoute';
 import type { TableRow } from '@/components/client-table/types';
 import { ResponseContainer } from '@/components/response-container/ResponseContainer';
@@ -64,7 +65,11 @@ function Rest({ responseData }: RestProps): ReactNode {
 
       const [methodParam, endpointParam, bodyParam] = pathParts;
       dispatch(setMethod(methodParam || 'GET'));
-      dispatch(setEndpoint(decodeBase64(endpointParam || '') || ''));
+      if (endpointParam !== NO_ENDPOINT) {
+        dispatch(setEndpoint(decodeBase64(endpointParam || '')));
+      } else {
+        dispatch(setEndpoint(''));
+      }
       dispatch(setBody(decodeBase64(bodyParam || '') || ''));
 
       let decodedHeaders: TableRow[] = [];
