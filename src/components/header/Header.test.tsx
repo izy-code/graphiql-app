@@ -20,15 +20,6 @@ const translate = vi.fn((arg: string) => {
   }
 });
 
-vi.mock('next/navigation', async (importOriginal) => {
-  const actual = await importOriginal<object>();
-
-  return {
-    ...actual,
-    usePathname: vi.fn((): string => mockRouter.asPath),
-  };
-});
-
 vi.mock('@/locales/client', async (importOriginal) => {
   const actual = await importOriginal<object>();
 

@@ -109,6 +109,8 @@ export function navigationMock(): void {
           await mockRouter.push(newUrl);
         }),
       })),
+      usePathname: vi.fn((): string => mockRouter.asPath),
+      useSearchParams: vi.fn(() => []),
     };
   });
 }
