@@ -1,8 +1,8 @@
-import { notFound } from 'next/navigation';
 import { type ReactNode } from 'react';
 
 import { VALID_METHODS } from '@/common/constants';
 import { getResponse } from '@/common/restApi';
+import ErrorStatusPage from '@/page-components/error-status-page/ErrorStatusPage';
 import Rest from '@/page-components/rest/Rest';
 import { decodeBase64 } from '@/utils/utils';
 
@@ -18,7 +18,7 @@ export default async function RestPage({ params, searchParams }: RestPageProps):
   const { method } = params;
 
   if (!VALID_METHODS.includes(method.toUpperCase())) {
-    notFound();
+    return <ErrorStatusPage status={404} />;
   }
 
   const pathArray = params.path || [];
