@@ -1,6 +1,6 @@
 import { http, HttpResponse } from 'msw';
 
-import { charactersDataMock } from '../mocks/mocks';
+// import { charactersDataMock } from '../mocks/mocks';
 
 export const MOCK_SEARCH_NAME = 'example';
 export const MOCK_PAGE_NUMBER = '1';

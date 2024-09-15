@@ -10,7 +10,9 @@ exports[`Rest page > renders correctly 1`] = `
     >
       <h1
         class="_title_e6b978"
-      />
+      >
+        REST client
+      </h1>
       <div
         class="_items_dd1cd5"
       >
@@ -69,6 +71,14 @@ exports[`Rest page > renders correctly 1`] = `
         <div
           class="MuiFormControl-root MuiTextField-root _input_71d148 css-1rihfkf-MuiFormControl-root-MuiTextField-root"
         >
+          <label
+            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-standard MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-standard css-aqpgxn-MuiFormLabel-root-MuiInputLabel-root"
+            data-shrink="false"
+            for=":r1:"
+            id=":r1:-label"
+          >
+            Endpoint URL
+          </label>
           <div
             class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl css-1eed5fa-MuiInputBase-root-MuiInput-root"
           >
@@ -87,223 +97,127 @@ exports[`Rest page > renders correctly 1`] = `
       >
         <h2
           class="_sectionTitle_dd1cd5"
-        />
+        >
+          Params
+        </h2>
         <div
           class="_container_8cb11c"
         >
-          <h4
-            class="_subtitle_8cb11c"
-          >
-            :
-            <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary _toggleButton_8cb11c css-1vbcspm-MuiButtonBase-root-MuiButton-root"
-              tabindex="0"
-              type="button"
-            >
-               
-              <span
-                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-              />
-            </button>
-          </h4>
           <div
-            class="_inputContainer_8cb11c"
+            class="_titleContainer_8cb11c"
           >
-            <div
-              class="MuiFormControl-root MuiTextField-root _input_71d148 css-10qkx7n-MuiFormControl-root-MuiTextField-root"
+            <h4
+              class="_subtitle_8cb11c"
             >
-              <div
-                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
-              >
-                <input
-                  aria-invalid="false"
-                  class="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
-                  id=":r2:"
-                  type="text"
-                  value=""
-                />
-                <fieldset
-                  aria-hidden="true"
-                  class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
-                >
-                  <legend
-                    class="css-ihdtdm"
-                  >
-                    <span
-                      class="notranslate"
-                    >
-                      ​
-                    </span>
-                  </legend>
-                </fieldset>
-              </div>
-            </div>
-            <div
-              class="MuiFormControl-root MuiTextField-root _input_71d148 css-10qkx7n-MuiFormControl-root-MuiTextField-root"
-            >
-              <div
-                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
-              >
-                <input
-                  aria-invalid="false"
-                  class="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
-                  id=":r3:"
-                  type="text"
-                  value=""
-                />
-                <fieldset
-                  aria-hidden="true"
-                  class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
-                >
-                  <legend
-                    class="css-ihdtdm"
-                  >
-                    <span
-                      class="notranslate"
-                    >
-                      ​
-                    </span>
-                  </legend>
-                </fieldset>
-              </div>
-            </div>
+              Headers
+              :
+            </h4>
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary _button_8cb11c css-sghohy-MuiButtonBase-root-MuiButton-root"
-              tabindex="0"
+              class="_button_1c0f93 _button--primary_1c0f93 _hideBtn_8cb11c _hidden_8cb11c"
               type="button"
             >
               <span
-                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-              />
+                class="visually-hidden"
+              >
+                Show
+              </span>
             </button>
           </div>
         </div>
         <div
           class="_container_8cb11c"
         >
-          <h4
-            class="_subtitle_8cb11c"
-          >
-            :
-            <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary _toggleButton_8cb11c css-1vbcspm-MuiButtonBase-root-MuiButton-root"
-              tabindex="0"
-              type="button"
-            >
-               
-              <span
-                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-              />
-            </button>
-          </h4>
           <div
-            class="_inputContainer_8cb11c"
+            class="_titleContainer_8cb11c"
           >
-            <div
-              class="MuiFormControl-root MuiTextField-root _input_71d148 css-10qkx7n-MuiFormControl-root-MuiTextField-root"
+            <h4
+              class="_subtitle_8cb11c"
             >
-              <div
-                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
-              >
-                <input
-                  aria-invalid="false"
-                  class="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
-                  id=":r4:"
-                  type="text"
-                  value=""
-                />
-                <fieldset
-                  aria-hidden="true"
-                  class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
-                >
-                  <legend
-                    class="css-ihdtdm"
-                  >
-                    <span
-                      class="notranslate"
-                    >
-                      ​
-                    </span>
-                  </legend>
-                </fieldset>
-              </div>
-            </div>
-            <div
-              class="MuiFormControl-root MuiTextField-root _input_71d148 css-10qkx7n-MuiFormControl-root-MuiTextField-root"
-            >
-              <div
-                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
-              >
-                <input
-                  aria-invalid="false"
-                  class="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
-                  id=":r5:"
-                  type="text"
-                  value=""
-                />
-                <fieldset
-                  aria-hidden="true"
-                  class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
-                >
-                  <legend
-                    class="css-ihdtdm"
-                  >
-                    <span
-                      class="notranslate"
-                    >
-                      ​
-                    </span>
-                  </legend>
-                </fieldset>
-              </div>
-            </div>
+              Variables
+              :
+            </h4>
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary _button_8cb11c css-sghohy-MuiButtonBase-root-MuiButton-root"
-              tabindex="0"
+              class="_button_1c0f93 _button--primary_1c0f93 _hideBtn_8cb11c _hidden_8cb11c"
               type="button"
             >
               <span
-                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-              />
+                class="visually-hidden"
+              >
+                Show
+              </span>
             </button>
           </div>
         </div>
         <div
           class="_item_dd1cd5"
         >
-          <h4 />
           <div
-            class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root _input_a5b21b css-1ptksgy-MuiFormControl-root-MuiTextField-root"
+            class="_wrapper_a5b21b"
           >
-            <div
-              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-multiline css-8ewcdo-MuiInputBase-root-MuiOutlinedInput-root"
+            <h4
+              class="_title_a5b21b"
             >
-              <textarea
-                aria-invalid="false"
-                class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline css-1sqnrkk-MuiInputBase-input-MuiOutlinedInput-input"
-                id=":r6:"
-              />
-              <textarea
-                aria-hidden="true"
-                class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline css-1sqnrkk-MuiInputBase-input-MuiOutlinedInput-input"
-                readonly=""
-                style="visibility: hidden; position: absolute; overflow: hidden; height: 0px; top: 0px; left: 0px; transform: translateZ(0); padding-top: 0px; padding-bottom: 0px; width: 100%;"
-                tabindex="-1"
-              />
-              <fieldset
-                aria-hidden="true"
-                class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+              Body: 
+            </h4>
+            <div
+              class="_controls_a5b21b"
+            >
+              <button
+                class="_button_1c0f93 _button--tertiary_1c0f93 _prettifyBtn_a5b21b"
+                title="Prettify"
+                type="button"
               >
-                <legend
-                  class="css-ihdtdm"
+                <span
+                  class="visually-hidden"
+                >
+                  Prettify
+                </span>
+              </button>
+              <label
+                class="MuiStack-root css-si5z26-MuiStack-root"
+              >
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                >
+                  JSON
+                </p>
+                <span
+                  class="MuiSwitch-root MuiSwitch-sizeMedium css-1p4ld5t-MuiSwitch-root"
                 >
                   <span
-                    class="notranslate"
+                    class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-byenzh-MuiButtonBase-root-MuiSwitch-switchBase"
                   >
-                    ​
+                    <input
+                      class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3"
+                      type="checkbox"
+                    />
+                    <span
+                      class="MuiSwitch-thumb css-jsexje-MuiSwitch-thumb"
+                    />
+                    <span
+                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
                   </span>
-                </legend>
-              </fieldset>
+                  <span
+                    class="MuiSwitch-track css-1yjjitx-MuiSwitch-track"
+                  />
+                </span>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                >
+                  Plain text
+                </p>
+              </label>
+              <button
+                class="_button_1c0f93 _button--primary_1c0f93 _hideBtn_a5b21b _hidden_a5b21b"
+                type="button"
+              >
+                <span
+                  class="visually-hidden"
+                >
+                  Show
+                </span>
+              </button>
             </div>
           </div>
         </div>
@@ -315,6 +229,7 @@ exports[`Rest page > renders correctly 1`] = `
             tabindex="0"
             type="button"
           >
+            Send Request
             <span
               class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
             />
@@ -327,19 +242,37 @@ exports[`Rest page > renders correctly 1`] = `
     >
       <h2
         class="_sectionTitle_22b2aa"
-      />
+      >
+        Response
+      </h2>
       <div
         class="_oneLine_22b2aa"
       >
-        <h4 />
-        N/A
+        <h4
+          class="_status_22b2aa"
+        >
+          Status:
+        </h4>
+        -
       </div>
       <div
         class="_body_22b2aa"
       >
-        <h4 />
-        <pre
-          class="MuiBox-root css-kvi4m7"
+        <div
+          class="_wrapper_a5b21b"
+        >
+          <h4
+            class="_title_a5b21b"
+          >
+            Body:
+          </h4>
+          <div
+            class="_controls_a5b21b"
+          />
+        </div>
+        <input
+          data-testid="codemirror"
+          value=""
         />
       </div>
     </div>
