@@ -33,7 +33,7 @@ export const getSchema = async (endpoint: string, headers: TableRow[] = []): Pro
       return { errorMessage: 'graphQlApi.schema-errors.endpoint' };
     }
 
-    const response = await fetch(endpoint, {
+    const response = await fetch(endpoint.trim(), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -82,7 +82,7 @@ export const getResponse = async (
       return { errorMessage: 'graphQlApi.response-errors.variables' };
     }
 
-    const response = await fetch(endpoint, {
+    const response = await fetch(endpoint.trim(), {
       method: 'POST',
       headers: {
         ...createHeadersObject(headers),

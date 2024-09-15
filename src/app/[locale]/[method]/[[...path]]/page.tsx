@@ -1,6 +1,6 @@
 import { type ReactNode } from 'react';
 
-import { VALID_METHODS } from '@/common/constants';
+import { NO_ENDPOINT, VALID_METHODS } from '@/common/constants';
 import { getResponse } from '@/common/restApi';
 import ErrorStatusPage from '@/page-components/error-status-page/ErrorStatusPage';
 import Rest from '@/page-components/rest/Rest';
@@ -25,14 +25,10 @@ export default async function RestPage({ params, searchParams }: RestPageProps):
   const endpointPath = pathArray[0] || '';
   const bodyPath = pathArray[1] || '';
 
-  const endpoint = endpointPath ? decodeBase64(endpointPath) : '';
+  const endpoint = endpointPath === NO_ENDPOINT || endpointPath === '' ? '' : decodeBase64(endpointPath);
   const body = bodyPath ? decodeBase64(bodyPath) : '';
-  const headersArray = searchParams;
-  let responseData = null;
 
-  if (endpoint) {
-    responseData = await getResponse(method.toUpperCase(), endpoint, headersArray, body);
-  }
+  const responseData = await getResponse(method.toUpperCase(), endpoint, searchParams, body);
 
   return <Rest responseData={responseData} />;
 }

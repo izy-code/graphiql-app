@@ -70,7 +70,30 @@ describe('Rest page', () => {
     await mockRouter.push('/en/GET');
     const responseData = await getResponse('GET', `https://rickandmortyapi.com/api/character/2`, {});
 
-    const storeMemo = setupStore({});
+    const storeMemo = setupStore({
+      graphql: {
+        query: '',
+        variables: '',
+        status: '-',
+        responseBody: '',
+        endpoint: '',
+        schemaUrl: '',
+        headers: [],
+        currentSchema: null,
+        isSchemaShown: false,
+      },
+      rest: {
+        method: 'GET',
+        body: '',
+        endpoint: '',
+        headers: [],
+        variables: [],
+        status: '-',
+        responseBody: '',
+        isPlainText: false,
+        isShowResponse: true,
+      },
+    });
 
     const { container } = render(
       <MemoryRouterProvider>

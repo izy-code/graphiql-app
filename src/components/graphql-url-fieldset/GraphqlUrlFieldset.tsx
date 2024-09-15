@@ -54,13 +54,13 @@ export function GraphqlUrlFieldset(): ReactNode {
 
     const { status: statusCode, data, errorMessage } = await getResponse(endpoint, query, variables, headers);
 
-    dispatch(setStatus(statusCode!));
-
     if (errorMessage) {
+      dispatch(setStatus(translateErrors(statusCode! as never)));
       toast.error(translateErrors(errorMessage as never));
       return;
     }
 
+    dispatch(setStatus(statusCode!));
     dispatch(setResponseBody(JSON.stringify(data, null, 2)));
     toast.info(translate('request.completed'));
   };

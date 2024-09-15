@@ -1,7 +1,8 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 
 import HistoryPage from '@/app/[locale]/history/page';
 import { LOCAL_STORAGE_KEY } from '@/hooks/useLocalStorage';
+import { renderWithProvidersAndUser } from '@/utils/test-utils';
 
 const translate = vi.fn((arg: string) => {
   switch (arg) {
@@ -34,7 +35,7 @@ vi.mock('@/locales/client', async (importOriginal) => {
 
 describe('History page', () => {
   it('renders correctly', () => {
-    const { container } = render(<HistoryPage />);
+    const { container } = renderWithProvidersAndUser(<HistoryPage />);
 
     expect(container).toMatchSnapshot();
   });
@@ -50,13 +51,13 @@ describe('History page', () => {
         'request-list': ['http://localhost:3000/en/GET/aHR0cHM6Ly9yaWNrYW5kbW9ydHlhcGkuY29tL2FwaS9jaGFyYWN0ZXIvMg/IA'],
       }),
     );
-    render(<HistoryPage />);
+    renderWithProvidersAndUser(<HistoryPage />);
 
     expect(screen.getByText('https://rickandmortyapi.com/api/character/2')).toBeInTheDocument();
   });
 
   it('show empty message when no requests', () => {
-    render(<HistoryPage />);
+    renderWithProvidersAndUser(<HistoryPage />);
 
     expect(screen.getByText('You haven’t executed any requests')).toBeInTheDocument();
   });

@@ -131,7 +131,7 @@ export function ClientTable({ title, tableInfo, onChange }: TableProps): ReactNo
                           fullWidth
                         />
                       </TableCell>
-                      <TableCell align="right">
+                      <TableCell align="center">
                         <IconButton aria-label="delete" onClick={() => handleDeleteMode(index)} color="secondary">
                           <DeleteIcon />
                         </IconButton>

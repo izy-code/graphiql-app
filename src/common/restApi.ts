@@ -12,7 +12,7 @@ export async function getResponse(
 ): Promise<RestResponseData> {
   try {
     if (!endpoint) {
-      return { errorMessage: 'restApi.errors.endpoint' };
+      return { errorMessage: 'restApi.errors.endpoint', status: 'restApi.errors.status' };
     }
 
     const options: RequestInit = {
@@ -24,11 +24,16 @@ export async function getResponse(
     if (method !== 'GET' && body) {
       options.body = JSON.stringify(JSON.parse(body));
     }
-    const response = await fetch(endpoint, options);
+
+    const response = await fetch(endpoint.trim(), options);
     const responseBody = (await response.json()) as { data?: object; errors?: object };
 
     if ('errors' in responseBody && Array.isArray(responseBody.errors) && responseBody.errors.length > 0) {
       return { errorMessage: 'restApi.errors.body' };
+    }
+
+    if (response.ok && 'data' in responseBody) {
+      return { status: response.status.toString(), data: responseBody.data };
     }
 
     return { status: response.status.toString(), data: responseBody };

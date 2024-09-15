@@ -2,13 +2,14 @@
 
 import { usePathname, useSearchParams } from 'next/navigation';
 import { type ReactNode, useEffect, useRef, useState } from 'react';
+import { toast } from 'react-toastify';
 
-import { STORE_RESET } from '@/common/constants';
+import { NO_ENDPOINT } from '@/common/constants';
 import { AuthRoute } from '@/components/auth-route/AuthRoute';
 import type { TableRow } from '@/components/client-table/types';
 import { ResponseContainer } from '@/components/response-container/ResponseContainer';
 import { RestFieldset } from '@/components/rest-fieldset/RestFieldset';
-import { useAppDispatch } from '@/hooks/store-hooks';
+import { useAppDispatch, useAppSelector } from '@/hooks/store-hooks';
 import { useCurrentLocale, useScopedI18n } from '@/locales/client';
 import ErrorStatusPage from '@/page-components/error-status-page/ErrorStatusPage';
 import { setBody, setEndpoint, setHeaders, setMethod, setResponseBody, setStatus } from '@/store/rest-slice/rest-slice';
@@ -32,23 +33,7 @@ function Rest({ responseData }: RestProps): ReactNode {
   const locale = useCurrentLocale();
   const translate = useScopedI18n('rest');
   const [notFound, setNotFound] = useState(false);
-
-  useEffect(() => {
-    if (responseData) {
-      dispatch(
-        setStatus(
-          responseData.status === 'restApi.errors.status'
-            ? translateText(responseData.status as never)
-            : responseData.status || '',
-        ),
-      );
-      if (responseData.errorMessage) {
-        dispatch(setResponseBody(translateText(responseData.errorMessage as never)));
-      } else {
-        dispatch(setResponseBody(JSON.stringify(responseData.data, null, 2)));
-      }
-    }
-  }, [responseData, dispatch]);
+  const isShowResponse = useAppSelector((state) => state.rest.isShowResponse);
 
   useEffect(() => {
     if (!didMount.current) {
@@ -59,29 +44,64 @@ function Rest({ responseData }: RestProps): ReactNode {
         return;
       }
 
+      if (responseData) {
+        dispatch(
+          setStatus(
+            responseData.status === 'restApi.errors.status'
+              ? translateText(responseData.status as never)
+              : responseData.status || '',
+          ),
+        );
+
+        if (isShowResponse) {
+          if (responseData.errorMessage) {
+            toast.error(translateText(responseData.errorMessage as never));
+          } else {
+            toast.info(translateText('rest.request.completed'));
+          }
+        }
+
+        if (!responseData.errorMessage && responseData.data) {
+          dispatch(setResponseBody(JSON.stringify(responseData.data, null, 2)));
+        } else {
+          dispatch(setResponseBody(''));
+        }
+      }
+
       const [methodParam, endpointParam, bodyParam] = pathParts;
-      dispatch(setMethod(methodParam || 'GET'));
+      dispatch(setMethod(methodParam?.toUpperCase() || 'GET'));
 
-      if (pathParts.length < 2) {
-        dispatch({ type: STORE_RESET });
-        dispatch(setHeaders([{ id: generateUniqueId(), key: 'Content-Type', value: 'application/json' }]));
+      if (endpointParam !== NO_ENDPOINT) {
+        dispatch(setEndpoint(decodeBase64(endpointParam || '')));
+      } else {
+        dispatch(setEndpoint(''));
       }
 
-      if (pathParts.length >= 2) {
-        dispatch(setEndpoint(decodeBase64(endpointParam || '') || ''));
-        dispatch(setBody(decodeBase64(bodyParam || '') || ''));
-      }
+      dispatch(setBody(decodeBase64(bodyParam || '')));
 
-      const decodedHeaders: TableRow[] = [];
+      let decodedHeaders: TableRow[] = [];
+
+      if (pathParts.length < 2 && searchParams.size === 0) {
+        decodedHeaders = [{ id: generateUniqueId(), key: 'Content-Type', value: 'application/json' }];
+        window.history.replaceState(
+          null,
+          '',
+          `/${locale}/${methodParam}/?Content-Type=${encodeURIComponent('application/json')}`,
+        );
+      }
 
       searchParams.forEach((value, key) => {
-        decodedHeaders.push({ id: generateUniqueId(), key: decodeURIComponent(key), value: decodeURIComponent(value) });
+        decodedHeaders.push({
+          id: generateUniqueId(),
+          key: decodeURIComponent(key),
+          value: decodeURIComponent(value),
+        });
       });
       dispatch(setHeaders(decodedHeaders));
 
       didMount.current = true;
     }
-  }, [pathname, searchParams, dispatch, locale]);
+  }, [responseData, pathname, searchParams, dispatch, locale, isShowResponse]);
 
   if (notFound) {
     return <ErrorStatusPage status={404} />;
@@ -93,7 +113,7 @@ function Rest({ responseData }: RestProps): ReactNode {
         <h1 className={styles.title}>{translate('title')}</h1>
         <RestFieldset />
       </div>
-      <ResponseContainer type="rest" />
+      {isShowResponse && <ResponseContainer type="rest" />}
     </div>
   );
 }

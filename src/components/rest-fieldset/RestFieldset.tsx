@@ -12,11 +12,12 @@ import {
   setEndpoint,
   setHeaders,
   setIsPlainText,
+  setIsShowResponse,
   setMethod,
   setVariables,
 } from '@/store/rest-slice/rest-slice';
 import type { RootState } from '@/store/store';
-import { updateHistory } from '@/utils/utils';
+import { generateUniqueId, updateHistory } from '@/utils/utils';
 
 import RequestButton from '../request-button/RequestButton';
 import styles from './RestFieldset.module.scss';
@@ -31,39 +32,61 @@ export function RestFieldset(): ReactNode {
     const newEndpoint = e.target.value;
     dispatch(setEndpoint(newEndpoint));
     updateHistory(locale, method, newEndpoint, body, headers, variables);
+    dispatch(setIsShowResponse(false));
   };
 
   const handleMethodChange = (newMethod: string): void => {
-    dispatch(setMethod(newMethod));
+    dispatch(setMethod(newMethod.toUpperCase()));
     updateHistory(locale, newMethod, endpoint, body, headers, variables);
+    dispatch(setIsShowResponse(false));
   };
 
   const handleBodyBlur = (): void => {
     updateHistory(locale, method, endpoint, body, headers, variables);
+    dispatch(setIsShowResponse(false));
   };
 
   const handleHeaderChange = (newHeaders: TableRow[]): void => {
     dispatch(setHeaders(newHeaders));
     updateHistory(locale, method, endpoint, body, newHeaders, variables);
+    dispatch(setIsShowResponse(false));
   };
 
   const handleVariablesChange = (newVariables: TableRow[]): void => {
     dispatch(setVariables(newVariables));
     updateHistory(locale, method, endpoint, body, headers, newVariables);
+    dispatch(setIsShowResponse(false));
+  };
+
+  const handleSwitchChange = (): void => {
+    const filteredHeaders = headers.filter((header) => header.key !== 'Content-Type');
+
+    const newContentType = !isPlainText
+      ? { id: generateUniqueId(), key: 'Content-Type', value: 'text/plain' }
+      : { id: generateUniqueId(), key: 'Content-Type', value: 'application/json' };
+
+    const updatedHeaders = [newContentType, ...filteredHeaders];
+    updateHistory(locale, method, endpoint, body, updatedHeaders, variables);
+
+    dispatch(setHeaders(updatedHeaders));
+    dispatch(setIsPlainText(!isPlainText));
   };
 
   return (
     <>
       <div className={styles.items}>
         <h2 className={styles.sectionTitle}>URL</h2>
-        <MethodButtons method={method} onMethodChange={handleMethodChange} />
-        <CustomInput
-          label={translate('endpoint')}
-          variant="standard"
-          width="420px"
-          value={endpoint}
-          onChange={handleEndpointChange}
-        />
+        <div className={styles.oneLine}>
+          <MethodButtons method={method} onMethodChange={handleMethodChange} />
+          <CustomInput
+            label={translate('endpoint')}
+            variant="standard"
+            width="420px"
+            value={endpoint}
+            onChange={handleEndpointChange}
+          />
+        </div>
+        <RequestButton />
       </div>
       <div className={styles.section}>
         <h2 className={styles.sectionTitle}>{translate('params')}</h2>
@@ -78,10 +101,9 @@ export function RestFieldset(): ReactNode {
             onBlur={handleBodyBlur}
             hasSwitcher
             isPlainText={isPlainText}
-            onSwitchChange={() => dispatch(setIsPlainText(!isPlainText))}
+            onSwitchChange={handleSwitchChange}
           />
         </div>
-        <RequestButton />
       </div>
     </>
   );

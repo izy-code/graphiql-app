@@ -58,6 +58,7 @@ export default {
   'sign-up.password.confirm': 'Confirm password',
   'sign-up.submit': 'Sign up',
 
+  'rest.request.completed': 'The request has been completed, check the response field',
   'rest.title': 'REST client',
   'rest.endpoint': 'Endpoint URL',
   'rest.params': 'Params',
