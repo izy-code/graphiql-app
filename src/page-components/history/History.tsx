@@ -49,7 +49,10 @@ function History(): ReactNode {
                 const pathParts = coryRequest.split('/');
                 const methodParam = pathParts[4] || '';
                 const encodedEndpoint = pathParts[5] || '';
-                const decodedEndpoint = encodedEndpoint === NO_ENDPOINT ? NO_ENDPOINT : decodeBase64(encodedEndpoint);
+                const decodedEndpoint =
+                  encodedEndpoint === NO_ENDPOINT || encodedEndpoint === ''
+                    ? NO_ENDPOINT
+                    : decodeBase64(encodedEndpoint);
                 const key = index;
 
                 return (
