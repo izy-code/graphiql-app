@@ -6,8 +6,7 @@ export default {
   'header.button.sign-out': 'Выйти',
 
   'main.welcome': 'Добро пожаловать, пожалуйста, войдите в систему.',
-  'main.signed-in': 'С возвращением, {name}!',
-  'main.signed-up': 'Рады, что вы зарегистрировались!',
+  'main.welcome.user': 'Добро пожаловать, {name}!',
   'main.title': 'REST/GraphQL клиент',
   'main.links.rest': 'REST клиент',
   'main.links.graphql': 'GraphQL клиент',

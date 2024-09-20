@@ -4,6 +4,7 @@ import {
   createUserWithEmailAndPassword,
   getAuth,
   signInWithEmailAndPassword,
+  updateCurrentUser,
   updateProfile,
 } from 'firebase/auth';
 import { toast } from 'react-toastify';
@@ -64,6 +65,7 @@ export const signUp = async (name: string, email: string, password: string): Pro
   try {
     const { user } = await createUserWithEmailAndPassword(auth, email, password);
     await updateProfile(user, { displayName: name });
+    await updateCurrentUser(auth, user);
     toast.success(translateText('firebase.sign-up.success').replace('{name}', name));
 
     return true;
