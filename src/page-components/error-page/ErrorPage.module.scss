@@ -1,0 +1,50 @@
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  max-width: 520px;
+  height: 50vh;
+  margin: auto;
+  padding: 20px 40px 40px;
+  text-align: center;
+  color: var(--color-text-light);
+  background: var(--color-bg-page);
+  border: 5px solid transparent;
+  border-radius: 10px;
+  box-shadow: 0 0 16px 8px var(--color-accent),;
+}
+
+.header {
+  margin-block: 0 10px;
+}
+
+.text {
+  margin-block: 0;
+
+  &:not(:last-child) {
+    margin-block: 0 10px;
+  }
+}
+
+.errorDesc {
+  margin: 0;
+  text-decoration: underline;
+}
+
+.error {
+  margin-block: 0 10px;
+  font-style: italic;
+  overflow-wrap: break-word;
+  color: var(--color-error-accent);
+}
+
+.refreshBtn {
+  max-width: 200px;
+}
+
+.dummy {
+  display: none;
+}

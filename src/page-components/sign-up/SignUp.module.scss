@@ -1,0 +1,43 @@
+.page {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 30px;
+  justify-content: start;
+  align-items: center;
+  width: 100%;
+  padding-bottom: 30px;
+
+  & .title {
+    margin: 0;
+    font-size: 50px;
+    color: var(--color-text-light);
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 420px;
+  max-width: 500px;
+  margin-inline: auto;
+  padding: 30px 30px 40px;
+  border: 1px solid var(--color-border);
+  border-radius: 50px;
+  box-shadow: 0 0 16px 8px var(--color-accent);
+}
+
+.fieldset {
+  padding: -5px 12px 10px;
+  border-radius: 10px;
+}
+
+.legend {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-accent);
+}
+
+.submitButton {
+  margin-top: 10px;
+}

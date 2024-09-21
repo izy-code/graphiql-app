@@ -1,0 +1,319 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Rest page > renders correctly and show response body 1`] = `
+<div>
+  <div
+    class="_page_e6b978"
+  >
+    <div
+      class="_container_e6b978"
+    >
+      <h1
+        class="_title_e6b978"
+      >
+        REST client
+      </h1>
+      <div
+        class="_items_dd1cd5"
+      >
+        <h2
+          class="_sectionTitle_dd1cd5"
+        >
+          URL
+        </h2>
+        <div
+          class="_oneLine_dd1cd5"
+        >
+          <div>
+            <div
+              class="MuiFormControl-root _selectContainer_34c1c4 css-1uyh00o-MuiFormControl-root"
+            >
+              <label
+                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-standard MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-standard _selectLabel_34c1c4 css-1c2i806-MuiFormLabel-root-MuiInputLabel-root"
+                data-shrink="true"
+                id="demo-simple-select-label"
+              >
+                Method
+              </label>
+              <div
+                class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl _select_34c1c4 css-n70jm4-MuiInputBase-root-MuiInput-root-MuiSelect-root"
+              >
+                <div
+                  aria-controls=":r0:"
+                  aria-expanded="false"
+                  aria-haspopup="listbox"
+                  aria-labelledby="demo-simple-select-label demo-simple-select"
+                  class="MuiSelect-select MuiSelect-standard MuiInputBase-input MuiInput-input css-1rxz5jq-MuiSelect-select-MuiInputBase-input-MuiInput-input"
+                  id="demo-simple-select"
+                  role="combobox"
+                  tabindex="0"
+                >
+                  GET
+                </div>
+                <input
+                  aria-hidden="true"
+                  aria-invalid="false"
+                  class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
+                  tabindex="-1"
+                  value="GET"
+                />
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconStandard css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon"
+                  data-testid="ArrowDropDownIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M7 10l5 5 5-5z"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div
+            class="MuiFormControl-root MuiTextField-root _input_71d148 css-1rihfkf-MuiFormControl-root-MuiTextField-root"
+          >
+            <label
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root"
+              data-shrink="false"
+              for=":r1:"
+              id=":r1:-label"
+            >
+              Endpoint URL
+            </label>
+            <div
+              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+            >
+              <input
+                aria-invalid="false"
+                class="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+                id=":r1:"
+                type="text"
+                value=""
+              />
+              <fieldset
+                aria-hidden="true"
+                class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+              >
+                <legend
+                  class="css-yjsfm1"
+                >
+                  <span>
+                    Endpoint URL
+                  </span>
+                </legend>
+              </fieldset>
+            </div>
+          </div>
+        </div>
+        <div
+          class="_center_3e6b58"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary _button_3e6b58 css-sghohy-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
+          >
+            Send Request
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </div>
+      </div>
+      <div
+        class="_section_dd1cd5"
+      >
+        <h2
+          class="_sectionTitle_dd1cd5"
+        >
+          Params
+        </h2>
+        <div
+          class="_container_8cb11c"
+        >
+          <div
+            class="_titleContainer_8cb11c"
+          >
+            <h4
+              class="_subtitle_8cb11c"
+            >
+              Headers
+              :
+            </h4>
+            <button
+              class="_button_1c0f93 _button--primary_1c0f93 _hideBtn_8cb11c _hidden_8cb11c"
+              type="button"
+            >
+              <span
+                class="visually-hidden"
+              >
+                Show
+              </span>
+            </button>
+          </div>
+        </div>
+        <div
+          class="_container_8cb11c"
+        >
+          <div
+            class="_titleContainer_8cb11c"
+          >
+            <h4
+              class="_subtitle_8cb11c"
+            >
+              Variables
+              :
+            </h4>
+            <button
+              class="_button_1c0f93 _button--primary_1c0f93 _hideBtn_8cb11c _hidden_8cb11c"
+              type="button"
+            >
+              <span
+                class="visually-hidden"
+              >
+                Show
+              </span>
+            </button>
+          </div>
+        </div>
+        <div
+          class="_item_dd1cd5"
+        >
+          <div
+            class="_wrapper_a5b21b"
+          >
+            <h4
+              class="_title_a5b21b"
+            >
+              Body: 
+            </h4>
+            <div
+              class="_controls_a5b21b"
+            >
+              <button
+                class="_button_1c0f93 _button--tertiary_1c0f93 _prettifyBtn_a5b21b"
+                title="Prettify"
+                type="button"
+              >
+                <span
+                  class="visually-hidden"
+                >
+                  Prettify
+                </span>
+              </button>
+              <label
+                class="MuiStack-root css-si5z26-MuiStack-root"
+              >
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                >
+                  JSON
+                </p>
+                <span
+                  class="MuiSwitch-root MuiSwitch-sizeMedium css-1p4ld5t-MuiSwitch-root"
+                >
+                  <span
+                    class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-byenzh-MuiButtonBase-root-MuiSwitch-switchBase"
+                  >
+                    <input
+                      class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3"
+                      type="checkbox"
+                    />
+                    <span
+                      class="MuiSwitch-thumb css-jsexje-MuiSwitch-thumb"
+                    />
+                    <span
+                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
+                  </span>
+                  <span
+                    class="MuiSwitch-track css-1yjjitx-MuiSwitch-track"
+                  />
+                </span>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                >
+                  Plain text
+                </p>
+              </label>
+              <button
+                class="_button_1c0f93 _button--primary_1c0f93 _hideBtn_a5b21b _hidden_a5b21b"
+                type="button"
+              >
+                <span
+                  class="visually-hidden"
+                >
+                  Show
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="_section_22b2aa _response_22b2aa"
+    >
+      <h2
+        class="_sectionTitle_22b2aa"
+      >
+        Response
+      </h2>
+      <div
+        class="_oneLine_22b2aa"
+      >
+        <h4
+          class="_status_22b2aa"
+        >
+          Status:
+        </h4>
+        200
+      </div>
+      <div
+        class="_body_22b2aa"
+      >
+        <div
+          class="_wrapper_a5b21b"
+        >
+          <h4
+            class="_title_a5b21b"
+          >
+            Body:
+          </h4>
+          <div
+            class="_controls_a5b21b"
+          />
+        </div>
+        <input
+          data-testid="codemirror"
+          value="{
+  "id": 2,
+  "name": "Morty Smith",
+  "status": "Alive",
+  "species": "Human",
+  "type": "",
+  "gender": "Male",
+  "origin": {
+    "name": "Earth",
+    "url": "https://rickandmortyapi.com/api/location/1"
+  },
+  "location": {
+    "name": "Earth",
+    "url": "https://rickandmortyapi.com/api/location/20"
+  },
+  "image": "https://rickandmortyapi.com/api/character/avatar/2.jpeg",
+  "episode": [
+    "https://rickandmortyapi.com/api/episode/1",
+    "https://rickandmortyapi.com/api/episode/2"
+  ],
+  "url": "https://rickandmortyapi.com/api/character/2",
+  "created": "2017-11-04T18:50:21.651Z"
+}"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;

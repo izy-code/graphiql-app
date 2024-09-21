@@ -1,0 +1,32 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`History page > renders correctly 1`] = `
+<div>
+  <div
+    class="_historyPage_3d8cb6"
+  >
+    <h1
+      class="_historyTitle_3d8cb6"
+    />
+    <div
+      class="_noRequests_3d8cb6"
+    >
+      <h2>
+        You haven’t executed any requests
+      </h2>
+      <p />
+      <div
+        class="_buttonGroup_3d8cb6"
+      >
+        <a
+          href="/GET"
+        />
+        <a
+          href="/GRAPHQL"
+        />
+      </div>
+    </div>
+  </div>
+  ;
+</div>
+`;

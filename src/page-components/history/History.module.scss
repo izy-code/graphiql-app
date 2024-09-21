@@ -1,0 +1,100 @@
+.historyPage {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-width: 300px;
+  max-width: 100%;
+  margin: auto;
+  padding-inline: 20px;
+  padding-bottom: 30px;
+  font-family: var(--primary-font);
+  text-align: center;
+  border-radius: 10px;
+
+  & .historyTitle {
+    margin-block: 0;
+    font-size: 50px;
+    color: var(--color-text-light);
+  }
+}
+
+.buttonGroup {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+  padding-top: 20px;
+}
+
+.section {
+  position: relative;
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 25px;
+  justify-content: start;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 700px;
+  margin-inline: auto;
+  padding: 30px 60px;
+  border: 1px solid var(--color-border);
+  border-radius: 50px;
+
+  & .sectionTitle {
+    position: absolute;
+    top: -22px;
+    left: 50%;
+    margin: 0;
+    padding-inline: 20px;
+    text-align: center;
+    background-color: var(--color-bg-page);
+    transform: translateX(-50%);
+  }
+}
+
+.requests {
+  width: 100%;
+  margin-top: 22px;
+
+  & .requestItem {
+    width: 100%;
+    cursor: pointer;
+    transition: all 500ms;
+
+    &:hover {
+      color: var(--color-text-light);
+    }
+  }
+
+  & .requestRows {
+    display: flex;
+    flex-flow: column-reverse nowrap;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+}
+
+.oneLine {
+  display: flex;
+  flex-grow: 1;
+  flex-flow: row nowrap;
+  gap: 4px;
+  justify-content: stretch;
+  align-items: center;
+}
+
+.method {
+  margin-right: auto;
+}
+
+.url {
+  margin-left: 16px;
+  overflow-wrap: anywhere;
+}

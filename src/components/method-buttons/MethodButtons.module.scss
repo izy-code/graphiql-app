@@ -1,0 +1,34 @@
+
+.selectContainer *,
+.select * {
+  background-color: var(--color-bg-page) !important;
+}
+
+.selectLabel {
+  color: var(--color-accent) !important;
+  transition: color 0.3s ease;
+
+  &.selected {
+    color: var(--color-text-light) !important;
+  }
+}
+
+.select {
+  color: var(--color-text-light) !important;
+}
+
+.option {
+  color: var(--color-text-light) !important;
+  background-color: var(--color-border) !important;
+  transition: color 0.3s ease;
+
+
+  &:hover {
+    background-color: var(--color-accent) !important;
+  }
+
+  &.Mui-selected {
+    background-color: var(--color-accent) !important;
+  }
+}
+
