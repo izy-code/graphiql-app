@@ -1,25 +1,22 @@
 'use client';
 
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useRouter } from 'next/navigation';
 import { type ReactNode, useEffect, useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 
 import { registrationSchema, type RegistrationSchemaType } from '@/common/validation-schema';
+import { AuthRoute } from '@/components/auth-route/AuthRoute';
 import { CustomButton } from '@/components/custom-button/CustomButton';
 import { FormInputField } from '@/components/form-input-field/FormInputField';
 import { FormPasswordField } from '@/components/form-password-field/FormPasswordField';
 import { Loader } from '@/components/loader/Loader';
 import { signUp } from '@/firebase/firebase';
-import { useAuth } from '@/hooks/useAuth';
 import { useScopedI18n } from '@/locales/client';
 
 import styles from './SignUp.module.scss';
 
-export default function SignUp(): ReactNode {
-  const user = useAuth();
-  const router = useRouter();
+function SignUp(): ReactNode {
   const [isLoading, setIsLoading] = useState(false);
   const translate = useScopedI18n('sign-up');
   const translateValidation = useScopedI18n('validation');
@@ -56,25 +53,13 @@ export default function SignUp(): ReactNode {
 
     const isSuccess = await signUp(name, email, password);
 
-    if (isSuccess) {
-      router.push('/');
-    } else {
+    if (!isSuccess) {
       setIsLoading(false);
     }
   };
 
-  useEffect(() => {
-    if (user) {
-      router.push('/');
-    }
-  }, [router, user]);
-
   if (isLoading) {
     return <Loader loaderText={translate('loader')} />;
-  }
-
-  if (user) {
-    return null;
   }
 
   return (
@@ -113,3 +98,5 @@ export default function SignUp(): ReactNode {
     </div>
   );
 }
+
+export default AuthRoute(SignUp, true);

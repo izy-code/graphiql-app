@@ -20,7 +20,7 @@ vi.mock('next/navigation', async () => {
   };
 });
 
-vi.mock('@/hooks/useAuth', () => ({ useAuth: vi.fn((): boolean => true) }));
+vi.mock('@/hooks/useAuth', () => ({ useAuth: vi.fn((): { displayName: string } => ({ displayName: 'test' })) }));
 
 vi.mock('@/locales/client', async (importOriginal) => {
   const actual = await importOriginal<object>();
